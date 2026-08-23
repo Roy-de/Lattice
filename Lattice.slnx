@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Lattice.Shared/Lattice.Shared.csproj" />
+  <Project Path="Lattice.Web.Client/Lattice.Web.Client.csproj" />
+  <Project Path="Lattice.Web/Lattice.Web.csproj" />
+  <Project Path="Lattice/Lattice.csproj" />
+</Solution>
