@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Lattice.Shared.Services;
 using Lattice.Services;
+using Lattice.Services.IconService;
 
 namespace Lattice;
 
@@ -14,6 +15,7 @@ public static class MauiProgram
             .ConfigureFonts(fonts => { fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"); });
 
         // Add device-specific services used by the Lattice.Shared project
+        builder.Services.AddSingleton<IApplicationIcons, ApplicationIcons>();
         builder.Services.AddSingleton<IFormFactor, FormFactor>();
 
         builder.Services.AddMauiBlazorWebView();
@@ -23,6 +25,10 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        return builder.Build();
+        var app = builder.Build();
+
+        app.Services.GetRequiredService<IApplicationIcons>();
+
+        return app;
     }
 }

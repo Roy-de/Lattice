@@ -51,6 +51,9 @@
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
+        
+        <!-- Installed application Icons -->
+        <EmbeddedResource Include="Resources\Icons\**\*.svg" />
 
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
@@ -74,6 +77,12 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Lattice.Shared\Lattice.Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Icons\" />
+      <Folder Include="Services\renderEngine\parser\" />
+      <Folder Include="Services\renderEngine\registry\" />
     </ItemGroup>
 
 </Project>
