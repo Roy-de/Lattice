@@ -1,0 +1,32 @@
+﻿@page "/typography"
+@using Lattice.Shared.Typography
+@inject ITypographyService Typography
+@inject ITypographyCssGenerator CssGenerator
+
+@{
+    var css = CssGenerator.Generate(Typography.Current);
+}
+
+<head>
+    <style>
+        @css
+    </style>
+    <title>Typography</title>
+</head>
+
+<div class="typography-demo">
+    <h3>Typography Preview - @Typography.Current.Name</h3>
+    <p>@Typography.Current.Description</p>
+    
+    <div class="demo-grid">
+        @foreach (var style in Typography.Current.TextStyles)
+        {
+            <div class="demo-item">
+                <div class="demo-label">@style.Key</div>
+                <div class="@($"text-{style.Key}")">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+            </div>
+        }
+    </div>
+</div>

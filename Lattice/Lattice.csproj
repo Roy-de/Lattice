@@ -50,6 +50,69 @@
 
     <ItemGroup>
         <!-- App Icon -->
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\EBGaramond-Italic-VariableFont_wght.ttf">
+          <LogicalName>Fonts/EB_Garamond\EBGaramond-Italic-VariableFont_wght.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\EBGaramond-VariableFont_wght.ttf">
+          <LogicalName>Fonts/EB_Garamond\EBGaramond-VariableFont_wght.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-Bold.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-Bold.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-BoldItalic.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-BoldItalic.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-ExtraBold.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-ExtraBold.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-ExtraBoldItalic.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-ExtraBoldItalic.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-Italic.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-Italic.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-Medium.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-Medium.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-MediumItalic.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-MediumItalic.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-Regular.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-Regular.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-SemiBold.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-SemiBold.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-SemiBoldItalic.ttf">
+          <LogicalName>Fonts/EB_Garamond\static\EBGaramond-SemiBoldItalic.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\ledger.json">
+          <LogicalName>Fonts/ledger.json</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\Manrope-VariableFont_wght.ttf">
+          <LogicalName>Fonts/Manrope\Manrope-VariableFont_wght.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-Bold.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-Bold.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-ExtraBold.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-ExtraBold.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-ExtraLight.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-ExtraLight.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-Light.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-Light.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-Medium.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-Medium.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-Regular.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-Regular.ttf</LogicalName>
+        </MauiAsset>
+        <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-SemiBold.ttf">
+          <LogicalName>Fonts/Manrope\static\Manrope-SemiBold.ttf</LogicalName>
+        </MauiAsset>
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
         
         <!-- Installed application Icons -->
@@ -63,7 +126,8 @@
         <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208"/>
 
         <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*"/>
+        <MauiAsset Include="Resources\Fonts\**\*.ttf" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiAsset Include="Resources\Fonts\**\*.json" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
@@ -83,6 +147,19 @@
       <Folder Include="Resources\Icons\" />
       <Folder Include="Services\renderEngine\parser\" />
       <Folder Include="Services\renderEngine\registry\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="wwwroot\Fonts\ledger.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\Fonts\EB_Garamond\OFL.txt" />
+      <None Include="wwwroot\Fonts\EB_Garamond\README.txt" />
+      <None Include="wwwroot\Fonts\Manrope\OFL.txt" />
+      <None Include="wwwroot\Fonts\Manrope\README.txt" />
     </ItemGroup>
 
 </Project>

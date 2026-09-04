@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Lattice.Shared.Typography
+@inject ITypographyService TypographyService
+@inject ITypographyCssGenerator CssGenerator
+
+@{
+    var css = CssGenerator.Generate(TypographyService.Current);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,6 +20,11 @@
     <ImportMap/>
     <link rel="icon" type="image/png" href="_content/Lattice.Shared/favicon.png"/>
     <HeadOutlet @rendermode="InteractiveAuto"/>
+    
+    @* Inject generated typography CSS *@
+    <style>
+        @css
+    </style>
 </head>
 
 <body>
