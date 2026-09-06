@@ -1,0 +1,95 @@
+﻿@inherits LayoutComponentBase
+
+<div class="design-system-shell">
+
+    <aside class="design-system-sidebar">
+
+        <div class="design-system-brand">
+            <a href="/">
+                Lattice
+            </a>
+        </div>
+
+        <nav>
+
+            <div class="navigation-section">
+                <span class="navigation-section-title">Foundations</span>
+
+                <NavLink href="/design-system/foundations" Match="NavLinkMatch.All">
+                    Overview
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/typography">
+                    Typography
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/colors">
+                    Colors
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/spacing">
+                    Spacing
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/sizing">
+                    Sizing
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/borders">
+                    Borders
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/elevation">
+                    Elevation
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/icons">
+                    Icons
+                </NavLink>
+
+                <NavLink href="/design-system/foundations/motion">
+                    Motion
+                </NavLink>
+            </div>
+
+            <div class="navigation-section">
+                <span class="navigation-section-title">Components</span>
+
+                <NavLink href="/design-system/components" Match="NavLinkMatch.All">
+                    Overview
+                </NavLink>
+            </div>
+
+            <div class="navigation-section">
+                <span class="navigation-section-title">Patterns</span>
+
+                <NavLink href="/design-system/patterns" Match="NavLinkMatch.All">
+                    Overview
+                </NavLink>
+            </div>
+
+            <div class="navigation-section">
+                <span class="navigation-section-title">Playground</span>
+
+                <NavLink href="/design-system/playground" Match="NavLinkMatch.All">
+                    Playground
+                </NavLink>
+            </div>
+
+        </nav>
+
+    </aside>
+
+    <main class="design-system-main">
+
+        <header class="design-system-toolbar">
+            <span>Design System</span>
+        </header>
+
+        <article class="design-system-content">
+            @Body
+        </article>
+
+    </main>
+
+</div>

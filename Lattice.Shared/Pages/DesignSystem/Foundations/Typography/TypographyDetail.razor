@@ -1,0 +1,392 @@
+﻿@page "/design-system/foundations/typography/{Name}"
+@using Lattice.Shared.DesignSystem.Typography
+@inject ITypographyService TypographyService
+@inject ITypographyCssGenerator CssGenerator
+@inject NavigationManager NavigationManager
+
+<PageTitle>@TypographyName · Typography · Lattice</PageTitle>
+
+@{
+// Generate CSS from the current typography
+var css = CssGenerator.Generate(TypographyService.Current);
+}
+
+<head>
+    <style>
+        @css
+    </style>
+    <title>Typography</title>
+</head>
+
+<div class="design-system-page">
+    <header class="design-system-page-header">
+        <span class="breadcrumb">
+            <a href="/design-system/foundations/typography">← Design System / Foundations / Typography</a>
+        </span>
+
+        <h1>@TypographyName</h1>
+
+        <p>@TypographyDescription</p>
+
+        @if (Typography != null)
+        {
+        <div class="typography-stats">
+            <span class="stat">@Typography.Fonts?.Count fonts</span>
+            <span class="stat">@Typography.TextStyles?.Count styles</span>
+        </div>
+        }
+    </header>
+
+    @if (Typography != null)
+    {
+    <section class="typography-styles">
+        <h2>Text Styles</h2>
+
+        <div class="styles-grid">
+            @foreach (var style in Typography.TextStyles)
+            {
+            <div class="style-card">
+                <div class="style-preview @($"text-{style.Key}")">
+                    @GetSampleText(style.Key)
+                </div>
+                <div class="style-info">
+                    <h3>@style.Key</h3>
+                    <dl>
+                        <dt>Family:</dt>
+                        <dd>@style.Value.Family</dd>
+                        <dt>Weight:</dt>
+                        <dd>@style.Value.Weight</dd>
+                        <dt>Desktop:</dt>
+                        <dd>@style.Value.Desktop.Size / @style.Value.Desktop.LineHeight</dd>
+                        <dt>Mobile:</dt>
+                        <dd>@style.Value.Mobile.Size / @style.Value.Mobile.LineHeight</dd>
+                    </dl>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+
+    <section class="typography-fonts">
+        <h2>Fonts</h2>
+
+        <div class="fonts-grid">
+            @foreach (var font in Typography.Fonts)
+            {
+            <div class="font-card">
+                <h3>@font.Key</h3>
+                <div style="font-family: '@font.Key'; font-size: 1.5rem; padding: 1rem;">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+                <div style="font-family: '@font.Key'; font-size: 1.5rem; font-weight: bold; padding: 0 1rem 1rem;">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+                @if (font.Value.Italic != null)
+                {
+                <div style="font-family: '@font.Key'; font-size: 1.5rem; font-style: italic; padding: 0 1rem 1rem;">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+                }
+            </div>
+            }
+            
+            @foreach (var style in Typography.TextStyles)
+            {
+                <div class="style-preview @($"text-{style.Key}")">
+                    ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="typography-actions">
+        <button class="btn-back" @onclick="GoBack">
+            ← Back to Typography List
+        </button>
+    </section>
+    }
+    else
+    {
+    <div class="not-found">
+        <h2>Typography Not Found</h2>
+        <p>The typography system "@Name" could not be found.</p>
+        <button class="btn-back" @onclick="GoBack">
+            ← Back to Typography List
+        </button>
+    </div>
+    }
+</div>
+
+<style>
+    .design-system-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .design-system-page-header {
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .breadcrumb {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .typography-stats {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .typography-stats .stat {
+        background: #f5f5f5;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        color: #666;
+    }
+
+    section {
+        margin: 3rem 0;
+    }
+
+    section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    /* Single column layout */
+    .styles-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: 2rem 0;
+        max-width: 800px;
+    }
+
+    .style-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: white;
+        transition: all 0.2s ease;
+        width: 100%;
+    }
+
+    .style-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .style-preview {
+        padding: 2rem;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e0e0e0;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+    }
+
+    .style-info {
+        padding: 1.5rem;
+    }
+
+    .style-info h3 {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .style-info dl {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.5rem 1.5rem;
+        margin: 0;
+        font-size: 0.875rem;
+    }
+
+    .style-info dt {
+        font-weight: 600;
+        color: #666;
+    }
+
+    .style-info dd {
+        margin: 0;
+        color: #333;
+    }
+
+    /* Single column font cards */
+    .fonts-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: 2rem 0;
+        max-width: 800px;
+    }
+
+    .font-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: white;
+        transition: all 0.2s ease;
+        width: 100%;
+    }
+
+    .font-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .font-card h3 {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.1rem;
+        color: #333;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 0.5rem;
+    }
+
+    .font-card > div {
+        padding: 0.75rem 0;
+    }
+
+    .font-card > div:first-of-type {
+        padding-top: 0.5rem;
+    }
+
+    .font-card > div:last-of-type {
+        padding-bottom: 0;
+    }
+
+    .typography-actions {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .btn-back {
+        padding: 0.75rem 2rem;
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        color: #333;
+        transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+        background: #e8e8e8;
+        border-color: #ccc;
+    }
+
+    .not-found {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .not-found h2 {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .not-found p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .design-system-page {
+            padding: 1rem;
+        }
+
+        .style-info dl {
+            grid-template-columns: 1fr;
+            gap: 0.25rem;
+        }
+
+        .style-info dt {
+            margin-top: 0.5rem;
+        }
+
+        .style-info dt:first-of-type {
+            margin-top: 0;
+        }
+
+        .style-preview {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .font-card {
+            padding: 1rem;
+        }
+
+        .font-card > div {
+            font-size: 1.2rem !important;
+        }
+    }
+</style>
+
+@code {
+[Parameter]
+public string Name { get; set; } = string.Empty;
+
+private TypographyDefinition? Typography { get; set; }
+private string TypographyName => Typography?.Name ?? Name;
+private string TypographyDescription => Typography?.Description ?? string.Empty;
+
+protected override async Task OnParametersSetAsync()
+{
+if (!string.IsNullOrEmpty(Name))
+{
+// Try to find the typography in the definitions list
+Typography = TypographyService.Definitions.FirstOrDefault(d =>
+string.Equals(d.Name, Name, StringComparison.OrdinalIgnoreCase));
+
+// If found but not current, load it
+if (Typography != null && TypographyService.Current?.Name != Typography.Name)
+{
+await TypographyService.LoadAsync(Typography.Name);
+}
+}
+
+StateHasChanged();
+}
+
+private string GetSampleText(string styleName)
+{
+return styleName.ToLowerInvariant() switch
+{
+"heading" => "Heading Style",
+"subheading" => "Subheading Style",
+"body" => "Body text style for paragraphs and content. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+"caption" => "Caption text style for smaller text",
+"button" => "Button Style",
+"display" => "Display Style",
+"title" => "Title Style",
+_ => "Sample Text"
+};
+}
+
+private void GoBack()
+{
+NavigationManager.NavigateTo("/design-system/foundations/typography");
+}
+}

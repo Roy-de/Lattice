@@ -1,5 +1,5 @@
 ﻿@page "/typography"
-@using Lattice.Shared.Typography
+@using Lattice.Shared.DesignSystem.Typography
 @inject ITypographyService Typography
 @inject ITypographyCssGenerator CssGenerator
 
@@ -24,7 +24,7 @@
             <div class="demo-item">
                 <div class="demo-label">@style.Key</div>
                 <div class="@($"text-{style.Key}")">
-                    The quick brown fox jumps over the lazy dog
+                    ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;''""[]{}-_=+()*&^%$#!~`?/
                 </div>
             </div>
         }

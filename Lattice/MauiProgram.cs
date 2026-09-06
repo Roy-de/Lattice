@@ -2,8 +2,8 @@
 using Lattice.Shared.Services;
 using Lattice.Services;
 using Lattice.Services.IconService;
+using Lattice.Shared.DesignSystem.Typography;
 using Lattice.Shared.Resource;
-using Lattice.Shared.Typography;
 
 namespace Lattice;
 
@@ -20,7 +20,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<ITypographyCssGenerator, TypographyCssGenerator>();
         builder.Services.AddSingleton<ITypographyService, TypographyService>();
         builder.Services.AddSingleton<IApplicationIcons, ApplicationIcons>();
-        builder.Services.AddSingleton<IFormFactor, FormFactor>();
 
         builder.Services.AddMauiBlazorWebView();
         

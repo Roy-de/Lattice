@@ -1,0 +1,191 @@
+﻿{
+  "name": "Saas",
+  "description": "Outfit display paired with Manrope for interface and body typography.",
+
+  "fonts": {
+    "Outfit": {
+      "normal": {
+        "variable": {
+          "path": "Outfit/Outfit-VariableFont_wght.ttf",
+          "weight": [400, 800]
+        },
+        "static": {
+          "400": "Outfit/static/Outfit-Regular.ttf",
+          "500": "Outfit/static/Outfit-Medium.ttf",
+          "600": "Outfit/static/Outfit-SemiBold.ttf",
+          "700": "Outfit/static/Outfit-Bold.ttf",
+          "800": "Outfit/static/Outfit-ExtraBold.ttf"
+        }
+      },
+
+      "italic": {
+        "variable": {
+          "path": "Outfit/Outfit-Italic-VariableFont_wght.ttf",
+          "weight": [400, 800]
+        },
+        "static": {
+          "400": "Outfit/static/Outfit-Italic.ttf",
+          "500": "Outfit/static/Outfit-MediumItalic.ttf",
+          "600": "Outfit/static/Outfit-SemiBoldItalic.ttf",
+          "700": "Outfit/static/Outfit-BoldItalic.ttf",
+          "800": "Outfit/static/Outfit-ExtraBoldItalic.ttf"
+        }
+      }
+    },
+
+    "Manrope": {
+      "normal": {
+        "variable": {
+          "path": "Manrope/Manrope-VariableFont_wght.ttf",
+          "weight": [200, 800]
+        },
+        "static": {
+          "200": "Manrope/static/Manrope-ExtraLight.ttf",
+          "300": "Manrope/static/Manrope-Light.ttf",
+          "400": "Manrope/static/Manrope-Regular.ttf",
+          "500": "Manrope/static/Manrope-Medium.ttf",
+          "600": "Manrope/static/Manrope-SemiBold.ttf",
+          "700": "Manrope/static/Manrope-Bold.ttf",
+          "800": "Manrope/static/Manrope-ExtraBold.ttf"
+        }
+      }
+    }
+  },
+
+  "textStyles": {
+    "display": {
+      "family": "Outfit",
+      "weight": 700,
+      "desktop": {
+        "size": "56px",
+        "lineHeight": "63px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "56px",
+        "lineHeight": "63px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "heading-1": {
+      "family": "Manrope",
+      "weight": 600,
+      "desktop": {
+        "size": "48px",
+        "lineHeight": "66px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "36px",
+        "lineHeight": "49px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "heading-2": {
+      "family": "Manrope",
+      "weight": 600,
+      "desktop": {
+        "size": "40px",
+        "lineHeight": "55px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "32px",
+        "lineHeight": "44px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "heading-3": {
+      "family": "Manrope",
+      "weight": 500,
+      "desktop": {
+        "size": "32px",
+        "lineHeight": "44px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "24px",
+        "lineHeight": "33px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "heading-4": {
+      "family": "Manrope",
+      "weight": 400,
+      "desktop": {
+        "size": "24px",
+        "lineHeight": "33px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "20px",
+        "lineHeight": "27px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "body-large": {
+      "family": "Manrope",
+      "weight": 400,
+      "desktop": {
+        "size": "20px",
+        "lineHeight": "28px",
+        "letterSpacing": "0.04em"
+      },
+      "mobile": {
+        "size": "18px",
+        "lineHeight": "28px",
+        "letterSpacing": "0.04em"
+      }
+    },
+
+    "body": {
+      "family": "Manrope",
+      "weight": 400,
+      "desktop": {
+        "size": "16px",
+        "lineHeight": "22px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "16px",
+        "lineHeight": "22px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "body-small": {
+      "family": "Manrope",
+      "weight": 400,
+      "desktop": {
+        "size": "14px",
+        "lineHeight": "19px",
+        "letterSpacing": "0em"
+      },
+      "mobile": {
+        "size": "14px",
+        "lineHeight": "19px",
+        "letterSpacing": "0em"
+      }
+    },
+
+    "caption": {
+      "family": "Manrope",
+      "weight": 400,
+      "desktop": {
+        "size": "12px",
+        "lineHeight": "28px",
+        "letterSpacing": "0.04em"
+      },
+      "mobile": {
+        "size": "12px",
+        "lineHeight": "28px",
+        "letterSpacing": "0.04em"
+      }
+    }
+  }
+}

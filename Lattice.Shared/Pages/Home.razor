@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@*@page "/"
 @using Lattice.Shared.Services
 @using Lattice.Shared.Typography
 @using Microsoft.Extensions.Logging
@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lattice</title>
     <base href="/" />
-    @* <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" /> *@
+    $1$ <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" /> #1#
     <link href="css/app.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.png" />
     
@@ -76,4 +76,4 @@
 
     private string Platform => FormFactor.GetPlatform();
     
-}
+}*@

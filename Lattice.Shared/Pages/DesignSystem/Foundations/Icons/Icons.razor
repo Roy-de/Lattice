@@ -1,0 +1,653 @@
+﻿@page "/design-system/foundations/icons"
+@using Lattice.Shared.Services
+@inject IApplicationIcons ApplicationIcons
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Icons · Lattice</PageTitle>
+
+<div class="design-system-page">
+
+    <header class="design-system-page-header">
+
+        <span class="breadcrumb">
+            Design System / Foundations / Icons
+        </span>
+
+        <h1>Icons</h1>
+
+        <p>
+            The iconography used throughout the Lattice design system.
+            Icons provide visual cues for actions, navigation, and information.
+        </p>
+
+    </header>
+
+    <section class="icon-foundation-section">
+
+        <div class="icon-section-header">
+            <div class="icon-section-header-top">
+                <h2>Icon library</h2>
+                <span class="icon-count">@FilteredIconNames.Count icons</span>
+            </div>
+
+            <div class="icon-controls">
+                <div class="search-box">
+                    <span class="search-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </span>
+                    <input 
+                        type="text" 
+                        placeholder="Search icons..." 
+                        @bind="SearchTerm"
+                        @bind:event="oninput"
+                        @bind:debounce="300" />
+                    @if (!string.IsNullOrEmpty(SearchTerm))
+                    {
+                        <button class="clear-search" @onclick="() => SearchTerm = string.Empty">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    }
+                </div>
+
+                <div class="view-controls">
+                    <button class="view-btn @(ViewMode == "grid" ? "active" : "")" 
+                            @onclick='() => SetViewMode("grid")'>
+                        Grid
+                    </button>
+                    <button class="view-btn @(ViewMode == "list" ? "active" : "")" 
+                            @onclick='() => SetViewMode("list")'>
+                        List
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @if (FilteredIconNames.Any())
+        {
+            <div class="icon-grid @(ViewMode == "list" ? "list-view" : "")">
+                
+                @foreach (var iconName in FilteredIconNames)
+                {
+                    var displayName = GetDisplayName(iconName);
+                    <div class="icon-card @(CopiedIcon == iconName ? "copied" : "")" 
+                         @onclick="() => CopyIconName(iconName)"
+                         title="Click to copy icon name">
+
+                        <div class="icon-preview">
+                            @((MarkupString)ApplicationIcons.GetIcon(
+                                iconName,
+                                ViewMode == "list" ? 24 : 32,
+                                ViewMode == "list" ? 24 : 32))
+                        </div>
+
+                        <div class="icon-information">
+                            <span class="icon-name">@displayName</span>
+                            <span class="icon-copy-hint">
+                                @if (CopiedIcon == iconName)
+                                {
+                                    <span>✓ Copied!</span>
+                                }
+                                else
+                                {
+                                    <span>Click to copy</span>
+                                }
+                            </span>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            @if (FilteredIconNames.Count != IconNames.Count)
+            {
+                <div class="search-results-info">
+                    Showing @FilteredIconNames.Count of @IconNames.Count icons
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-results">
+                <div class="no-results-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                </div>
+                <h3>No icons found</h3>
+                <p>Try adjusting your search term</p>
+                <button class="clear-search-btn" @onclick="() => SearchTerm = string.Empty">
+                    Clear search
+                </button>
+            </div>
+        }
+
+    </section>
+
+</div>
+
+@if (ShowToast)
+{
+    <div class="toast">
+        @ToastMessage
+    </div>
+}
+
+<style>
+    .design-system-page {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .design-system-page-header {
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .breadcrumb {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .design-system-page-header h1 {
+        margin: 0.5rem 0 0.5rem 0;
+        font-size: 2.5rem;
+        color: #1a1a1a;
+    }
+
+    .design-system-page-header p {
+        margin: 0.5rem 0 0 0;
+        color: #555;
+        font-size: 1.1rem;
+        max-width: 600px;
+    }
+
+    .icon-foundation-section {
+        margin-top: 2rem;
+    }
+
+    .icon-section-header {
+        margin-bottom: 2rem;
+    }
+
+    .icon-section-header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .icon-section-header-top h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #1a1a1a;
+    }
+
+    .icon-count {
+        background: #f0f0f0;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        color: #555;
+        font-weight: 500;
+    }
+
+    .icon-controls {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 200px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .search-box:focus-within {
+        border-color: #0066cc;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+    }
+
+    .search-icon {
+        padding: 0 0.75rem;
+        color: #999;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .search-box input {
+        flex: 1;
+        padding: 0.6rem 0.5rem;
+        border: none;
+        background: transparent;
+        font-size: 0.95rem;
+        outline: none;
+        min-width: 120px;
+        color: #1a1a1a;
+    }
+
+    .search-box input::placeholder {
+        color: #999;
+    }
+
+    .clear-search {
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        padding: 0 0.75rem;
+        transition: color 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .clear-search:hover {
+        color: #333;
+    }
+
+    .view-controls {
+        display: flex;
+        gap: 0.25rem;
+        background: #f5f5f5;
+        padding: 0.25rem;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .view-btn {
+        padding: 0.4rem 0.75rem;
+        border: none;
+        background: transparent;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: #666;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .view-btn:hover {
+        color: #333;
+        background: rgba(0,0,0,0.05);
+    }
+
+    .view-btn.active {
+        background: white;
+        color: #0066cc;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .view-btn span {
+        font-size: 1.1rem;
+        line-height: 1;
+    }
+
+    .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+    }
+
+    .icon-grid.list-view {
+        grid-template-columns: 1fr;
+    }
+
+    .icon-grid.list-view .icon-card {
+        flex-direction: row;
+        aspect-ratio: auto;
+        padding: 0.75rem 1.5rem;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 60px;
+    }
+
+    .icon-grid.list-view .icon-preview {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .icon-grid.list-view .icon-information {
+        margin-top: 0;
+        text-align: left;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .icon-grid.list-view .icon-copy-hint {
+        display: inline;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        font-size: 0.75rem;
+        color: #999;
+    }
+
+    .icon-grid.list-view .icon-card:hover .icon-copy-hint {
+        opacity: 1;
+    }
+
+    .icon-card {
+        min-width: 0;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background: white;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .icon-card:hover {
+        border-color: #0066cc;
+        background: #f8faff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,102,204,0.1);
+    }
+
+    .icon-card:active {
+        transform: scale(0.98);
+    }
+
+    .icon-card.copied {
+        border-color: #22c55e;
+        background: #f0fdf4;
+    }
+
+    .icon-card.copied .icon-copy-hint {
+        color: #22c55e;
+        font-weight: 500;
+    }
+
+    .icon-preview {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a1a1a;
+        flex-shrink: 0;
+    }
+
+    .icon-preview svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .icon-information {
+        width: 100%;
+        margin-top: 0.75rem;
+        text-align: center;
+    }
+
+    .icon-name {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .icon-copy-hint {
+        display: none;
+        font-size: 0.7rem;
+        color: #999;
+        margin-top: 0.25rem;
+    }
+
+    .icon-card:hover .icon-copy-hint {
+        display: inline;
+    }
+
+    .search-results-info {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .no-results-icon {
+        margin-bottom: 1rem;
+        color: #999;
+    }
+
+    .no-results h3 {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+    }
+
+    .no-results p {
+        margin: 0 0 1.5rem 0;
+        color: #666;
+    }
+
+    .clear-search-btn {
+        padding: 0.5rem 1.5rem;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: background 0.2s ease;
+    }
+
+    .clear-search-btn:hover {
+        background: #0052a3;
+    }
+
+    .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.75rem 1.5rem;
+        background: #1a1a1a;
+        color: white;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        animation: slideUp 0.3s ease;
+        pointer-events: none;
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .design-system-page {
+            padding: 1rem;
+        }
+
+        .design-system-page-header h1 {
+            font-size: 2rem;
+        }
+
+        .icon-section-header-top {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .icon-controls {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .search-box {
+            width: 100%;
+        }
+
+        .view-controls {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .icon-grid {
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .icon-card {
+            padding: 1rem;
+        }
+
+        .icon-preview {
+            width: 48px;
+            height: 48px;
+        }
+
+        .icon-grid.list-view .icon-card {
+            padding: 0.5rem 1rem;
+            min-height: 50px;
+        }
+
+        .icon-grid.list-view .icon-preview {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .icon-grid {
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .icon-card {
+            padding: 0.75rem;
+        }
+
+        .icon-preview {
+            width: 40px;
+            height: 40px;
+        }
+
+        .icon-name {
+            font-size: 0.7rem;
+        }
+    }
+</style>
+
+@code {
+    private string SearchTerm = string.Empty;
+    private string ViewMode = "grid";
+    private bool ShowToast = false;
+    private string ToastMessage = string.Empty;
+    private string CopiedIcon = string.Empty;
+
+    private IReadOnlyCollection<string> IconNames = Array.Empty<string>();
+
+    private void SetViewMode(string mode)
+    {
+        ViewMode = mode;
+    }
+    
+    private string GetDisplayName(string fullName)
+    {
+        // Find the last dot and take the substring after it
+        var lastDot = fullName.LastIndexOf('.');
+        return lastDot >= 0 ? fullName.Substring(lastDot + 1) : fullName;
+    }
+
+    private IReadOnlyCollection<string> FilteredIconNames =>
+        string.IsNullOrWhiteSpace(SearchTerm)
+            ? IconNames
+            : IconNames
+                .Where(x => x.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
+    protected override void OnInitialized()
+    {
+        IconNames = ApplicationIcons
+            .GetIconNames()
+            .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
+    private async Task CopyIconName(string iconName)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", iconName);
+            CopiedIcon = iconName;
+            ShowToast = true;
+            ToastMessage = $"Copied '{iconName}' to clipboard!";
+            StateHasChanged();
+
+            await Task.Delay(2000);
+            ShowToast = false;
+            CopiedIcon = string.Empty;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error copying to clipboard: {ex.Message}");
+        }
+    }
+}

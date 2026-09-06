@@ -1,9 +1,16 @@
-﻿@using Lattice.Shared.Typography
+﻿@using Lattice.Shared.DesignSystem.Typography
+@using Lattice.Shared.Pages
 @inject ITypographyService TypographyService
 @inject ITypographyCssGenerator CssGenerator
+@inject ILogger<App> Logger
 
 @{
+    // Generate CSS in the code block
     var css = CssGenerator.Generate(TypographyService.Current);
+    Logger.LogInformation("App CSS generated, length: {Length}", css.Length);
+    System.Diagnostics.Debug.WriteLine("=== App Component CSS ===");
+    System.Diagnostics.Debug.WriteLine(css);
+    System.Diagnostics.Debug.WriteLine("=== End App Component CSS ===");
 }
 
 <!DOCTYPE html>
@@ -14,17 +21,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <base href="/"/>
     <ResourcePreloader/>
-    <link rel="stylesheet" href="_content/Lattice.Shared/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="_content/Lattice.Shared/app.css"/>
+    @* <link rel="stylesheet" href="_content/Lattice.Shared/lib/bootstrap/dist/css/bootstrap.min.css"/> *@
+    <link rel="stylesheet" href="../../Lattice.Shared/wwwroot/app.css"/>
     <link rel="stylesheet" href="Lattice.Web.styles.css"/>
     <ImportMap/>
-    <link rel="icon" type="image/png" href="_content/Lattice.Shared/favicon.png"/>
+    @* <link rel="icon" type="image/png" href="_content/Lattice.Shared/favicon.png"/> *@
     <HeadOutlet @rendermode="InteractiveAuto"/>
     
     @* Inject generated typography CSS *@
-    <style>
-        @css
-    </style>
+    @if (!string.IsNullOrEmpty(css))
+    {
+        <style>
+            @css
+        </style>
+    }
+    else
+    {
+        <style>
+            /* Fallback styles if CSS is empty */
+            .text-display { font-size: 4rem; font-weight: 700; }
+            .text-heading-1 { font-size: 2.5rem; font-weight: 600; }
+            .text-heading-2 { font-size: 2rem; font-weight: 600; }
+            .text-body-large { font-size: 1.25rem; }
+            .text-body { font-size: 1rem; }
+            .text-body-small { font-size: 0.875rem; }
+            .text-caption { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        </style>
+    }
 </head>
 
 <body>
@@ -34,3 +57,12 @@
 </body>
 
 </html>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // Force a re-render when typography is loaded
+        StateHasChanged();
+    }
+}

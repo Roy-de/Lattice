@@ -1,0 +1,205 @@
+﻿@page "/design-system/foundations/typography"
+@using Lattice.Shared.DesignSystem.Typography
+@inject ITypographyService TypographyService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Typography · Lattice</PageTitle>
+
+<div class="design-system-page">
+
+    <header class="design-system-page-header">
+
+        <span class="breadcrumb">
+            Design System / Foundations
+        </span>
+
+        <h1>Typography</h1>
+
+        <p>
+            Typography systems available to Lattice.
+        </p>
+
+        <!-- Show current typography info -->
+        @if (TypographyService.Current != null && !string.IsNullOrEmpty(TypographyService.Current.Name))
+        {
+            <div class="current-typography-info">
+                <strong>Current Selection:</strong>
+                <span class="current-name">@TypographyService.Current.Name</span>
+                <span class="current-description">@TypographyService.Current.Description</span>
+            </div>
+        }
+
+    </header>
+
+    <section class="typography-system-list">
+
+        @if (TypographyService.Definitions.Any())
+        {
+            @foreach (var typography in TypographyService.Definitions)
+            {
+                var isActive = TypographyService.Current?.Name == typography.Name;
+                <div class="typography-system-card @(isActive ? "active" : "")"
+                     @onclick="() => SelectAndNavigate(typography.Name)"
+                     @onclick:stopPropagation="true"
+                     role="button"
+                     tabindex="0"
+                     @onkeydown="@(e => { if (e.Key == "Enter" || e.Key == " ") { SelectAndNavigate(typography.Name); } })">
+
+                    <h2>@typography.Name</h2>
+
+                    <p>@typography.Description</p>
+
+                    <div class="typography-meta">
+                        <span>@typography.Fonts?.Count fonts</span>
+                        <span>@typography.TextStyles?.Count styles</span>
+                    </div>
+
+                    @if (isActive)
+                    {
+                        <span class="active-badge">✓ Active</span>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <p>No typography definitions loaded.</p>
+        }
+
+    </section>
+
+</div>
+
+@code {
+    private bool _isLoading = false;
+
+    private async Task SelectAndNavigate(string presetName)
+    {
+        if (string.IsNullOrEmpty(presetName))
+            return;
+
+        try
+        {
+            _isLoading = true;
+            StateHasChanged();
+
+            // Load the typography first
+            await TypographyService.LoadAsync(presetName);
+
+            // Then navigate to the detail page
+            NavigationManager.NavigateTo($"/design-system/foundations/typography/{presetName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading typography: {ex.Message}");
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    /* ... your existing styles ... */
+    .design-system-page-header {
+        margin-bottom: 2rem;
+    }
+
+    .current-typography-info {
+        margin: 1rem 0 1.5rem 0;
+        padding: 1rem 1.5rem;
+        background: #e3f2fd;
+        border-left: 4px solid #0066cc;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .current-typography-info .current-name {
+        font-weight: 600;
+        color: #0066cc;
+        font-size: 1.1rem;
+    }
+
+    .current-typography-info .current-description {
+        color: #555;
+        font-size: 0.9rem;
+    }
+
+    .typography-system-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .typography-system-card {
+        position: relative;
+        display: block;
+        padding: 1.5rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s ease;
+        background: white;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .typography-system-card:hover {
+        border-color: #0066cc;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .typography-system-card:active {
+        transform: translateY(0px);
+    }
+
+    .typography-system-card.active {
+        border-color: #0066cc;
+        background: #f0f7ff;
+        box-shadow: 0 4px 12px rgba(0,102,204,0.15);
+    }
+
+    .typography-system-card h2 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        color: #333;
+    }
+
+    .typography-system-card p {
+        margin: 0 0 1rem 0;
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    .typography-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.75rem;
+        color: #999;
+    }
+
+    .typography-meta span {
+        background: #f5f5f5;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+    }
+
+    .active-badge {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        background: #0066cc;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+</style>

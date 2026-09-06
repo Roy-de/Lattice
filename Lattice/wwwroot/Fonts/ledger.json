@@ -58,12 +58,12 @@
       "weight": 700,
       "desktop": {
         "size": "56px",
-        "lineHeight": "63px",
+        "lineHeight": "72px",
         "letterSpacing": "0em"
       },
       "mobile": {
         "size": "56px",
-        "lineHeight": "63px",
+        "lineHeight": "72px",
         "letterSpacing": "0em"
       }
     },

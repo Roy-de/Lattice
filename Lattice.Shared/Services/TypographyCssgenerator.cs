@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Lattice.Shared.Typography;
+using Lattice.Shared.DesignSystem.Typography;
 using Microsoft.Extensions.Logging;
 
 namespace Lattice.Shared.Services;
@@ -19,47 +19,25 @@ public sealed class TypographyCssGenerator : ITypographyCssGenerator
 
         foreach (var (familyName, font) in typography.Fonts)
         {
-            GenerateFontFace(
-                css,
-                familyName,
-                font.Normal);
+            GenerateFontFace(css, familyName, font.Normal);
 
             if (font.Italic is not null)
             {
-                GenerateFontFace(
-                    css,
-                    familyName,
-                    font.Italic,
-                    italic: true);
+                GenerateFontFace(css, familyName, font.Italic, italic: true);
             }
         }
 
         foreach (var (name, definition) in typography.TextStyles)
         {
-            GenerateTextStyle(
-                css,
-                name,
-                definition);
+            GenerateTextStyle(css, name, definition);
         }
 
         var generatedCss = css.ToString();
-        
-        // Log the generated CSS to debug console
-        _logger.LogInformation("Generated CSS:\n{Css}", generatedCss);
-        
-        // Also output to Debug.WriteLine for immediate visibility
-        System.Diagnostics.Debug.WriteLine("=== Generated CSS ===");
-        System.Diagnostics.Debug.WriteLine(generatedCss);
-        System.Diagnostics.Debug.WriteLine("=== End Generated CSS ===");
-        
+
         return generatedCss;
     }
 
-    private static void GenerateFontFace(
-        StringBuilder css,
-        string family,
-        FontStyleDefinition definition,
-        bool italic = false)
+    private static void GenerateFontFace(StringBuilder css, string family, FontStyleDefinition definition, bool italic = false)
     {
         if (definition.Variable is not null)
         {
@@ -71,7 +49,7 @@ public sealed class TypographyCssGenerator : ITypographyCssGenerator
 
             css.AppendLine("@font-face {");
             css.AppendLine($"    font-family: '{family}';");
-            css.AppendLine($"    src: url('Fonts/{fontPath}') format('truetype');");
+            css.AppendLine($"    src: url('/Fonts/{fontPath}') format('truetype');");
             css.AppendLine($"    font-weight: {minWeight} {maxWeight};");
             css.AppendLine($"    font-style: {(italic ? "italic" : "normal")};");
             css.AppendLine("    font-display: swap;");
@@ -84,7 +62,7 @@ public sealed class TypographyCssGenerator : ITypographyCssGenerator
             css.AppendLine("@font-face {");
             css.AppendLine($"    font-family: '{family}';");
             var fontPath = path.Replace('\\', '/');
-            css.AppendLine($"    src: url('Fonts/{fontPath}') format('truetype');");
+            css.AppendLine($"    src: url('/Fonts/{fontPath}') format('truetype');");
             css.AppendLine($"    font-weight: {weight};");
             css.AppendLine($"    font-style: {(italic ? "italic" : "normal")};");
             css.AppendLine("    font-display: swap;");
@@ -93,10 +71,7 @@ public sealed class TypographyCssGenerator : ITypographyCssGenerator
         }
     }
 
-    private static void GenerateTextStyle(
-        StringBuilder css,
-        string name,
-        TextStyleDefinition definition)
+    private static void GenerateTextStyle(StringBuilder css, string name, TextStyleDefinition definition)
     {
         css.AppendLine($".text-{name} {{");
         css.AppendLine($"    font-family: '{definition.Family}';");
