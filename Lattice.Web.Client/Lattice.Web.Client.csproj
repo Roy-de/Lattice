@@ -16,4 +16,15 @@
         <ProjectReference Include="..\Lattice.Shared\Lattice.Shared.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="..\Lattice\Resources\Colors\**\*.json"
+                 Link="wwwroot\Colors\%(RecursiveDir)%(Filename)%(Extension)"
+                 CopyToOutputDirectory="PreserveNewest"
+                 CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\Lattice\Resources\Fonts\**\*.json"
+                 Link="wwwroot\Fonts\%(RecursiveDir)%(Filename)%(Extension)"
+                 CopyToOutputDirectory="PreserveNewest"
+                 CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>

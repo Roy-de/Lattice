@@ -122,11 +122,11 @@
         <EmbeddedResource Include="Resources\Icons\**\*.svg" />
 
         <!--Colors -->
-        <EmbeddedResource Include="Resources\Colors\**\*.json" LogicalName="Colors/%(RecursiveDir)%(Filename)%(Extension)"/>
+        <EmbeddedResource Include="Resources\Colors\**\*.json" LogicalName="Colors/%(RecursiveDir)%(Filename)%(Extension)" />
 
         <!-- Installed application Fonts -->
-        <EmbeddedResource Include="Resources\Fonts\**\*.tff" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)"/>
-        <EmbeddedResource Include="Resources\Fonts\**\*.json" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)"/>
+        <EmbeddedResource Include="Resources\Fonts\**\*.tff" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
+        <EmbeddedResource Include="Resources\Fonts\**\*.json" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
 
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -159,11 +159,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="colors-bak\" />
       <Folder Include="Resources\Icons\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Resources\Colors\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -193,6 +190,7 @@
 
     <ItemGroup>
       <None Remove="Resources\Fonts\**" />
+      <None Include="Resources\Colors\atelier.json" />
       <None Include="wwwroot\Fonts\Outfit\OFL.txt" />
       <None Include="wwwroot\Fonts\Outfit\Outfit-VariableFont_wght.ttf" />
       <None Include="wwwroot\Fonts\Outfit\README.txt" />

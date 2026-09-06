@@ -2,7 +2,7 @@
 
 namespace Lattice.Shared.DesignSystem.Colors;
 
-public class ColorPaletteCssGenerator : IColorPaletteCssGenerator
+public sealed class ColorPaletteCssGenerator : IColorPaletteCssGenerator
 {
     public string Generate(ColorPalette palette)
     {
@@ -10,86 +10,134 @@ public class ColorPaletteCssGenerator : IColorPaletteCssGenerator
             return string.Empty;
 
         var css = new StringBuilder();
+
         var safeName = SanitizeName(palette.Name);
-        
-        // Add CSS custom properties with palette prefix
-        css.AppendLine($"/* Color Palette: {palette.Name} (ID: {palette.Id}) */");
-        css.AppendLine($".palette-{safeName} {{");
-        css.AppendLine($"  --palette-name: \"{palette.Name}\";");
-        css.AppendLine($"  --palette-id: \"{palette.Id}\";");
-        
-        foreach (var color in palette.Colors.OrderBy(c => c.Hierarchy))
-        {
-            var varName = GenerateCssVariableName(color, safeName);
-            css.AppendLine($"  {varName}: {color.Value};");
-        }
-        
-        css.AppendLine($"}}");
-        
-        // Add individual color classes
-        foreach (var color in palette.Colors.OrderBy(c => c.Hierarchy))
-        {
-            var className = GenerateCssClassName(color, safeName);
-            var varName = GenerateCssVariableName(color, safeName);
-            
-            css.AppendLine($".color-{className} {{ color: var({varName}); }}");
-            css.AppendLine($".bg-{className} {{ background-color: var({varName}); }}");
-            css.AppendLine($".border-{className} {{ border-color: var({varName}); }}");
-        }
-        
-        // Add utility classes for hierarchy-based colors
-        foreach (var color in palette.Colors.OrderBy(c => c.Hierarchy))
-        {
-            var varName = GenerateCssVariableName(color, safeName);
-            var hierarchy = color.Hierarchy;
-            
-            css.AppendLine($".color-hierarchy-{hierarchy} {{ color: var({varName}); }}");
-            css.AppendLine($".bg-hierarchy-{hierarchy} {{ background-color: var({varName}); }}");
-        }
-        
+
+        css.AppendLine(
+            $"/* ========================================================= */");
+        css.AppendLine(
+            $"/* Palette: {palette.Name} ({palette.Id}) */");
+        css.AppendLine(
+            $"/* {palette.Description} */");
+        css.AppendLine(
+            $"/* ========================================================= */");
+
+        GenerateTheme(css, palette, safeName, dark: false);
+        GenerateTheme(css, palette, safeName, dark: true);
+
+        GenerateColorUtilityClasses(css, palette, safeName);
+
         return css.ToString();
     }
 
-    public string GenerateAll(IEnumerable<ColorPalette> palettes)
+    private void GenerateTheme(
+        StringBuilder css,
+        ColorPalette palette,
+        string safeName,
+        bool dark)
     {
-        var combinedCss = new StringBuilder();
-        combinedCss.AppendLine("/* ===== All Color Palettes ===== */");
-        combinedCss.AppendLine(":root {");
-        
-        // Add all colors from all palettes as global CSS variables with prefixes
-        foreach (var palette in palettes)
+        var selector = dark
+            ? $".palette-{safeName}[data-theme=\"dark\"]"
+            : $".palette-{safeName}[data-theme=\"light\"]";
+
+        css.AppendLine();
+        css.AppendLine($"{selector} {{");
+
+        foreach (var color in palette.Colors
+                     .OrderBy(c => c.Hierarchy))
         {
-            var safeName = SanitizeName(palette.Name);
-            
-            foreach (var color in palette.Colors.OrderBy(c => c.Hierarchy))
+            var value = dark
+                ? color.DarkValue
+                : color.LightValue;
+
+            if (string.IsNullOrWhiteSpace(value))
+                continue;
+
+            var variable = GenerateSemanticVariable(color);
+
+            css.AppendLine(
+                $"    {variable}: {value};");
+
+            var onValue = dark
+                ? color.OnDarkValue
+                : color.OnLightValue;
+
+            if (!string.IsNullOrWhiteSpace(onValue))
             {
-                var varName = GenerateCssVariableName(color, safeName);
-                combinedCss.AppendLine($"  {varName}: {color.Value};");
+                css.AppendLine(
+                    $"    {GenerateOnVariable(color)}: {onValue};");
             }
         }
-        
-        combinedCss.AppendLine("}");
-        
-        // Add individual palette CSS
-        foreach (var palette in palettes.OrderBy(p => p.Name))
-        {
-            combinedCss.AppendLine();
-            combinedCss.Append(Generate(palette));
-        }
-        
-        // Add a data attribute selector for switching palettes
-        combinedCss.AppendLine();
-        combinedCss.AppendLine("/* Palette switching via data attribute */");
-        combinedCss.AppendLine("[data-palette] {");
-        combinedCss.AppendLine("  /* Define all palette colors as custom properties */");
-        combinedCss.AppendLine("}");
-        
-        return combinedCss.ToString();
+
+        css.AppendLine("}");
     }
 
-    private string SanitizeName(string name)
+    private void GenerateColorUtilityClasses(
+        StringBuilder css,
+        ColorPalette palette,
+        string safeName)
     {
-        return name
+        foreach (var color in palette.Colors
+                     .OrderBy(c => c.Hierarchy))
+        {
+            var variable = GenerateSemanticVariable(color);
+
+            var className = SanitizeName(color.Id);
+
+            css.AppendLine();
+            css.AppendLine(
+                $".color-{className} {{");
+            css.AppendLine(
+                $"    color: var({variable});");
+            css.AppendLine("}");
+
+            css.AppendLine(
+                $".bg-{className} {{");
+            css.AppendLine(
+                $"    background-color: var({variable});");
+            css.AppendLine("}");
+
+            css.AppendLine(
+                $".border-{className} {{");
+            css.AppendLine(
+                $"    border-color: var({variable});");
+            css.AppendLine("}");
+        }
+    }
+
+    private string GenerateSemanticVariable(
+        ColorDefinition color)
+    {
+        return $"--color-{ToKebabCase(color.Role.ToString())}";
+    }
+
+    private string GenerateOnVariable(
+        ColorDefinition color)
+    {
+        return $"--color-on-{ToKebabCase(color.Role.ToString())}";
+    }
+
+    private static string ToKebabCase(string value)
+    {
+        var result = new StringBuilder();
+
+        for (var i = 0; i < value.Length; i++)
+        {
+            var character = value[i];
+
+            if (char.IsUpper(character) && i > 0)
+                result.Append('-');
+
+            result.Append(char.ToLowerInvariant(character));
+        }
+
+        return result.ToString();
+    }
+
+    private static string SanitizeName(string value)
+    {
+        return value
+            .Trim()
             .ToLowerInvariant()
             .Replace(" ", "-")
             .Replace("_", "-")
@@ -97,14 +145,24 @@ public class ColorPaletteCssGenerator : IColorPaletteCssGenerator
             .Replace("\"", "");
     }
 
-    private string GenerateCssVariableName(ColorDefinition color, string paletteName)
+    public string GenerateAll(
+        IEnumerable<ColorPalette> palettes)
     {
-        var colorName = SanitizeName(color.Name);
-        return $"--palette-{paletteName}-{colorName}";
-    }
+        var css = new StringBuilder();
 
-    private string GenerateCssClassName(ColorDefinition color, string paletteName)
-    {
-        return $"{paletteName}-{SanitizeName(color.Name)}";
+        css.AppendLine(
+            "/* ========================================================= */");
+        css.AppendLine(
+            "/* Lattice Design System - Color Palettes */");
+        css.AppendLine(
+            "/* ========================================================= */");
+
+        foreach (var palette in palettes.OrderBy(p => p.Name))
+        {
+            css.AppendLine();
+            css.Append(Generate(palette));
+        }
+
+        return css.ToString();
     }
 }

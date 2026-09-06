@@ -1,0 +1,146 @@
+﻿@page "/design-system/foundations/colors"
+@using Lattice.Shared.DesignSystem.Colors
+@inject IColorPaletteService ColorPaletteService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Colors · Lattice</PageTitle>
+
+<div class="colors-page">
+
+    <header class="page-header">
+
+        <div class="eyebrow">
+            Design System / Foundations
+        </div>
+
+        <h1>Colors</h1>
+
+        <p>
+            Color palettes available to Lattice. Each palette provides
+            a curated set of tokens for consistent visual design.
+        </p>
+
+        @if (ColorPaletteService.Current is { } current)
+        {
+            <div class="current-palette">
+                <span class="current-palette-label">
+                    Current palette
+                </span>
+
+                <strong>
+                    @current.Name
+                </strong>
+
+                <code>
+                    @current.Id
+                </code>
+            </div>
+        }
+
+    </header>
+
+
+    @if (ColorPaletteService.Palettes.Any())
+    {
+        <section class="palette-list">
+
+            @foreach (var palette in ColorPaletteService.GetPalettesSorted())
+            {
+                var isActive =
+                    ColorPaletteService.Current?.Id == palette.Id;
+
+                <button
+                    type="button"
+                    class="palette-card @(isActive ? "is-active" : "")"
+                    @onclick="() => SelectPalette(palette.Id)">
+
+                    <div class="palette-card-header">
+
+                        <div>
+                            <h2>@palette.Name</h2>
+
+                            <code>@palette.Id</code>
+                        </div>
+
+                        @if (isActive)
+                        {
+                            <span class="active-indicator">
+                                Active
+                            </span>
+                        }
+
+                    </div>
+
+
+                    <div class="palette-swatches">
+
+                        @foreach (var color in palette.Colors?
+                            .OrderBy(c => c.Hierarchy)
+                            ?? Enumerable.Empty<ColorDefinition>())
+                        {
+                            <div
+                                class="palette-swatch"
+                                style="background-color: @color.LightValue"
+                                title="@($"{color.Name}: {color.LightValue}")">
+
+                                <span>
+                                    @color.Hierarchy
+                                </span>
+
+                            </div>
+                        }
+
+                    </div>
+
+
+                    <div class="palette-card-footer">
+
+                        <span>
+                            @(palette.Colors?.Count ?? 0) colors
+                        </span>
+
+                        <span class="view-palette">
+                            View palette →
+                        </span>
+
+                    </div>
+
+                </button>
+            }
+
+        </section>
+    }
+    else
+    {
+        <div class="empty-state">
+            <h2>No color palettes</h2>
+            <p>No color palettes have been loaded.</p>
+        </div>
+    }
+
+</div>
+
+
+
+@code {
+
+    private async Task SelectPalette(string paletteId)
+    {
+        if (string.IsNullOrWhiteSpace(paletteId))
+            return;
+
+        if (ColorPaletteService.IsLoaded(paletteId))
+        {
+            ColorPaletteService.SwitchToPalette(paletteId);
+        }
+        else
+        {
+            await ColorPaletteService.LoadAsync(paletteId);
+        }
+
+        NavigationManager.NavigateTo(
+            $"/design-system/foundations/colors/{Uri.EscapeDataString(paletteId)}"
+        );
+    }
+
+}

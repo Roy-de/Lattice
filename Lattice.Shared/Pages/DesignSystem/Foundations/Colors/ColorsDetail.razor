@@ -1,0 +1,1254 @@
+﻿@page "/design-system/foundations/colors/{PaletteId}"
+
+@using Lattice.Shared.DesignSystem.Colors
+
+@inject IColorPaletteService ColorPaletteService
+@inject IColorPaletteCssGenerator CssGenerator
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<PageTitle>@PaletteName · Colors · Lattice</PageTitle>
+
+<HeadContent>
+    @if (!string.IsNullOrWhiteSpace(PaletteCss))
+    {
+        <style>
+            @((MarkupString)PaletteCss)
+        </style>
+    }
+</HeadContent>
+
+<div class="design-system-page">
+
+    <header class="design-system-page-header">
+
+        <div class="breadcrumb">
+            <a href="/design-system/foundations/colors">
+                Design System
+            </a>
+
+            <span>/</span>
+
+            <a href="/design-system/foundations/colors">
+                Foundations
+            </a>
+
+            <span>/</span>
+
+            <a href="/design-system/foundations/colors">
+                Colors
+            </a>
+
+            <span>/</span>
+
+            <strong>@PaletteName</strong>
+        </div>
+
+        <div class="header-content">
+
+            <div>
+
+                <span class="eyebrow">
+                    Color Palette
+                </span>
+
+                <h1>
+                    @PaletteName
+                </h1>
+
+                <p class="palette-id">
+                    @PaletteIdDisplay
+                </p>
+
+            </div>
+
+            @if (Palette != null)
+            {
+                <div class="palette-summary">
+
+                    <div class="summary-item">
+                        <strong>@ColorCount</strong>
+                        <span>tokens</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <strong>@SemanticCount</strong>
+                        <span>semantic</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <strong>@InteractiveCount</strong>
+                        <span>interactive</span>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </header>
+
+
+    @if (Palette != null)
+    {
+        <!-- ========================================================= -->
+        <!-- PALETTE                                                   -->
+        <!-- ========================================================= -->
+
+        <section class="color-palette-display">
+
+            <div class="section-header">
+
+                <div class="section-heading">
+
+                    <span class="section-eyebrow">
+                        Foundations
+                    </span>
+
+                    <h2>
+                        Color Tokens
+                    </h2>
+
+                    <p class="section-description">
+                        Every color token defines its semantic role,
+                        theme values, usage guidance and intended UI context.
+                    </p>
+
+                </div>
+
+
+                <!-- Theme switcher -->
+
+                <div
+                    class="theme-switcher"
+                    role="group"
+                    aria-label="Preview theme">
+
+                    <button
+                        type="button"
+                        class="theme-option @(PreviewMode == PreviewTheme.Light ? "active" : "")"
+                        aria-pressed="@(PreviewMode == PreviewTheme.Light)"
+                        @onclick="() => SetPreviewMode(PreviewTheme.Light)">
+
+                        <span class="theme-icon">
+                            ☀
+                        </span>
+
+                        <span>
+                            Light
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="theme-option @(PreviewMode == PreviewTheme.Dark ? "active" : "")"
+                        aria-pressed="@(PreviewMode == PreviewTheme.Dark)"
+                        @onclick="() => SetPreviewMode(PreviewTheme.Dark)">
+
+                        <span class="theme-icon">
+                            ◐
+                        </span>
+
+                        <span>
+                            Dark
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===================================================== -->
+            <!-- TOKEN GRID                                             -->
+            <!-- ===================================================== -->
+
+            <div class="palette-preview @(IsDarkPreview ? "preview-dark" : "preview-light")">
+
+                <div class="palette-grid">
+
+                    @foreach (var color in OrderedColors)
+                    {
+                        <article class="color-card">
+
+                            <!-- ===================================== -->
+                            <!-- COLOR PREVIEW                          -->
+                            <!-- ===================================== -->
+
+                            <div
+                                class="color-preview"
+                                style="
+                                    background-color: @GetColorValue(color);
+                                    color: @GetOnColorValue(color);
+                                ">
+
+                                <span class="color-preview-name">
+                                    @color.Name
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="copy-button"
+                                    title="Copy color value"
+                                    aria-label="Copy @GetColorValue(color)"
+                                    @onclick="() => CopyToClipboard(GetColorValue(color))">
+
+                                    <span>Copy</span>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- ===================================== -->
+                            <!-- TOKEN INFORMATION                      -->
+                            <!-- ===================================== -->
+
+                            <div class="color-info">
+
+                                <div class="token-heading">
+
+                                    <div>
+
+                                        <h3>
+                                            @color.Name
+                                        </h3>
+
+                                        <code>
+                                            @color.Id
+                                        </code>
+
+                                    </div>
+
+                                    <span class="hierarchy">
+                                        @color.Hierarchy
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Value -->
+
+                                <div class="token-value">
+
+                                    <span class="value-label">
+                                        @(IsDarkPreview ? "Dark" : "Light")
+                                    </span>
+
+                                    <code>
+                                        @GetColorValue(color)
+                                    </code>
+
+                                </div>
+
+
+                                <!-- Metadata -->
+
+                                <div class="token-tags">
+
+                                    <span class="token-tag">
+                                        @color.Role
+                                    </span>
+
+                                    <span class="token-tag">
+                                        @color.Category
+                                    </span>
+
+                                    @if (color.Interactive)
+                                    {
+                                        <span class="token-tag">
+                                            Interactive
+                                        </span>
+                                    }
+
+                                    @if (color.Semantic)
+                                    {
+                                        <span class="token-tag">
+                                            Semantic
+                                        </span>
+                                    }
+
+                                    @if (color.TextColor)
+                                    {
+                                        <span class="token-tag">
+                                            Text
+                                        </span>
+                                    }
+
+                                    @if (color.SurfaceColor)
+                                    {
+                                        <span class="token-tag">
+                                            Surface
+                                        </span>
+                                    }
+
+                                    @if (color.BorderColor)
+                                    {
+                                        <span class="token-tag">
+                                            Border
+                                        </span>
+                                    }
+
+                                </div>
+
+
+                                <!-- Description -->
+
+                                @if (!string.IsNullOrWhiteSpace(color.Description))
+                                {
+                                    <p class="token-description">
+                                        @color.Description
+                                    </p>
+                                }
+
+
+                                <!-- Usage -->
+
+                                @if (!string.IsNullOrWhiteSpace(color.Usage))
+                                {
+                                    <div class="token-usage">
+
+                                        <span class="usage-label">
+                                            Usage
+                                        </span>
+
+                                        <p>
+                                            @color.Usage
+                                        </p>
+
+                                    </div>
+                                }
+
+
+                                <!-- Theme values -->
+
+                                <div class="theme-values">
+
+                                    <div class="theme-value">
+
+                                        <span>
+                                            Light
+                                        </span>
+
+                                        <code>
+                                            @DisplayValue(color.LightValue)
+                                        </code>
+
+                                    </div>
+
+                                    <div class="theme-value">
+
+                                        <span>
+                                            Dark
+                                        </span>
+
+                                        <code>
+                                            @DisplayValue(color.DarkValue)
+                                        </code>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Contrast -->
+
+                                @if (color.LightContrastRatio.HasValue ||
+                                     color.DarkContrastRatio.HasValue)
+                                {
+                                    <div class="contrast-values">
+
+                                        <span class="contrast-label">
+                                            Contrast
+                                        </span>
+
+                                        @if (color.LightContrastRatio.HasValue)
+                                        {
+                                            <span class="contrast-value">
+                                                Light
+                                                <strong>
+                                                    @color.LightContrastRatio.Value.ToString("0.##"):1
+                                                </strong>
+                                            </span>
+                                        }
+
+                                        @if (color.DarkContrastRatio.HasValue)
+                                        {
+                                            <span class="contrast-value">
+                                                Dark
+                                                <strong>
+                                                    @color.DarkContrastRatio.Value.ToString("0.##"):1
+                                                </strong>
+                                            </span>
+                                        }
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- USAGE PREVIEW                                              -->
+        <!-- ========================================================= -->
+
+        <section class="color-usage">
+
+            <div class="section-header">
+
+                <div class="section-heading">
+
+                    <span class="section-eyebrow">
+                        Preview
+                    </span>
+
+                    <h2>
+                        Usage Preview
+                    </h2>
+
+                    <p class="section-description">
+                        See how the palette behaves when used as surfaces,
+                        typography, boundaries and interactive controls.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-preview @(IsDarkPreview ? "preview-dark" : "preview-light")"
+                 style="--preview-primary: @RoleValue(ColorRole.Primary, "#2563eb"); --preview-on-primary: @RoleOnValue(ColorRole.Primary, "#ffffff"); --preview-success: @RoleValue(ColorRole.Success, "#15803d");">
+
+                <aside class="system-preview-sidebar">
+
+                    <div class="system-preview-brand">
+                        <span class="system-preview-mark">L</span>
+                        <span>Lattice</span>
+                    </div>
+
+                    <nav aria-label="Preview navigation">
+                        <span class="system-preview-nav-label">Workspace</span>
+
+                        <button type="button" class="system-preview-nav-item active">
+                            <span class="nav-dot"></span>
+                            Overview
+                        </button>
+
+                        <button type="button" class="system-preview-nav-item">
+                            <span class="nav-dot"></span>
+                            Activity
+                        </button>
+
+                        <button type="button" class="system-preview-nav-item">
+                            <span class="nav-dot"></span>
+                            Settings
+                        </button>
+                    </nav>
+
+                    <div class="system-preview-sidebar-footer">
+                        <span class="preview-status-dot"></span>
+                        <span>All systems normal</span>
+                    </div>
+
+                </aside>
+
+                <div class="system-preview-main">
+
+                    <header class="system-preview-toolbar">
+                        <div>
+                            <span class="system-preview-kicker">@PaletteName</span>
+                            <h3>Good morning, Alex</h3>
+                        </div>
+
+                        <div class="system-preview-toolbar-actions">
+                            <button type="button" class="preview-icon-button" aria-label="Search preview">
+                                ⌕
+                            </button>
+                            <button type="button" class="preview-avatar-button" aria-label="Open profile">
+                                A
+                            </button>
+                        </div>
+                    </header>
+
+                    <section class="system-preview-hero">
+                        <div>
+                            <span class="system-preview-kicker">Weekly overview</span>
+                            <h4>Keep your work moving forward.</h4>
+                            <p>One clear surface for priorities, progress and the next useful action.</p>
+                            <div class="system-preview-hero-actions">
+                                <button type="button" class="system-preview-primary"
+                                        style="background-color: @RoleValue(ColorRole.Primary, "#2563eb"); color: @RoleOnValue(ColorRole.Primary, "#ffffff");">
+                                    Create update
+                                </button>
+                                <button type="button" class="system-preview-quiet">View activity</button>
+                            </div>
+                        </div>
+
+                        <div class="system-preview-hero-art" aria-hidden="true">
+                            <span class="hero-orbit hero-orbit-one"></span>
+                            <span class="hero-orbit hero-orbit-two"></span>
+                            <span class="hero-orbit hero-orbit-three"></span>
+                            <span class="hero-orbit-core" style="background-color: @RoleValue(ColorRole.Secondary, "#0f766e");"></span>
+                        </div>
+                    </section>
+
+                    <div class="system-preview-metrics">
+                        <div class="system-preview-metric">
+                            <span>Active projects</span>
+                            <strong>12</strong>
+                            <small style="color: @RoleValue(ColorRole.Success, "#15803d");">+18% this month</small>
+                        </div>
+                        <div class="system-preview-metric">
+                            <span>Completion rate</span>
+                            <strong>86%</strong>
+                            <small>Across all teams</small>
+                        </div>
+                        <div class="system-preview-metric">
+                            <span>Needs attention</span>
+                            <strong>03</strong>
+                            <small style="color: @RoleValue(ColorRole.Warning, "#b45309");">Review by Friday</small>
+                        </div>
+                    </div>
+
+                    <div class="system-preview-content-grid">
+
+                        <section class="system-preview-panel">
+                            <div class="system-preview-panel-heading">
+                                <div>
+                                    <span class="system-preview-kicker">Recent activity</span>
+                                    <h4>What is happening</h4>
+                                </div>
+                                <button type="button" class="preview-text-button">See all</button>
+                            </div>
+
+                            <div class="system-preview-activity-list">
+                                <div class="system-preview-activity">
+                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.SuccessSurface, "#dcfce7"); color: @RoleValue(ColorRole.Success, "#15803d");">✓</span>
+                                    <div><strong>Release approved</strong><span>Design system v2.4 · 14 min ago</span></div>
+                                </div>
+                                <div class="system-preview-activity">
+                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.InfoSurface, "#dbeafe"); color: @RoleValue(ColorRole.Info, "#1d4ed8");">i</span>
+                                    <div><strong>New comment added</strong><span>Homepage exploration · 1 hr ago</span></div>
+                                </div>
+                                <div class="system-preview-activity">
+                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.WarningSurface, "#fef3c7"); color: @RoleValue(ColorRole.Warning, "#b45309");">!</span>
+                                    <div><strong>Review requested</strong><span>Mobile navigation · 3 hrs ago</span></div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="system-preview-panel preview-form-panel">
+                            <div class="system-preview-panel-heading">
+                                <div>
+                                    <span class="system-preview-kicker">Quick action</span>
+                                    <h4>Share an update</h4>
+                                </div>
+                                <span class="preview-form-badge">Draft</span>
+                            </div>
+
+                            <label>
+                                Message
+                                <input type="text" value="The new direction is ready for review" readonly />
+                            </label>
+                            <label>
+                                Audience
+                                <select aria-label="Audience">
+                                    <option>Product team</option>
+                                    <option>Design team</option>
+                                </select>
+                            </label>
+                            <div class="preview-form-footer">
+                                <span class="preview-check"><span>✓</span> Notify collaborators</span>
+                                <button type="button" class="system-preview-primary"
+                                        style="background-color: @RoleValue(ColorRole.Primary, "#2563eb"); color: @RoleOnValue(ColorRole.Primary, "#ffffff");">
+                                    Share
+                                </button>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <div class="system-preview-alerts" aria-label="Semantic state examples">
+                        <span style="background-color: @RoleValue(ColorRole.SuccessSurface, "#dcfce7"); color: @RoleValue(ColorRole.Success, "#15803d");">Success · Changes saved</span>
+                        <span style="background-color: @RoleValue(ColorRole.WarningSurface, "#fef3c7"); color: @RoleValue(ColorRole.Warning, "#b45309");">Warning · Review pending</span>
+                        <span style="background-color: @RoleValue(ColorRole.ErrorSurface, "#fee2e2"); color: @RoleValue(ColorRole.Error, "#b91c1c");">Error · Action required</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="usage-preview @(IsDarkPreview ? "preview-dark" : "preview-light")">
+
+                <div class="usage-examples">
+
+                    <!-- ================================================= -->
+                    <!-- SURFACES                                           -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <div class="usage-example-header">
+
+                            <div>
+                                <h3>
+                                    Surfaces
+                                </h3>
+
+                                <p>
+                                    Tokens intended for backgrounds and surfaces.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="surface-examples">
+
+                            @foreach (var color in SurfaceColors)
+                            {
+                                <div
+                                    class="surface-sample"
+                                    style="
+                                        background-color: @GetColorValue(color);
+                                        color: @GetOnColorValue(color);
+                                    ">
+
+                                    <div>
+
+                                        <strong>
+                                            @color.Name
+                                        </strong>
+
+                                        <span>
+                                            @GetColorValue(color)
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- TYPOGRAPHY                                         -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <div class="usage-example-header">
+
+                            <div>
+                                <h3>
+                                    Typography
+                                </h3>
+
+                                <p>
+                                    Tokens intended primarily for text.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="text-examples">
+
+                            @foreach (var color in TextColors)
+                            {
+                                <div class="text-example">
+
+                                    <div class="text-example-heading">
+
+                                        <strong style="color: @GetColorValue(color)">
+                                            @color.Name
+                                        </strong>
+
+                                        <code>
+                                            @GetColorValue(color)
+                                        </code>
+
+                                    </div>
+
+                                    <p style="color: @GetColorValue(color)">
+                                        The quick brown fox jumps over the lazy dog.
+                                        This demonstrates how the token behaves in
+                                        running interface content.
+                                    </p>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- BORDERS                                            -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <div class="usage-example-header">
+
+                            <div>
+                                <h3>
+                                    Boundaries
+                                </h3>
+
+                                <p>
+                                    Tokens approved for borders and UI boundaries.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="border-examples">
+
+                            @foreach (var color in BorderColors)
+                            {
+                                <div
+                                    class="border-example"
+                                    style="border-color: @GetColorValue(color)">
+
+                                    <div>
+
+                                        <strong>
+                                            @color.Name
+                                        </strong>
+
+                                        <span>
+                                            @GetColorValue(color)
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- INTERACTIVE                                        -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <div class="usage-example-header">
+
+                            <div>
+                                <h3>
+                                    Interactive Controls
+                                </h3>
+
+                                <p>
+                                    Tokens marked as interactive in the palette.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="component-preview">
+
+                            <div class="preview-card">
+
+                                <div class="preview-card-header">
+
+                                    <div class="preview-avatar">
+                                        L
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Example Component
+                                        </strong>
+
+                                        <span>
+                                            Interactive palette preview
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <p>
+                                    This component demonstrates the relationship
+                                    between a surface, typography, borders and
+                                    interactive color tokens.
+                                </p>
+
+
+                                <div class="preview-card-actions">
+
+                                    @if (InteractiveColors.Any())
+                                    {
+                                        var primary = InteractiveColors.First();
+
+                                        <button
+                                            type="button"
+                                            class="preview-button"
+                                            style="
+                                                background-color: @GetColorValue(primary);
+                                                color: @GetOnColorValue(primary);
+                                            ">
+
+                                            Primary Action
+
+                                        </button>
+                                    }
+
+                                    <button
+                                        type="button"
+                                        class="preview-secondary-button">
+
+                                        Secondary
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- RELATED TOKENS                                            -->
+        <!-- ========================================================= -->
+
+        @if (RelatedTokenCount > 0)
+        {
+            <section class="related-tokens">
+
+                <div class="section-header">
+
+                    <div class="section-heading">
+
+                        <span class="section-eyebrow">
+                            Relationships
+                        </span>
+
+                        <h2>
+                            Related Tokens
+                        </h2>
+
+                        <p class="section-description">
+                            Token relationships defined by the palette.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="related-token-list">
+
+                    @foreach (var color in OrderedColors.Where(c => c.RelatedColors.Any()))
+                    {
+                        <div class="related-token">
+
+                            <div>
+
+                                <strong>
+                                    @color.Name
+                                </strong>
+
+                                <code>
+                                    @color.Id
+                                </code>
+
+                            </div>
+
+                            <div class="related-token-values">
+
+                                @foreach (var relatedId in color.RelatedColors)
+                                {
+                                    var related = FindColor(relatedId);
+
+                                    <span class="related-token-chip">
+
+                                        @(related?.Name ?? relatedId)
+
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- ========================================================= -->
+        <!-- PAGE ACTIONS                                               -->
+        <!-- ========================================================= -->
+
+        <section class="page-actions">
+
+            <button
+                type="button"
+                class="btn-back"
+                @onclick="GoBack">
+
+                <span>←</span>
+
+                <span>
+                    Back to Color Palettes
+                </span>
+
+            </button>
+
+        </section>
+    }
+    else
+    {
+        <!-- ========================================================= -->
+        <!-- NOT FOUND                                                  -->
+        <!-- ========================================================= -->
+
+        <div class="not-found">
+
+            <span class="not-found-eyebrow">
+                404
+            </span>
+
+            <h2>
+                Color Palette Not Found
+            </h2>
+
+            <p>
+                The color palette
+                <code>@PaletteId</code>
+                could not be found or loaded.
+            </p>
+
+            <button
+                type="button"
+                class="btn-back"
+                @onclick="GoBack">
+
+                ← Back to Color Palettes
+
+            </button>
+
+        </div>
+    }
+
+</div>
+
+
+@code {
+
+    /* ============================================================= */
+    /* PARAMETERS                                                    */
+    /* ============================================================= */
+
+    [Parameter]
+    public string PaletteId { get; set; } = string.Empty;
+
+
+    /* ============================================================= */
+    /* STATE                                                         */
+    /* ============================================================= */
+
+    private ColorPalette? Palette { get; set; }
+
+    private string PaletteCss { get; set; } = string.Empty;
+
+
+    private string PaletteName =>
+        Palette?.Name ?? PaletteId;
+
+
+    private string PaletteIdDisplay =>
+        Palette?.Id ?? PaletteId;
+
+
+    /* ============================================================= */
+    /* PREVIEW THEME                                                 */
+    /* ============================================================= */
+
+    private enum PreviewTheme
+    {
+        Light,
+        Dark
+    }
+
+
+    private PreviewTheme PreviewMode { get; set; }
+        = PreviewTheme.Light;
+
+
+    private bool IsDarkPreview =>
+        PreviewMode == PreviewTheme.Dark;
+
+
+    /* ============================================================= */
+    /* COLLECTIONS                                                   */
+    /* ============================================================= */
+
+    private IEnumerable<ColorDefinition> OrderedColors =>
+        Palette?.Colors
+            .OrderBy(c => c.Hierarchy)
+            ?? Enumerable.Empty<ColorDefinition>();
+
+
+    private IEnumerable<ColorDefinition> SurfaceColors =>
+        OrderedColors
+            .Where(c => c.SurfaceColor);
+
+
+    private IEnumerable<ColorDefinition> TextColors =>
+        OrderedColors
+            .Where(c => c.TextColor);
+
+
+    private IEnumerable<ColorDefinition> BorderColors =>
+        OrderedColors
+            .Where(c => c.BorderColor);
+
+
+    private IEnumerable<ColorDefinition> InteractiveColors =>
+        OrderedColors
+            .Where(c => c.Interactive);
+
+
+    /* ============================================================= */
+    /* STATISTICS                                                    */
+    /* ============================================================= */
+
+    private int ColorCount =>
+        Palette?.Colors.Count ?? 0;
+
+
+    private int SemanticCount =>
+        Palette?.Colors.Count(c => c.Semantic) ?? 0;
+
+
+    private int InteractiveCount =>
+        Palette?.Colors.Count(c => c.Interactive) ?? 0;
+
+
+    private int RelatedTokenCount =>
+        Palette?.Colors.Count(c => c.RelatedColors.Any()) ?? 0;
+
+
+    /* ============================================================= */
+    /* LIFECYCLE                                                     */
+    /* ============================================================= */
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrWhiteSpace(PaletteId))
+        {
+            Palette = null;
+            PaletteCss = string.Empty;
+            return;
+        }
+
+        Palette = ColorPaletteService.GetPalette(PaletteId);
+
+        if (Palette != null)
+        {
+            if (ColorPaletteService.Current?.Id != Palette.Id)
+            {
+                ColorPaletteService.SwitchToPalette(Palette.Id);
+            }
+        }
+        else
+        {
+            try
+            {
+                Palette = await ColorPaletteService.LoadAsync(PaletteId);
+
+                if (Palette != null &&
+                    ColorPaletteService.Current?.Id != Palette.Id)
+                {
+                    ColorPaletteService.SwitchToPalette(Palette.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"Unable to load color palette '{PaletteId}': {ex.Message}"
+                );
+
+                Palette = null;
+            }
+        }
+
+        PaletteCss = Palette != null ? CssGenerator.Generate(Palette) : string.Empty;
+    }
+
+
+    /* ============================================================= */
+    /* THEME                                                         */
+    /* ============================================================= */
+
+    private void SetPreviewMode(PreviewTheme mode)
+    {
+        PreviewMode = mode;
+    }
+
+
+    /* ============================================================= */
+    /* COLOR VALUES                                                  */
+    /* ============================================================= */
+
+    private string GetColorValue(ColorDefinition color)
+    {
+        var value = IsDarkPreview
+            ? color.DarkValue
+            : color.LightValue;
+
+        return DisplayValue(value);
+    }
+
+
+    private string GetOnColorValue(ColorDefinition color)
+    {
+        var value = IsDarkPreview
+            ? color.OnDarkValue
+            : color.OnLightValue;
+
+        /*
+         * The model explicitly provides the foreground color
+         * intended to sit on top of this token.
+         *
+         * Only use a fallback when the token does not define one.
+         */
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            return value;
+        }
+
+        return IsDarkPreview
+            ? "#FFFFFF"
+            : "#000000";
+    }
+
+
+    private ColorDefinition? FindRoleColor(ColorRole role)
+    {
+        return Palette?.Colors.FirstOrDefault(color => color.Role == role);
+    }
+
+
+    private string RoleValue(ColorRole role, string fallback)
+    {
+        var color = FindRoleColor(role);
+        return color == null ? fallback : GetColorValue(color);
+    }
+
+
+    private string RoleOnValue(ColorRole role, string fallback)
+    {
+        var color = FindRoleColor(role);
+        return color == null ? fallback : GetOnColorValue(color);
+    }
+
+
+    private static string DisplayValue(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? "—"
+            : value;
+    }
+
+
+    /* ============================================================= */
+    /* TOKEN LOOKUP                                                  */
+    /* ============================================================= */
+
+    private ColorDefinition? FindColor(string id)
+    {
+        if (Palette?.Colors == null)
+        {
+            return null;
+        }
+
+        return Palette.Colors.FirstOrDefault(
+            c => string.Equals(
+                c.Id,
+                id,
+                StringComparison.OrdinalIgnoreCase
+            )
+        );
+    }
+
+
+    /* ============================================================= */
+    /* CLIPBOARD                                                     */
+    /* ============================================================= */
+
+    private async Task CopyToClipboard(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return;
+        }
+
+        try
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "navigator.clipboard.writeText",
+                text
+            );
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(
+                $"Unable to copy color value: {ex.Message}"
+            );
+        }
+    }
+
+
+    /* ============================================================= */
+    /* NAVIGATION                                                    */
+    /* ============================================================= */
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo(
+            "/design-system/foundations/colors"
+        );
+    }
+
+}

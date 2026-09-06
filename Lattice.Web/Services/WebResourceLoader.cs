@@ -16,49 +16,32 @@ public sealed class WebResourceLoader : IResourceLoader
         _environment = environment;
         _logger = logger;
         
-        _logger.LogInformation("WebResourceLoader using WebRootPath: {WebRootPath}", _environment.WebRootPath);
+        _logger.LogInformation(
+            "WebResourceLoader using WebRootPath: {WebRootPath}, FileProvider: {FileProvider}",
+            _environment.WebRootPath ?? "<static-assets>",
+            _environment.WebRootFileProvider.GetType().Name);
     }
 
-    public async Task<Stream> OpenAsync(string path)
+    public Task<Stream> OpenAsync(string basePath, string path)
     {
         try
         {
             // Normalize the path
-            var normalizedPath = path.Replace('\\', '/').TrimStart('/');
-            var fullPath = Path.Combine(_environment.WebRootPath, normalizedPath);
-            
-            _logger.LogInformation("Attempting to load: {Path}", fullPath);
+            var normalizedPath = NormalizePath(basePath, path);
+            var fileInfo = _environment.WebRootFileProvider.GetFileInfo(normalizedPath);
+
+            _logger.LogInformation("Attempting to load: {Path}", normalizedPath);
 
             // Check if file exists
-            if (!File.Exists(fullPath))
+            if (!fileInfo.Exists || fileInfo.IsDirectory)
             {
-                // Log all font files in wwwroot for debugging
-                if (path.Contains("Font", StringComparison.OrdinalIgnoreCase) || 
-                    path.EndsWith(".ttf") || 
-                    path.EndsWith(".json"))
-                {
-                    var fontDirectory = Path.Combine(_environment.WebRootPath, "Fonts");
-                    if (Directory.Exists(fontDirectory))
-                    {
-                        var allFontFiles = Directory.GetFiles(fontDirectory, "*.*", SearchOption.AllDirectories);
-                        _logger.LogWarning("Available font files in wwwroot/Fonts ({Count}):", allFontFiles.Length);
-                        foreach (var file in allFontFiles.Take(20))
-                        {
-                            var relativePath = Path.GetRelativePath(_environment.WebRootPath, file).Replace('\\', '/');
-                            _logger.LogWarning("  - {File}", relativePath);
-                        }
-                    }
-                }
-
-                throw new FileNotFoundException($"Resource not found: {path}. Full path: {fullPath}");
+                throw new FileNotFoundException($"Resource not found: {path}. Normalized path: {normalizedPath}");
             }
 
-            // Read the file as a stream
-            var stream = File.OpenRead(fullPath);
-            var fileInfo = new FileInfo(fullPath);
-            _logger.LogInformation("Loaded: {Path} ({Size} bytes)", fullPath, fileInfo.Length);
+            var stream = fileInfo.CreateReadStream();
+            _logger.LogInformation("Loaded: {Path} ({Size} bytes)", normalizedPath, fileInfo.Length);
             
-            return await Task.FromResult(stream);
+            return Task.FromResult<Stream>(stream);
         }
         catch (Exception ex)
         {
@@ -72,14 +55,34 @@ public sealed class WebResourceLoader : IResourceLoader
         try
         {
             // Normalize the directory path
-            var normalizedDirectory = directory.Replace('\\', '/').TrimStart('/').TrimEnd('/');
-            var fullPath = Path.Combine(_environment.WebRootPath, normalizedDirectory);
-            
-            _logger.LogInformation("Attempting to list directory: {Path}", fullPath);
+            var normalizedDirectory = NormalizeSegment(directory);
+            var fullPath = string.IsNullOrWhiteSpace(_environment.WebRootPath)
+                ? null
+                : Path.Combine(
+                    _environment.WebRootPath,
+                    normalizedDirectory.Replace('/', Path.DirectorySeparatorChar));
 
-            if (!Directory.Exists(fullPath))
+            _logger.LogInformation(
+                "Attempting to list directory: {Path}",
+                normalizedDirectory);
+
+            var providerEntries = _environment.WebRootFileProvider
+                .GetDirectoryContents(normalizedDirectory);
+
+            if (providerEntries.Exists)
             {
-                _logger.LogWarning("Directory not found: {Path}", fullPath);
+                var providerFiles = providerEntries
+                    .Where(entry => entry.Exists && !entry.IsDirectory)
+                    .Select(entry => entry.Name.Replace('\\', '/'))
+                    .ToList();
+
+                _logger.LogInformation("Found {Count} files in directory: {Directory}", providerFiles.Count, directory);
+                return providerFiles;
+            }
+
+            if (string.IsNullOrWhiteSpace(fullPath) || !Directory.Exists(fullPath))
+            {
+                _logger.LogWarning("Directory not found: {Path}", normalizedDirectory);
                 return Enumerable.Empty<string>();
             }
 
@@ -93,12 +96,37 @@ public sealed class WebResourceLoader : IResourceLoader
 
             _logger.LogInformation("Found {Count} files in directory: {Directory}", relativeFiles.Count, directory);
             
-            return await Task.FromResult(relativeFiles.AsEnumerable());
+            return relativeFiles;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to list directory: {Directory}", directory);
             return Enumerable.Empty<string>();
         }
+    }
+
+    private static string NormalizePath(string basePath, string path)
+    {
+        var normalizedBase = NormalizeSegment(basePath);
+        var normalizedPath = NormalizeSegment(path);
+
+        if (string.IsNullOrEmpty(normalizedBase) ||
+            normalizedPath.Equals(normalizedBase, StringComparison.OrdinalIgnoreCase) ||
+            normalizedPath.StartsWith(normalizedBase + "/", StringComparison.OrdinalIgnoreCase))
+        {
+            return normalizedPath;
+        }
+
+        return $"{normalizedBase}/{normalizedPath}";
+    }
+
+    private static string NormalizeSegment(string value)
+    {
+        var normalized = value.Replace('\\', '/').Trim('/');
+
+        if (normalized.Split('/').Any(segment => segment is "." or ".."))
+            throw new ArgumentException("Resource paths cannot contain '.' or '..' segments.", nameof(value));
+
+        return normalized;
     }
 }

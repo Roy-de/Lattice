@@ -1,0 +1,302 @@
+﻿.colors-page {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+
+/* ------------------------------------------------------------- */
+/* HEADER                                                         */
+/* ------------------------------------------------------------- */
+
+.page-header {
+    max-width: 720px;
+    margin-bottom: 3rem;
+}
+
+.eyebrow {
+    margin-bottom: 0.75rem;
+
+    color: #6b7280;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.page-header h1 {
+    margin: 0;
+
+    color: #171717;
+
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+}
+
+.page-header > p {
+    margin: 1rem 0 0;
+
+    color: #666;
+
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+
+/* ------------------------------------------------------------- */
+/* CURRENT PALETTE                                                */
+/* ------------------------------------------------------------- */
+
+.current-palette {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+
+    border: 1px solid #dedede;
+    border-radius: 6px;
+
+    background: #fafafa;
+
+    font-size: 0.8rem;
+}
+
+.current-palette-label {
+    color: #777;
+}
+
+.current-palette strong {
+    color: #222;
+}
+
+.current-palette code {
+    color: #777;
+    font-size: 0.75rem;
+}
+
+
+/* ------------------------------------------------------------- */
+/* PALETTE LIST                                                   */
+/* ------------------------------------------------------------- */
+
+.palette-list {
+    display: grid;
+    grid-template-columns:
+            repeat(auto-fill, minmax(340px, 1fr));
+
+    gap: 1rem;
+}
+
+
+/* ------------------------------------------------------------- */
+/* PALETTE CARD                                                   */
+/* ------------------------------------------------------------- */
+
+.palette-card {
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+    padding: 1.25rem;
+
+    border: 1px solid #dedede;
+    border-radius: 8px;
+
+    background: #fff;
+    color: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font: inherit;
+
+    transition:
+            border-color 160ms ease,
+            background-color 160ms ease,
+            transform 160ms ease;
+}
+
+.palette-card:hover {
+    border-color: #bdbdbd;
+    background: #fcfcfc;
+    transform: translateY(-1px);
+}
+
+.palette-card:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 3px;
+}
+
+.palette-card.is-active {
+    border-color: #222;
+}
+
+
+/* ------------------------------------------------------------- */
+/* CARD HEADER                                                    */
+/* ------------------------------------------------------------- */
+
+.palette-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+.palette-card h2 {
+    margin: 0 0 0.3rem;
+
+    color: #1a1a1a;
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.palette-card code {
+    color: #777;
+
+    font-size: 0.72rem;
+}
+
+.active-indicator {
+    flex-shrink: 0;
+
+    padding: 0.25rem 0.5rem;
+
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+
+    color: #555;
+
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+
+/* ------------------------------------------------------------- */
+/* SWATCHES                                                       */
+/* ------------------------------------------------------------- */
+
+.palette-swatches {
+    display: flex;
+
+    margin-top: 1.25rem;
+
+    gap: 3px;
+}
+
+.palette-swatch {
+    position: relative;
+
+    flex: 1;
+
+    min-width: 0;
+    height: 52px;
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.palette-swatch:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.palette-swatch:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.palette-swatch span {
+    position: absolute;
+
+    right: 4px;
+    bottom: 4px;
+
+    padding: 1px 4px;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    border-radius: 2px;
+
+    color: #fff;
+
+    font-size: 0.55rem;
+}
+
+
+/* ------------------------------------------------------------- */
+/* FOOTER                                                         */
+/* ------------------------------------------------------------- */
+
+.palette-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 1rem;
+
+    color: #888;
+
+    font-size: 0.72rem;
+}
+
+.view-palette {
+    color: #333;
+    font-weight: 500;
+}
+
+
+/* ------------------------------------------------------------- */
+/* EMPTY                                                          */
+/* ------------------------------------------------------------- */
+
+.empty-state {
+    padding: 4rem 2rem;
+
+    border: 1px dashed #d5d5d5;
+
+    text-align: center;
+}
+
+.empty-state h2 {
+    margin: 0 0 0.5rem;
+
+    font-size: 1rem;
+}
+
+.empty-state p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 0.85rem;
+}
+
+
+/* ------------------------------------------------------------- */
+/* RESPONSIVE                                                      */
+/* ------------------------------------------------------------- */
+
+@@media (max-width: 700px) {
+
+    .colors-page {
+        padding: 2rem 1rem 4rem;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .palette-list {
+        grid-template-columns: 1fr;
+    }
+
+}

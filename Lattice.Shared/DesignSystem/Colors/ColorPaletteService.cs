@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Lattice.Shared.Resource;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +12,11 @@ public sealed class ColorPaletteService : IColorPaletteService
     private readonly Dictionary<string, ColorPalette> _palettes = new();
     private readonly JsonSerializerOptions _options = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters =
+        {
+        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, true)
+    }
     };
     
     private string? _allPalettesCss;
@@ -43,9 +48,23 @@ public sealed class ColorPaletteService : IColorPaletteService
             stream.Seek(0, SeekOrigin.Begin);
         
             var palette = await JsonSerializer.DeserializeAsync<ColorPalette>(stream, _options);
-        
+
             if (palette == null)
-                throw new InvalidOperationException($"Failed to deserialize color palette '{paletteId}'");
+            {
+                throw new InvalidOperationException(
+                    $"Failed to deserialize color palette '{paletteId}'.");
+            }
+
+            if (string.IsNullOrWhiteSpace(palette.Id))
+            {
+                palette.Id = paletteId;
+            }
+
+            ValidatePalette(palette);
+
+            palette.Colors = palette.Colors
+                .OrderBy(c => c.Hierarchy)
+                .ToList();
         
             // Ensure the palette has an ID
             if (string.IsNullOrEmpty(palette.Id))
@@ -218,5 +237,21 @@ public sealed class ColorPaletteService : IColorPaletteService
             _paletteCssCache[paletteId] = css;
         }
         return css;
+    }
+    
+    private static void ValidatePalette(ColorPalette palette)
+    {
+        var duplicateRoles = palette.Colors
+            .GroupBy(c => c.Role)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateRoles.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Palette '{palette.Id}' contains duplicate semantic roles: " +
+                string.Join(", ", duplicateRoles));
+        }
     }
 }

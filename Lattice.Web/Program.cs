@@ -1,4 +1,5 @@
 using Lattice.Shared.DesignSystem.Typography;
+using Lattice.Shared.DesignSystem.Colors;
 using Lattice.Web.Components;
 using Lattice.Shared.Services;
 using Lattice.Web.Services;
@@ -22,6 +23,9 @@ builder.Services.AddSingleton<IResourceLoader, WebResourceLoader>();
 builder.Services.AddSingleton<TypographyInitializer>();
 builder.Services.AddSingleton<ITypographyCssGenerator, TypographyCssGenerator>();
 builder.Services.AddSingleton<ITypographyService, TypographyService>();
+builder.Services.AddSingleton<ColorPaletteInitializer>();
+builder.Services.AddSingleton<IColorPaletteCssGenerator, ColorPaletteCssGenerator>();
+builder.Services.AddSingleton<IColorPaletteService, ColorPaletteService>();
 // builder.Services.AddSingleton<IApplicationIcons, WebApplicationIcons>(); // You'll need to create this
 
 // Add logging
@@ -84,6 +88,9 @@ static async Task InitializeServicesAsync(IServiceProvider services)
         
         var typography = services.GetRequiredService<TypographyInitializer>();
         await typography.InitializeAsync();
+
+        var colors = services.GetRequiredService<ColorPaletteInitializer>();
+        await colors.InitializeAsync();
     }
     catch (Exception ex)
     {

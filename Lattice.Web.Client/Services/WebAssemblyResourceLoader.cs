@@ -1,12 +1,15 @@
 ﻿using Lattice.Shared.Resource;
 
+using System.Net;
+using System.Net.Http.Json;
+
 namespace Lattice.Web.Client.Services;
 
 public class WebAssemblyResourceLoader : IResourceLoader
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger<WebAssemblyResourceLoader> _logger;
-    private readonly string _basePath;
+    private const string ManifestPath = "resource-manifest.json";
 
     public WebAssemblyResourceLoader(
         HttpClient httpClient,
@@ -14,15 +17,13 @@ public class WebAssemblyResourceLoader : IResourceLoader
     {
         _httpClient = httpClient;
         _logger = logger;
-        _basePath = ""; // Base path for wwwroot
     }
 
-    public async Task<Stream> OpenAsync(string path)
+    public async Task<Stream> OpenAsync(string basePath, string path)
     {
         try
         {
-            var normalizedPath = path.Replace('\\', '/').TrimStart('/');
-            var fullPath = $"{_basePath}/{normalizedPath}";
+            var fullPath = NormalizePath(basePath, path);
             
             _logger.LogInformation("Attempting to load: {Path}", fullPath);
 
@@ -35,7 +36,7 @@ public class WebAssemblyResourceLoader : IResourceLoader
             }
 
             var stream = await response.Content.ReadAsStreamAsync();
-            _logger.LogInformation("Loaded: {Path} ({Size} bytes)", fullPath, stream.Length);
+            _logger.LogInformation("Loaded: {Path}", fullPath);
             return stream;
         }
         catch (Exception ex)
@@ -49,31 +50,54 @@ public class WebAssemblyResourceLoader : IResourceLoader
     {
         try
         {
-            var normalizedDirectory = directory.Replace('\\', '/').TrimStart('/').TrimEnd('/');
-            
-            // For WASM, we need a different approach since we can't list files from wwwroot directly
-            // We'll try to list files via a manifest or fallback to checking known files
-            
-            _logger.LogWarning("ListAsync is not fully supported in WASM environment. Returning empty list.");
-            return await Task.FromResult(Enumerable.Empty<string>());
-            
-            // Alternative: If you maintain a manifest.json in wwwroot
-            // var manifestPath = $"{_basePath}/manifest.json";
-            // var response = await _httpClient.GetAsync(manifestPath);
-            // if (response.IsSuccessStatusCode)
-            // {
-            //     var json = await response.Content.ReadAsStringAsync();
-            //     var manifest = JsonSerializer.Deserialize<Manifest>(json);
-            //     return manifest.Files
-            //         .Where(f => f.StartsWith(normalizedDirectory))
-            //         .Select(f => f.Substring(normalizedDirectory.Length + 1))
-            //         .ToList();
-            // }
+            var normalizedDirectory = NormalizeSegment(directory);
+            var response = await _httpClient.GetAsync(ManifestPath);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return Enumerable.Empty<string>();
+
+            response.EnsureSuccessStatusCode();
+            var manifest = await response.Content.ReadFromJsonAsync<ResourceManifest>();
+
+            return manifest?.Files
+                       .Where(file => Path.GetDirectoryName(file)?.Replace('\\', '/')
+                           .Equals(normalizedDirectory, StringComparison.OrdinalIgnoreCase) == true)
+                       .Select(file => Path.GetFileName(file))
+                       .Where(file => file.Length > 0)
+                       .ToList()
+                   ?? Enumerable.Empty<string>();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to list directory: {Directory}", directory);
             return Enumerable.Empty<string>();
         }
+    }
+
+    private static string NormalizePath(string basePath, string path)
+    {
+        var normalizedBase = NormalizeSegment(basePath);
+        var normalizedPath = NormalizeSegment(path);
+
+        if (string.IsNullOrEmpty(normalizedBase) ||
+            normalizedPath.Equals(normalizedBase, StringComparison.OrdinalIgnoreCase) ||
+            normalizedPath.StartsWith(normalizedBase + "/", StringComparison.OrdinalIgnoreCase))
+        {
+            return normalizedPath;
+        }
+
+        return $"{normalizedBase}/{normalizedPath}";
+    }
+
+    private static string NormalizeSegment(string value)
+    {
+        var normalized = value.Replace('\\', '/').Trim('/');
+
+        return normalized.Split('/').Any(segment => segment is "." or "..") ? throw new ArgumentException("Resource paths cannot contain '.' or '..' segments.", nameof(value)) : normalized;
+    }
+
+    private sealed class ResourceManifest
+    {
+        public List<string> Files { get; init; } = [];
     }
 }

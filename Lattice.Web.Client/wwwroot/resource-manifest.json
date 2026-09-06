@@ -1,0 +1,27 @@
+{
+  "files": [
+    "Colors/alpine.json",
+    "Colors/artic.json",
+    "Colors/atelier.json",
+    "Colors/cedar.json",
+    "Colors/citrus.json",
+    "Colors/desert.json",
+    "Colors/electric.json",
+    "Colors/forest.json",
+    "Colors/graphite-linen.json",
+    "Colors/harbor.json",
+    "Colors/lattice.json",
+    "Colors/meridian.json",
+    "Colors/monochrome.json",
+    "Colors/monsoon.json",
+    "Colors/ocean.json",
+    "Colors/paper.json",
+    "Colors/plum.json",
+    "Colors/riviera.json",
+    "Colors/rosewood.json",
+    "Colors/signal.json",
+    "Colors/slate.json",
+    "Fonts/ledger.json",
+    "Fonts/saas.json"
+  ]
+}

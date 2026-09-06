@@ -29,7 +29,7 @@ public sealed class ColorPaletteInitializer(IColorPaletteService colorPaletteSer
             {
                 try
                 {
-                    await colorPaletteService.LoadAsync("Resources/" + paletteId);
+                    await colorPaletteService.LoadAsync(paletteId);
                     logger?.LogDebug("Successfully loaded color palette '{PaletteId}'", paletteId);
                 }
                 catch (Exception ex)
