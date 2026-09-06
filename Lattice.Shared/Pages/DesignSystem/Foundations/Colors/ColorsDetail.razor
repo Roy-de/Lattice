@@ -91,242 +91,166 @@
 
     @if (Palette != null)
     {
-        <!-- ========================================================= -->
-        <!-- PALETTE                                                   -->
-        <!-- ========================================================= -->
-
         <section class="color-palette-display">
-
             <div class="section-header">
-
                 <div class="section-heading">
-
                     <span class="section-eyebrow">
                         Foundations
                     </span>
-
                     <h2>
                         Color Tokens
                     </h2>
-
                     <p class="section-description">
                         Every color token defines its semantic role,
                         theme values, usage guidance and intended UI context.
                     </p>
-
                 </div>
-
-
                 <!-- Theme switcher -->
-
                 <div
                     class="theme-switcher"
                     role="group"
                     aria-label="Preview theme">
-
                     <button
                         type="button"
                         class="theme-option @(PreviewMode == PreviewTheme.Light ? "active" : "")"
                         aria-pressed="@(PreviewMode == PreviewTheme.Light)"
                         @onclick="() => SetPreviewMode(PreviewTheme.Light)">
-
                         <span class="theme-icon">
                             ☀
                         </span>
-
                         <span>
                             Light
                         </span>
-
                     </button>
-
-
                     <button
                         type="button"
                         class="theme-option @(PreviewMode == PreviewTheme.Dark ? "active" : "")"
                         aria-pressed="@(PreviewMode == PreviewTheme.Dark)"
                         @onclick="() => SetPreviewMode(PreviewTheme.Dark)">
-
                         <span class="theme-icon">
                             ◐
                         </span>
-
                         <span>
                             Dark
                         </span>
-
                     </button>
-
                 </div>
-
             </div>
-
-
             <!-- ===================================================== -->
             <!-- TOKEN GRID                                             -->
             <!-- ===================================================== -->
-
             <div class="palette-preview @(IsDarkPreview ? "preview-dark" : "preview-light")">
-
                 <div class="palette-grid">
-
                     @foreach (var color in OrderedColors)
                     {
                         <article class="color-card">
-
                             <!-- ===================================== -->
                             <!-- COLOR PREVIEW                          -->
                             <!-- ===================================== -->
-
                             <div
                                 class="color-preview"
                                 style="
                                     background-color: @GetColorValue(color);
                                     color: @GetOnColorValue(color);
                                 ">
-
                                 <span class="color-preview-name">
                                     @color.Name
                                 </span>
-
                                 <button
                                     type="button"
                                     class="copy-button"
                                     title="Copy color value"
                                     aria-label="Copy @GetColorValue(color)"
                                     @onclick="() => CopyToClipboard(GetColorValue(color))">
-
                                     <span>Copy</span>
-
                                 </button>
-
                             </div>
-
-
                             <!-- ===================================== -->
                             <!-- TOKEN INFORMATION                      -->
                             <!-- ===================================== -->
-
                             <div class="color-info">
-
                                 <div class="token-heading">
-
                                     <div>
-
                                         <h3>
                                             @color.Name
                                         </h3>
-
                                         <code>
                                             @color.Id
                                         </code>
-
                                     </div>
-
                                     <span class="hierarchy">
                                         @color.Hierarchy
                                     </span>
-
                                 </div>
-
-
                                 <!-- Value -->
-
                                 <div class="token-value">
-
                                     <span class="value-label">
                                         @(IsDarkPreview ? "Dark" : "Light")
                                     </span>
-
                                     <code>
                                         @GetColorValue(color)
                                     </code>
-
                                 </div>
-
-
                                 <!-- Metadata -->
-
                                 <div class="token-tags">
-
                                     <span class="token-tag">
                                         @color.Role
                                     </span>
-
                                     <span class="token-tag">
                                         @color.Category
                                     </span>
-
                                     @if (color.Interactive)
                                     {
                                         <span class="token-tag">
                                             Interactive
                                         </span>
                                     }
-
                                     @if (color.Semantic)
                                     {
                                         <span class="token-tag">
                                             Semantic
                                         </span>
                                     }
-
                                     @if (color.TextColor)
                                     {
                                         <span class="token-tag">
                                             Text
                                         </span>
                                     }
-
                                     @if (color.SurfaceColor)
                                     {
                                         <span class="token-tag">
                                             Surface
                                         </span>
                                     }
-
                                     @if (color.BorderColor)
                                     {
                                         <span class="token-tag">
                                             Border
                                         </span>
                                     }
-
                                 </div>
-
-
                                 <!-- Description -->
-
                                 @if (!string.IsNullOrWhiteSpace(color.Description))
                                 {
                                     <p class="token-description">
                                         @color.Description
                                     </p>
                                 }
-
-
                                 <!-- Usage -->
-
                                 @if (!string.IsNullOrWhiteSpace(color.Usage))
                                 {
                                     <div class="token-usage">
-
                                         <span class="usage-label">
                                             Usage
                                         </span>
-
                                         <p>
                                             @color.Usage
                                         </p>
-
                                     </div>
                                 }
-
-
                                 <!-- Theme values -->
-
                                 <div class="theme-values">
-
                                     <div class="theme-value">
 
                                         <span>
@@ -535,15 +459,15 @@
 
                             <div class="system-preview-activity-list">
                                 <div class="system-preview-activity">
-                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.SuccessSurface, "#dcfce7"); color: @RoleValue(ColorRole.Success, "#15803d");">✓</span>
+                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.SuccessSurface, "#dcfce7"); color: @RoleValue(ColorRole.Success, "#15803d");"></span>
                                     <div><strong>Release approved</strong><span>Design system v2.4 · 14 min ago</span></div>
                                 </div>
                                 <div class="system-preview-activity">
-                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.InfoSurface, "#dbeafe"); color: @RoleValue(ColorRole.Info, "#1d4ed8");">i</span>
+                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.InfoSurface, "#dbeafe"); color: @RoleValue(ColorRole.Info, "#1d4ed8");"></span>
                                     <div><strong>New comment added</strong><span>Homepage exploration · 1 hr ago</span></div>
                                 </div>
                                 <div class="system-preview-activity">
-                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.WarningSurface, "#fef3c7"); color: @RoleValue(ColorRole.Warning, "#b45309");">!</span>
+                                    <span class="activity-icon" style="background-color: @RoleValue(ColorRole.WarningSurface, "#fef3c7"); color: @RoleValue(ColorRole.Warning, "#b45309");"></span>
                                     <div><strong>Review requested</strong><span>Mobile navigation · 3 hrs ago</span></div>
                                 </div>
                             </div>
@@ -570,7 +494,7 @@
                                 </select>
                             </label>
                             <div class="preview-form-footer">
-                                <span class="preview-check"><span>✓</span> Notify collaborators</span>
+                                <span class="preview-check"> Notify collaborators</span>
                                 <button type="button" class="system-preview-primary"
                                         style="background-color: @RoleValue(ColorRole.Primary, "#2563eb"); color: @RoleOnValue(ColorRole.Primary, "#ffffff");">
                                     Share
@@ -1011,12 +935,9 @@
     }
 
 
-    private PreviewTheme PreviewMode { get; set; }
-        = PreviewTheme.Light;
+    private PreviewTheme PreviewMode { get; set; } = PreviewTheme.Light;
 
-
-    private bool IsDarkPreview =>
-        PreviewMode == PreviewTheme.Dark;
+    private bool IsDarkPreview => PreviewMode == PreviewTheme.Dark;
 
 
     /* ============================================================= */

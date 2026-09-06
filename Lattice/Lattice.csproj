@@ -86,9 +86,6 @@
         <MauiAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-SemiBoldItalic.ttf">
           <LogicalName>Fonts/EB_Garamond\static\EBGaramond-SemiBoldItalic.ttf</LogicalName>
         </MauiAsset>
-        <MauiAsset Include="wwwroot\Fonts\ledger.json">
-          <LogicalName>Fonts/ledger.json</LogicalName>
-        </MauiAsset>
         <MauiAsset Include="wwwroot\Fonts\Manrope\Manrope-VariableFont_wght.ttf">
           <LogicalName>Fonts/Manrope\Manrope-VariableFont_wght.ttf</LogicalName>
         </MauiAsset>
@@ -112,9 +109,6 @@
         </MauiAsset>
         <MauiAsset Include="wwwroot\Fonts\Manrope\static\Manrope-SemiBold.ttf">
           <LogicalName>Fonts/Manrope\static\Manrope-SemiBold.ttf</LogicalName>
-        </MauiAsset>
-        <MauiAsset Include="wwwroot\Fonts\saas.json">
-          <LogicalName>Fonts/saas.json</LogicalName>
         </MauiAsset>
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
         
@@ -220,7 +214,6 @@
       <AndroidAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-Regular.ttf" />
       <AndroidAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-SemiBold.ttf" />
       <AndroidAsset Include="wwwroot\Fonts\EB_Garamond\static\EBGaramond-SemiBoldItalic.ttf" />
-      <AndroidAsset Include="wwwroot\Fonts\ledger.json" />
       <AndroidAsset Include="wwwroot\Fonts\Manrope\Manrope-VariableFont_wght.ttf" />
       <AndroidAsset Include="wwwroot\Fonts\Manrope\OFL.txt" />
       <AndroidAsset Include="wwwroot\Fonts\Manrope\README.txt" />
