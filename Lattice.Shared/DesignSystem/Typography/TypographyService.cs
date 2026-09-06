@@ -32,7 +32,7 @@ public sealed class TypographyService : ITypographyService
             var path = $"Fonts/{preset}.json";
             _logger.LogInformation("Loading typography from {Path}", path);
         
-            await using var stream = await _resources.OpenAsync(path);
+            await using var stream = await _resources.OpenAsync("Fonts", path);
         
             // Read the JSON as string first to log it
             using var reader = new StreamReader(stream);

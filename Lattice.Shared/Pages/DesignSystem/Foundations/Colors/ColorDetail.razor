@@ -1,0 +1,1366 @@
+﻿@page "/design-system/foundations/colors/{PaletteId}"
+@using Lattice.Shared.DesignSystem.Colors
+@inject IColorPaletteService ColorPaletteService
+@inject IColorPaletteCssGenerator CssGenerator
+@inject NavigationManager NavigationManager
+
+<PageTitle>@PaletteName · Colors · Lattice</PageTitle>
+
+@{
+    // Generate CSS from the current palette
+    var css = CssGenerator.Generate(
+        ColorPaletteService.Current ?? new ColorPalette()
+    );
+}
+
+<head>
+    <style>
+        @css
+    </style>
+
+    <title>Colors</title>
+</head>
+
+<div class="design-system-page">
+
+    <!-- ========================================================= -->
+    <!-- PAGE HEADER                                                -->
+    <!-- ========================================================= -->
+
+    <header class="design-system-page-header">
+
+        <span class="breadcrumb">
+            <a href="/design-system/foundations/colors">
+                ← Design System / Foundations / Colors
+            </a>
+        </span>
+
+        <h1>@PaletteName</h1>
+
+        <p class="palette-id">
+            @PaletteIdDisplay
+        </p>
+
+        @if (Palette != null)
+        {
+            <div class="color-stats">
+                <span class="stat">
+                    @Palette.Colors?.Count colors
+                </span>
+            </div>
+        }
+
+    </header>
+
+
+    @if (Palette != null)
+    {
+        <!-- ========================================================= -->
+        <!-- COLOR PALETTE                                              -->
+        <!-- ========================================================= -->
+
+        <section class="color-palette-display">
+
+            <div class="section-header">
+
+                <div class="section-heading">
+                    <h2>Color Palette</h2>
+
+                    <p class="section-description">
+                        View the palette and inspect each color token.
+                    </p>
+                </div>
+
+                <!-- Theme switcher -->
+                <div class="theme-switcher"
+                     role="group"
+                     aria-label="Preview theme">
+
+                    <button
+                        type="button"
+                        class="theme-option @(PreviewMode == PreviewTheme.Light ? "active" : "")"
+                        @onclick="() => SetPreviewMode(PreviewTheme.Light)">
+
+                        <span class="theme-icon">☀</span>
+                        <span>Light</span>
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="theme-option @(PreviewMode == PreviewTheme.Dark ? "active" : "")"
+                        @onclick="() => SetPreviewMode(PreviewTheme.Dark)">
+
+                        <span class="theme-icon">◐</span>
+                        <span>Dark</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===================================================== -->
+            <!-- PALETTE PREVIEW                                        -->
+            <!-- ===================================================== -->
+
+            <div class="palette-preview @(PreviewMode == PreviewTheme.Dark ? "preview-dark" : "preview-light")">
+
+                <div class="palette-grid">
+
+                    @foreach (var color in Palette.Colors?
+                        .OrderBy(c => c.Hierarchy)
+                        ?? Enumerable.Empty<ColorDefinition>())
+                    {
+                        <div class="color-card">
+
+                            <!-- Color swatch -->
+
+                            <div
+                                class="color-preview"
+                                style="background-color: @color.Value">
+
+                                <span class="color-hex">
+                                    @color.Value
+                                </span>
+
+                            </div>
+
+
+                            <!-- Color information -->
+
+                            <div class="color-info">
+
+                                <h3>
+                                    @color.Name
+                                </h3>
+
+                                <dl>
+
+                                    <dt>ID:</dt>
+                                    <dd>@color.Id</dd>
+
+                                    <dt>Hierarchy:</dt>
+                                    <dd>@color.Hierarchy</dd>
+
+                                    <dt>Value:</dt>
+                                    <dd>@color.Value</dd>
+
+                                </dl>
+
+
+                                <!-- Color actions -->
+
+                                <div class="color-card-actions">
+
+                                    <button
+                                        type="button"
+                                        class="btn-copy"
+                                        @onclick="() => CopyToClipboard(color.Value)">
+
+                                        Copy Hex
+
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn-copy"
+                                        @onclick="() => CopyToClipboard(color.Name)">
+
+                                        Copy Name
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- USAGE PREVIEW                                              -->
+        <!-- ========================================================= -->
+
+        <section class="color-usage">
+
+            <div class="section-header">
+
+                <div class="section-heading">
+
+                    <h2>Usage Preview</h2>
+
+                    <p class="section-description">
+                        See how the palette behaves across different UI contexts.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="usage-preview @(PreviewMode == PreviewTheme.Dark ? "preview-dark" : "preview-light")">
+
+                <div class="usage-examples">
+
+
+                    <!-- ================================================= -->
+                    <!-- BACKGROUNDS                                        -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <h3>Backgrounds</h3>
+
+                        <div class="bg-examples">
+
+                            @foreach (var color in Palette.Colors?
+                                .Take(4)
+                                ?? Enumerable.Empty<ColorDefinition>())
+                            {
+                                <div
+                                    class="bg-sample"
+                                    style="
+                                        background-color: @color.Value;
+                                        color: @GetContrastColor(color.Value);
+                                    ">
+
+                                    <strong>
+                                        @color.Name
+                                    </strong>
+
+                                    <span>
+                                        @color.Value
+                                    </span>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- TEXT COLORS                                        -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <h3>Text Colors</h3>
+
+                        <div class="text-examples">
+
+                            @foreach (var color in Palette.Colors?
+                                .Take(4)
+                                ?? Enumerable.Empty<ColorDefinition>())
+                            {
+                                <div class="text-example">
+
+                                    <strong style="color: @color.Value">
+                                        @color.Name
+                                    </strong>
+
+                                    <span style="color: @color.Value">
+                                        — The quick brown fox jumps over the lazy dog
+                                    </span>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- BORDERS                                            -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <h3>Borders</h3>
+
+                        <div class="border-examples">
+
+                            @foreach (var color in Palette.Colors?
+                                .Take(4)
+                                ?? Enumerable.Empty<ColorDefinition>())
+                            {
+                                <div
+                                    class="border-example"
+                                    style="border-color: @color.Value">
+
+                                    <strong>
+                                        @color.Name
+                                    </strong>
+
+                                    <span>
+                                        — @color.Value
+                                    </span>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- COMPONENT PREVIEW                                  -->
+                    <!-- ================================================= -->
+
+                    <div class="usage-example">
+
+                        <h3>Component Preview</h3>
+
+                        <div class="component-preview">
+
+                            <div class="preview-card">
+
+                                <div class="preview-card-header">
+                                    <div class="preview-avatar">
+                                        A
+                                    </div>
+
+                                    <div>
+                                        <strong>Example Component</strong>
+                                        <span>Palette preview</span>
+                                    </div>
+                                </div>
+
+                                <p>
+                                    This is a small component preview showing how
+                                    the palette interacts with a surface,
+                                    typography, borders and controls.
+                                </p>
+
+                                <div class="preview-card-actions">
+
+                                    @if (Palette.Colors != null && Palette.Colors.Any())
+                                    {
+                                        var primaryColor = Palette.Colors
+                                            .OrderBy(c => c.Hierarchy)
+                                            .First();
+
+                                        <button
+                                            type="button"
+                                            class="preview-button"
+                                            style="
+                                                background-color: @primaryColor.Value;
+                                                color: @GetContrastColor(primaryColor.Value);
+                                            ">
+                                            Primary Action
+                                        </button>
+                                    }
+
+                                    <button
+                                        type="button"
+                                        class="preview-secondary-button">
+                                        Secondary
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- PAGE ACTIONS                                               -->
+        <!-- ========================================================= -->
+
+        <section class="page-actions">
+
+            <button
+                type="button"
+                class="btn-back"
+                @onclick="GoBack">
+
+                ← Back to Color Palettes
+
+            </button>
+
+        </section>
+    }
+    else
+    {
+        <!-- ========================================================= -->
+        <!-- NOT FOUND                                                  -->
+        <!-- ========================================================= -->
+
+        <div class="not-found">
+
+            <h2>
+                Color Palette Not Found
+            </h2>
+
+            <p>
+                The color palette "@PaletteId" could not be found.
+            </p>
+
+            <button
+                type="button"
+                class="btn-back"
+                @onclick="GoBack">
+
+                ← Back to Color Palettes
+
+            </button>
+
+        </div>
+    }
+
+</div>
+
+
+<style>
+
+    /* ============================================================= */
+    /* PAGE                                                          */
+    /* ============================================================= */
+
+    .design-system-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+
+        color: #222;
+        background: #fff;
+    }
+
+
+    /* ============================================================= */
+    /* HEADER                                                        */
+    /* ============================================================= */
+
+    .design-system-page-header {
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .breadcrumb {
+        display: block;
+        margin-bottom: 0.75rem;
+
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .design-system-page-header h1 {
+        margin: 0;
+
+        font-size: 2rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+    }
+
+    .palette-id {
+        margin: 0.5rem 0 0;
+
+        color: #777;
+        font-family: monospace;
+        font-size: 0.875rem;
+    }
+
+
+    /* ============================================================= */
+    /* STATS                                                         */
+    /* ============================================================= */
+
+    .color-stats {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .color-stats .stat {
+        padding: 0.3rem 0.75rem;
+
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
+        border-radius: 999px;
+
+        color: #666;
+        font-size: 0.75rem;
+    }
+
+
+    /* ============================================================= */
+    /* SECTIONS                                                      */
+    /* ============================================================= */
+
+    section {
+        margin: 3rem 0;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-heading h2 {
+        margin: 0 0 0.35rem;
+
+        font-size: 1.5rem;
+        font-weight: 650;
+        letter-spacing: -0.015em;
+    }
+
+    .section-description {
+        margin: 0;
+
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+
+    /* ============================================================= */
+    /* THEME SWITCHER                                                */
+    /* ============================================================= */
+
+    .theme-switcher {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 0.25rem;
+
+        background: #f3f3f3;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+
+        gap: 0.25rem;
+    }
+
+    .theme-option {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 0.4rem;
+
+        padding: 0.5rem 0.85rem;
+
+        border: 0;
+        border-radius: 6px;
+
+        background: transparent;
+
+        color: #666;
+
+        cursor: pointer;
+
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .theme-option:hover {
+        color: #222;
+    }
+
+    .theme-option.active {
+        background: #fff;
+
+        color: #111;
+
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.08),
+            0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .theme-icon {
+        font-size: 0.9rem;
+    }
+
+
+    /* ============================================================= */
+    /* PALETTE PREVIEW                                               */
+    /* ============================================================= */
+
+    .palette-preview {
+        padding: 2rem;
+
+        border: 1px solid;
+
+        border-radius: 12px;
+
+        transition:
+            background-color 0.25s ease,
+            border-color 0.25s ease,
+            color 0.25s ease;
+    }
+
+    .preview-light {
+        --preview-background: #ffffff;
+        --preview-surface: #ffffff;
+        --preview-surface-hover: #fafafa;
+
+        --preview-text: #222222;
+        --preview-text-secondary: #666666;
+
+        --preview-border: #e0e0e0;
+        --preview-muted: #f5f5f5;
+
+        background: var(--preview-background);
+
+        border-color: var(--preview-border);
+
+        color: var(--preview-text);
+    }
+
+    .preview-dark {
+        --preview-background: #111111;
+        --preview-surface: #181818;
+        --preview-surface-hover: #202020;
+
+        --preview-text: #f5f5f5;
+        --preview-text-secondary: #a5a5a5;
+
+        --preview-border: #303030;
+        --preview-muted: #222222;
+
+        background: var(--preview-background);
+
+        border-color: var(--preview-border);
+
+        color: var(--preview-text);
+    }
+
+
+    /* ============================================================= */
+    /* PALETTE GRID                                                  */
+    /* ============================================================= */
+
+    .palette-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(280px, 1fr)
+            );
+
+        gap: 1.5rem;
+    }
+
+
+    /* ============================================================= */
+    /* COLOR CARD                                                    */
+    /* ============================================================= */
+
+    .color-card {
+        overflow: hidden;
+
+        background: var(--preview-surface);
+
+        border: 1px solid var(--preview-border);
+
+        border-radius: 8px;
+
+        color: var(--preview-text);
+
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .color-card:hover {
+        background: var(--preview-surface-hover);
+
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.15);
+
+        transform: translateY(-2px);
+    }
+
+
+    /* ============================================================= */
+    /* COLOR SWATCH                                                  */
+    /* ============================================================= */
+
+    .color-preview {
+        display: flex;
+
+        align-items: flex-end;
+        justify-content: flex-end;
+
+        height: 120px;
+
+        padding: 1rem;
+
+        position: relative;
+    }
+
+    .color-hex {
+        padding: 0.3rem 0.75rem;
+
+        background: rgba(0, 0, 0, 0.6);
+
+        border-radius: 4px;
+
+        color: #fff;
+
+        font-family: monospace;
+        font-size: 0.875rem;
+        font-weight: 600;
+
+        letter-spacing: 0.5px;
+    }
+
+
+    /* ============================================================= */
+    /* COLOR INFO                                                    */
+    /* ============================================================= */
+
+    .color-info {
+        padding: 1.5rem;
+    }
+
+    .color-info h3 {
+        margin: 0 0 0.75rem;
+
+        color: var(--preview-text);
+
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .color-info dl {
+        display: grid;
+
+        grid-template-columns: auto 1fr;
+
+        gap: 0.5rem 1rem;
+
+        margin: 0 0 1rem;
+
+        font-size: 0.875rem;
+    }
+
+    .color-info dt {
+        color: var(--preview-text-secondary);
+
+        font-weight: 600;
+    }
+
+    .color-info dd {
+        margin: 0;
+
+        color: var(--preview-text);
+
+        font-family: monospace;
+    }
+
+
+    /* ============================================================= */
+    /* COLOR ACTIONS                                                 */
+    /* ============================================================= */
+
+    .color-card-actions {
+        display: flex;
+
+        gap: 0.5rem;
+    }
+
+    .btn-copy {
+        padding: 0.35rem 0.75rem;
+
+        background: var(--preview-muted);
+
+        border: 1px solid var(--preview-border);
+        border-radius: 4px;
+
+        color: var(--preview-text);
+
+        cursor: pointer;
+
+        font-family: inherit;
+        font-size: 0.75rem;
+
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.1s ease;
+    }
+
+    .btn-copy:hover {
+        background: var(--preview-surface-hover);
+    }
+
+    .btn-copy:active {
+        transform: scale(0.96);
+    }
+
+
+    /* ============================================================= */
+    /* USAGE PREVIEW                                                 */
+    /* ============================================================= */
+
+    .usage-preview {
+        padding: 2rem;
+
+        border: 1px solid var(--preview-border);
+
+        border-radius: 12px;
+
+        background: var(--preview-background);
+
+        color: var(--preview-text);
+
+        transition:
+            background-color 0.25s ease,
+            border-color 0.25s ease,
+            color 0.25s ease;
+    }
+
+    .usage-examples {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 2.5rem;
+    }
+
+    .usage-example h3 {
+        margin: 0 0 0.75rem;
+
+        color: var(--preview-text-secondary);
+
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+
+    /* ============================================================= */
+    /* BACKGROUND EXAMPLES                                            */
+    /* ============================================================= */
+
+    .bg-examples {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(200px, 1fr)
+            );
+
+        gap: 0.5rem;
+    }
+
+    .bg-sample {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        flex-direction: column;
+
+        gap: 0.25rem;
+
+        min-height: 80px;
+
+        padding: 1rem;
+
+        border-radius: 6px;
+
+        font-size: 0.875rem;
+    }
+
+    .bg-sample strong {
+        font-size: 1rem;
+    }
+
+
+    /* ============================================================= */
+    /* TEXT EXAMPLES                                                 */
+    /* ============================================================= */
+
+    .text-examples {
+        display: grid;
+
+        gap: 0.5rem;
+    }
+
+    .text-example {
+        padding: 0.75rem;
+
+        border: 1px solid var(--preview-border);
+
+        border-radius: 6px;
+
+        background: var(--preview-surface);
+    }
+
+    .text-example strong {
+        margin-right: 0.25rem;
+    }
+
+
+    /* ============================================================= */
+    /* BORDER EXAMPLES                                               */
+    /* ============================================================= */
+
+    .border-examples {
+        display: grid;
+
+        gap: 0.5rem;
+    }
+
+    .border-example {
+        padding: 1rem;
+
+        border-width: 3px;
+        border-style: solid;
+
+        border-radius: 6px;
+
+        background: var(--preview-surface);
+
+        color: var(--preview-text);
+    }
+
+
+    /* ============================================================= */
+    /* COMPONENT PREVIEW                                             */
+    /* ============================================================= */
+
+    .component-preview {
+        padding: 1rem;
+
+        border: 1px solid var(--preview-border);
+
+        border-radius: 8px;
+
+        background: var(--preview-muted);
+    }
+
+    .preview-card {
+        max-width: 520px;
+
+        padding: 1.5rem;
+
+        background: var(--preview-surface);
+
+        border: 1px solid var(--preview-border);
+
+        border-radius: 8px;
+
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .preview-card-header {
+        display: flex;
+
+        align-items: center;
+
+        gap: 0.75rem;
+
+        margin-bottom: 1rem;
+    }
+
+    .preview-avatar {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 40px;
+        height: 40px;
+
+        border-radius: 50%;
+
+        background: var(--preview-muted);
+
+        color: var(--preview-text);
+
+        font-weight: 600;
+    }
+
+    .preview-card-header strong,
+    .preview-card-header span {
+        display: block;
+    }
+
+    .preview-card-header strong {
+        color: var(--preview-text);
+
+        font-size: 0.9rem;
+    }
+
+    .preview-card-header span {
+        margin-top: 0.15rem;
+
+        color: var(--preview-text-secondary);
+
+        font-size: 0.75rem;
+    }
+
+    .preview-card p {
+        margin: 0 0 1.25rem;
+
+        color: var(--preview-text-secondary);
+
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    .preview-card-actions {
+        display: flex;
+
+        gap: 0.5rem;
+    }
+
+    .preview-button,
+    .preview-secondary-button {
+        padding: 0.6rem 1rem;
+
+        border-radius: 6px;
+
+        cursor: pointer;
+
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .preview-button {
+        border: 0;
+    }
+
+    .preview-secondary-button {
+        background: transparent;
+
+        border: 1px solid var(--preview-border);
+
+        color: var(--preview-text);
+    }
+
+    .preview-secondary-button:hover {
+        background: var(--preview-muted);
+    }
+
+
+    /* ============================================================= */
+    /* PAGE ACTIONS                                                  */
+    /* ============================================================= */
+
+    .page-actions {
+        margin-top: 3rem;
+        padding-top: 2rem;
+
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .btn-back {
+        padding: 0.75rem 2rem;
+
+        background: #f5f5f5;
+
+        border: 1px solid #ddd;
+        border-radius: 6px;
+
+        color: #333;
+
+        cursor: pointer;
+
+        font-family: inherit;
+        font-size: 0.875rem;
+
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    .btn-back:hover {
+        background: #e8e8e8;
+
+        border-color: #ccc;
+    }
+
+
+    /* ============================================================= */
+    /* NOT FOUND                                                      */
+    /* ============================================================= */
+
+    .not-found {
+        padding: 4rem 2rem;
+
+        background: #f8f9fa;
+
+        border-radius: 8px;
+
+        text-align: center;
+    }
+
+    .not-found h2 {
+        margin: 0 0 0.5rem;
+
+        color: #333;
+    }
+
+    .not-found p {
+        margin-bottom: 1.5rem;
+
+        color: #666;
+    }
+
+
+    /* ============================================================= */
+    /* RESPONSIVE                                                     */
+    /* ============================================================= */
+
+    @@media (max-width: 768px) {
+
+        .design-system-page {
+            padding: 1rem;
+        }
+
+        .section-header {
+            align-items: flex-start;
+
+            flex-direction: column;
+
+            gap: 1rem;
+        }
+
+        .theme-switcher {
+            width: 100%;
+        }
+
+        .theme-option {
+            flex: 1;
+
+            justify-content: center;
+        }
+
+        .palette-preview,
+        .usage-preview {
+            padding: 1rem;
+        }
+
+        .palette-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .color-info dl {
+            grid-template-columns: 1fr;
+
+            gap: 0.25rem;
+        }
+
+        .color-info dt {
+            margin-top: 0.5rem;
+        }
+
+        .color-info dt:first-of-type {
+            margin-top: 0;
+        }
+
+        .bg-examples {
+            grid-template-columns: 1fr;
+        }
+
+        .preview-card {
+            padding: 1rem;
+        }
+
+        .preview-card-actions {
+            flex-direction: column;
+        }
+
+        .preview-button,
+        .preview-secondary-button {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+@code {
+
+    /* ============================================================= */
+    /* PARAMETERS                                                    */
+    /* ============================================================= */
+
+    [Parameter]
+    public string PaletteId { get; set; } = string.Empty;
+
+
+    /* ============================================================= */
+    /* STATE                                                         */
+    /* ============================================================= */
+
+    private ColorPalette? Palette { get; set; }
+
+    private string PaletteName =>
+        Palette?.Name ?? PaletteId;
+
+    private string PaletteIdDisplay =>
+        Palette?.Id ?? PaletteId;
+
+
+    /* ============================================================= */
+    /* PREVIEW THEME                                                 */
+    /* ============================================================= */
+
+    private enum PreviewTheme
+    {
+        Light,
+        Dark
+    }
+
+    private PreviewTheme PreviewMode { get; set; } =
+        PreviewTheme.Light;
+
+
+    /* ============================================================= */
+    /* LIFECYCLE                                                     */
+    /* ============================================================= */
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrEmpty(PaletteId))
+        {
+            return;
+        }
+
+        // First try to find the palette in already loaded palettes.
+        Palette = ColorPaletteService.GetPalette(PaletteId);
+
+        // If found but not currently selected, switch to it.
+        if (Palette != null &&
+            ColorPaletteService.Current?.Id != Palette.Id)
+        {
+            ColorPaletteService.SwitchToPalette(Palette.Id);
+        }
+        else if (Palette == null)
+        {
+            // Palette isn't currently loaded, so try loading it.
+            try
+            {
+                Palette = await ColorPaletteService.LoadAsync(PaletteId);
+            }
+            catch
+            {
+                // Palette could not be loaded.
+                Palette = null;
+            }
+        }
+
+        StateHasChanged();
+    }
+
+
+    /* ============================================================= */
+    /* THEME                                                         */
+    /* ============================================================= */
+
+    private void SetPreviewMode(PreviewTheme mode)
+    {
+        PreviewMode = mode;
+    }
+
+
+    /* ============================================================= */
+    /* CONTRAST                                                      */
+    /* ============================================================= */
+
+    private string GetContrastColor(string hexColor)
+    {
+        try
+        {
+            var color =
+                System.Drawing.ColorTranslator.FromHtml(hexColor);
+
+            var brightness =
+                (color.R * 299 +
+                 color.G * 587 +
+                 color.B * 114) / 1000;
+
+            return brightness > 128
+                ? "#000000"
+                : "#FFFFFF";
+        }
+        catch
+        {
+            // Safe fallback if the palette contains an
+            // invalid CSS color value.
+            return "#FFFFFF";
+        }
+    }
+
+
+    /* ============================================================= */
+    /* CLIPBOARD                                                     */
+    /* ============================================================= */
+
+    private async Task CopyToClipboard(string text)
+    {
+        await JsRuntime.InvokeVoidAsync(
+            "navigator.clipboard.writeText",
+            text
+        );
+    }
+
+
+    /* ============================================================= */
+    /* NAVIGATION                                                    */
+    /* ============================================================= */
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo(
+            "/design-system/foundations/colors"
+        );
+    }
+
+
+    /* ============================================================= */
+    /* JAVASCRIPT                                                     */
+    /* ============================================================= */
+
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; } = default!;
+}

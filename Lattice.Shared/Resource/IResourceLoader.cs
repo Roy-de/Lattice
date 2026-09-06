@@ -2,6 +2,6 @@
 
 public interface IResourceLoader
 {
-    Task<Stream> OpenAsync(string path);
+    Task<Stream> OpenAsync(string basePath, string path);
     Task<IEnumerable<string>> ListAsync(string directory);
 }

@@ -15,7 +15,7 @@ public class MauiResourceLoader : IResourceLoader
         _logger = logger;
     }
 
-    public async Task<Stream> OpenAsync(string path)
+    public async Task<Stream> OpenAsync(string basePath, string path)
     {
         try
         {
@@ -40,7 +40,7 @@ public class MauiResourceLoader : IResourceLoader
             }
 
             // Fallback to file system (for development)
-            var filePath = Path.Combine(FileSystem.AppDataDirectory, "Fonts", Path.GetFileName(path));
+            var filePath = Path.Combine(FileSystem.AppDataDirectory, basePath, Path.GetFileName(path));
             if (File.Exists(filePath))
             {
                 _logger.LogInformation("Loaded resource from file system: {Path}", filePath);
@@ -48,7 +48,7 @@ public class MauiResourceLoader : IResourceLoader
             }
 
             // Last fallback - try from current directory
-            var localPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts", Path.GetFileName(path));
+            var localPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, basePath, Path.GetFileName(path));
             if (File.Exists(localPath))
             {
                 _logger.LogInformation("Loaded resource from local path: {Path}", localPath);

@@ -121,6 +121,9 @@
         <!-- Installed application Icons -->
         <EmbeddedResource Include="Resources\Icons\**\*.svg" />
 
+        <!--Colors -->
+        <EmbeddedResource Include="Resources\Colors\**\*.json" LogicalName="Colors/%(RecursiveDir)%(Filename)%(Extension)"/>
+
         <!-- Installed application Fonts -->
         <EmbeddedResource Include="Resources\Fonts\**\*.tff" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)"/>
         <EmbeddedResource Include="Resources\Fonts\**\*.json" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)"/>
@@ -132,14 +135,17 @@
         <MauiImage Include="Resources\Images\*" />
         <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
+        <!--Custom colors-->
+        <MauiAsset Include="Resources\Colors\**\*.json" LogicalName="Colors/%(RecursiveDir)%(Filename)%(Extension)" />
+
         <!-- Custom Fonts -->
         <MauiAsset Include="Resources\Fonts\**\*.ttf" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
         <MauiAsset Include="Resources\Fonts\**\*.json" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-        <EmbeddedResource Remove="Resources\Fonts\**" />
-        <MauiAsset Remove="Resources\Fonts\**" />
+        <!-- <EmbeddedResource Remove="Resources\Fonts\**" />
+        <MauiAsset Remove="Resources\Fonts\**" /> -->
     </ItemGroup>
 
     <ItemGroup>
@@ -154,6 +160,10 @@
 
     <ItemGroup>
       <Folder Include="Resources\Icons\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Colors\" />
     </ItemGroup>
 
     <ItemGroup>

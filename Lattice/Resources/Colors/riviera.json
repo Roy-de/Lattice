@@ -1,0 +1,26 @@
+﻿{
+  "id": "riviera",
+  "name": "Riviera",
+  "colors": [
+    {
+      "name": "Riviera Blue",
+      "hierarchy": 0,
+      "value": "#183451"
+    },
+    {
+      "name": "Terracotta",
+      "hierarchy": 1,
+      "value": "#A9501C"
+    },
+    {
+      "name": "Soft Ivory",
+      "hierarchy": 2,
+      "value": "#F3ECDE"
+    },
+    {
+      "name": "Sand Linen",
+      "hierarchy": 3,
+      "value": "#D4AF83"
+    }
+  ]
+}

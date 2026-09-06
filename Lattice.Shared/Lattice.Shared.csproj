@@ -83,10 +83,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DesignSystem\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <AdditionalFiles Include="Pages\DesignSystem\Foundations\Foundations.razor" />
     </ItemGroup>
 

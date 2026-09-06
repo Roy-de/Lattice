@@ -2,6 +2,7 @@
 using Lattice.Shared.Services;
 using Lattice.Services;
 using Lattice.Services.IconService;
+using Lattice.Shared.DesignSystem.Colors;
 using Lattice.Shared.DesignSystem.Typography;
 using Lattice.Shared.Resource;
 
@@ -20,6 +21,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<ITypographyCssGenerator, TypographyCssGenerator>();
         builder.Services.AddSingleton<ITypographyService, TypographyService>();
         builder.Services.AddSingleton<IApplicationIcons, ApplicationIcons>();
+        builder.Services.AddSingleton<ColorPaletteInitializer>();
+        builder.Services.AddSingleton<IColorPaletteService, ColorPaletteService>();
+        builder.Services.AddSingleton<IColorPaletteCssGenerator, ColorPaletteCssGenerator>();
 
         builder.Services.AddMauiBlazorWebView();
         
@@ -30,8 +34,6 @@ public static class MauiProgram
 #endif
 
         var app = builder.Build();
-        /*var typography = app.Services.GetRequiredService<TypographyInitializer>();
-        app.Services.GetRequiredService<IApplicationIcons>();*/
         _ = Task.Run(async () => await InitializeServicesAsync(app.Services));
         return app;
     }
@@ -49,18 +51,20 @@ public static class MauiProgram
             logger?.LogInformation("Total embedded resources: {Count}", resources.Length);
         
             // Log font-related resources
-            var fontResources = resources.Where(r => 
-                r.Contains("Font", StringComparison.OrdinalIgnoreCase) || 
+            var allResources = resources.Where(r => 
                 r.EndsWith(".ttf") || 
                 r.EndsWith(".json"));
         
-            foreach (var res in fontResources)
+            foreach (var res in allResources)
             {
-                logger?.LogInformation("Found font resource: {Resource}", res);
+                logger?.LogInformation("Found all resource: {Resource}", res);
             }
         
             var typography = services.GetRequiredService<TypographyInitializer>();
             await typography.InitializeAsync();
+            
+            var colors =  services.GetRequiredService<ColorPaletteInitializer>();
+            await colors.InitializeAsync();
         }
         catch (Exception ex)
         {

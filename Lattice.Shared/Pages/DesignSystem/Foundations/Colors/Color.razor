@@ -1,0 +1,288 @@
+﻿@page "/design-system/foundations/colors"
+@using Lattice.Shared.DesignSystem.Colors
+@inject IColorPaletteService ColorPaletteService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Colors · Lattice</PageTitle>
+
+<div class="design-system-page">
+
+    <header class="design-system-page-header">
+
+        <span class="breadcrumb">
+            Design System / Foundations
+        </span>
+
+        <h1>Colors</h1>
+
+        <p>
+            Color palettes available to Lattice. Each palette provides a curated set of colors 
+            with defined hierarchy levels for consistent visual design.
+        </p>
+
+        <!-- Show current palette info -->
+        @if (ColorPaletteService.Current != null && !string.IsNullOrEmpty(ColorPaletteService.Current.Name))
+        {
+            <div class="current-palette-info">
+                <strong>Current Selection:</strong>
+                <span class="current-name">@ColorPaletteService.Current.Name</span>
+                <span class="current-description">@ColorPaletteService.Current.Id</span>
+            </div>
+        }
+
+    </header>
+
+    <section class="color-palette-list">
+
+        @if (ColorPaletteService.Palettes.Any())
+        {
+            @foreach (var palette in ColorPaletteService.GetPalettesSorted())
+            {
+                var isActive = ColorPaletteService.Current?.Id == palette.Id;
+                <div class="color-palette-card @(isActive ? "active" : "")"
+                     @onclick="() => SelectAndNavigate(palette.Id)"
+                     @onclick:stopPropagation="true"
+                     role="button"
+                     tabindex="0"
+                     @onkeydown="@(e => { if (e.Key == "Enter" || e.Key == " ") { SelectAndNavigate(palette.Id); } })">
+
+                    <h2>@palette.Name</h2>
+
+                    <p>@palette.Id</p>
+
+                    <div class="color-swatches">
+                        @foreach (var color in palette.Colors?.OrderBy(c => c.Hierarchy) ?? Enumerable.Empty<ColorDefinition>())
+                        {
+                            <div class="swatch" 
+                                 style="background-color: @color.Value"
+                                 title="@color.Name: @color.Value">
+                                <span class="hierarchy-badge">@color.Hierarchy</span>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="color-meta">
+                        <span>@palette.Colors?.Count colors</span>
+                    </div>
+
+                    @if (isActive)
+                    {
+                        <span class="active-badge">✓ Active</span>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <p>No color palettes loaded.</p>
+        }
+
+    </section>
+
+</div>
+
+@code {
+    private bool _isLoading = false;
+
+    private async Task SelectAndNavigate(string paletteId)
+    {
+        if (string.IsNullOrEmpty(paletteId))
+            return;
+
+        try
+        {
+            _isLoading = true;
+            StateHasChanged();
+
+            // Switch to the palette first
+            if (ColorPaletteService.IsLoaded(paletteId))
+            {
+                ColorPaletteService.SwitchToPalette(paletteId);
+            }
+            else
+            {
+                // Load if not already loaded
+                await ColorPaletteService.LoadAsync(paletteId);
+            }
+
+            // Then navigate to the detail page
+            NavigationManager.NavigateTo($"/design-system/foundations/colors/{paletteId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading color palette: {ex.Message}");
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    .design-system-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .design-system-page-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .breadcrumb {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    .current-palette-info {
+        margin: 1rem 0 1.5rem 0;
+        padding: 1rem 1.5rem;
+        background: #e3f2fd;
+        border-left: 4px solid #0066cc;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .current-palette-info .current-name {
+        font-weight: 600;
+        color: #0066cc;
+        font-size: 1.1rem;
+    }
+
+    .current-palette-info .current-description {
+        color: #555;
+        font-size: 0.9rem;
+    }
+
+    .color-palette-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .color-palette-card {
+        position: relative;
+        display: block;
+        padding: 1.5rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s ease;
+        background: white;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .color-palette-card:hover {
+        border-color: #0066cc;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .color-palette-card:active {
+        transform: translateY(0px);
+    }
+
+    .color-palette-card.active {
+        border-color: #0066cc;
+        background: #f0f7ff;
+        box-shadow: 0 4px 12px rgba(0,102,204,0.15);
+    }
+
+    .color-palette-card h2 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.25rem;
+        color: #333;
+    }
+
+    .color-palette-card p {
+        margin: 0 0 1rem 0;
+        color: #666;
+        font-size: 0.875rem;
+    }
+
+    .color-swatches {
+        display: flex;
+        gap: 4px;
+        padding: 8px 0;
+        flex-wrap: wrap;
+    }
+
+    .swatch {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .swatch:hover {
+        transform: scale(1.1);
+        z-index: 1;
+    }
+
+    .hierarchy-badge {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        background: rgba(0,0,0,0.6);
+        color: white;
+        font-size: 10px;
+        padding: 0 4px;
+        border-radius: 2px;
+        font-weight: 600;
+    }
+
+    .color-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.75rem;
+        color: #999;
+        margin-top: 0.5rem;
+    }
+
+    .color-meta span {
+        background: #f5f5f5;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+    }
+
+    .active-badge {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        background: #0066cc;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 768px) {
+        .design-system-page {
+            padding: 1rem;
+        }
+
+        .color-palette-list {
+            grid-template-columns: 1fr;
+        }
+
+        .swatch {
+            width: 32px;
+            height: 32px;
+        }
+    }
+</style>

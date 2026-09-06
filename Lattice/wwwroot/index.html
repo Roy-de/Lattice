@@ -18,7 +18,18 @@
 
     <div id="app">Loading...</div>
 
-    <script src="_framework/blazor.webview.js" autostart="false"></script>
+    <script src="_framework/blazor.webview.js" autostart="false">
+        window.toggleDarkMode = function(isDark) {
+            const page = document.getElementById('color-page');
+            if (page) {
+                if (isDark) {
+                    page.classList.add('dark-mode');
+                } else {
+                    page.classList.remove('dark-mode');
+                }
+            }
+        };
+    </script>
 
 </body>
 
