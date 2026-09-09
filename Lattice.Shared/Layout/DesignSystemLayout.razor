@@ -1,95 +1,102 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject NavigationManager Navigation
 
-<div class="design-system-shell">
-
-    <aside class="design-system-sidebar">
-
+<div class="design-system-shell @(_sidebarOpen ? "sidebar-open" : string.Empty)">
+    <aside class="design-system-sidebar" aria-label="Design system navigation">
         <div class="design-system-brand">
-            <a href="/">
-                Lattice
+            <a href="/" class="brand-lockup" @onclick="CloseSidebar">
+                <span>Lattice</span>
             </a>
         </div>
 
-        <nav>
-
-            <div class="navigation-section">
-                <span class="navigation-section-title">Foundations</span>
-
-                <NavLink href="/design-system/foundations" Match="NavLinkMatch.All">
-                    Overview
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/typography">
-                    Typography
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/colors">
-                    Colors
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/spacing">
-                    Spacing
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/sizing">
-                    Sizing
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/borders">
-                    Borders
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/elevation">
-                    Elevation
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/icons">
-                    Icons
-                </NavLink>
-
-                <NavLink href="/design-system/foundations/motion">
-                    Motion
-                </NavLink>
+        <nav class="design-system-nav">
+            <div class="nav-section">
+                <span class="nav-section-title">Overview</span>
+                <NavLink href="/" class="nav-button" Match="NavLinkMatch.All" @onclick="CloseSidebar"><span class="nav-icon" aria-hidden="true">⌘</span> Dashboard</NavLink>
             </div>
-
-            <div class="navigation-section">
-                <span class="navigation-section-title">Components</span>
-
-                <NavLink href="/design-system/components" Match="NavLinkMatch.All">
-                    Overview
-                </NavLink>
+            <div class="nav-section">
+                <span class="nav-section-title">Foundations</span>
+                <NavLink href="/design-system/foundations" class="nav-button" Match="NavLinkMatch.All" @onclick="CloseSidebar">Overview</NavLink>
+                <NavLink href="/design-system/foundations/typography" class="nav-button" @onclick="CloseSidebar">Typography</NavLink>
+                <NavLink href="/design-system/foundations/colors" class="nav-button" @onclick="CloseSidebar">Colors</NavLink>
+                <NavLink href="/design-system/foundations/spacing" class="nav-button" @onclick="CloseSidebar">Spacing</NavLink>
+                <NavLink href="/design-system/foundations/sizing" class="nav-button" @onclick="CloseSidebar">Sizing</NavLink>
+                <NavLink href="/design-system/foundations/borders" class="nav-button" @onclick="CloseSidebar">Borders</NavLink>
+                <NavLink href="/design-system/foundations/elevation" class="nav-button" @onclick="CloseSidebar">Elevation</NavLink>
+                <NavLink href="/design-system/foundations/icons" class="nav-button" @onclick="CloseSidebar">Icons</NavLink>
+                <NavLink href="/design-system/foundations/motion" class="nav-button" @onclick="CloseSidebar">Motion</NavLink>
             </div>
-
-            <div class="navigation-section">
-                <span class="navigation-section-title">Patterns</span>
-
-                <NavLink href="/design-system/patterns" Match="NavLinkMatch.All">
-                    Overview
-                </NavLink>
+            <div class="nav-section">
+                <span class="nav-section-title">Build</span>
+                <NavLink href="/design-system/components" class="nav-button" Match="NavLinkMatch.All" @onclick="CloseSidebar">Components</NavLink>
+                <NavLink href="/design-system/patterns" class="nav-button" Match="NavLinkMatch.All" @onclick="CloseSidebar">Patterns</NavLink>
+                <NavLink href="/design-system/playground" class="nav-button" Match="NavLinkMatch.All" @onclick="CloseSidebar">Playground</NavLink>
             </div>
-
-            <div class="navigation-section">
-                <span class="navigation-section-title">Playground</span>
-
-                <NavLink href="/design-system/playground" Match="NavLinkMatch.All">
-                    Playground
-                </NavLink>
-            </div>
-
         </nav>
-
     </aside>
 
+    @if (_sidebarOpen)
+    {
+        <button class="sidebar-scrim" @onclick="CloseSidebar" aria-label="Close navigation"></button>
+    }
+
     <main class="design-system-main">
-
         <header class="design-system-toolbar">
-            <span>Design System</span>
+            <button class="menu-button" @onclick="ToggleSidebar" aria-label="Toggle navigation" aria-expanded="@_sidebarOpen"><span></span><span></span><span></span></button>
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                @for (var index = 0; index < _breadcrumbs.Count; index++)
+                {
+                    var item = _breadcrumbs[index];
+                    @if (index < _breadcrumbs.Count - 1)
+                    {
+                        <a href="@item.Url">@item.Label</a><span aria-hidden="true">/</span>
+                    }
+                    else { <span class="breadcrumbs-current">@item.Label</span> }
+                }
+            </nav>
+            <div class="toolbar-meta"><span class="toolbar-pulse"></span> Lattice UI</div>
         </header>
-
-        <article class="design-system-content">
-            @Body
-        </article>
-
+        <article class="design-system-content">@Body</article>
     </main>
-
 </div>
+
+@code {
+    private bool _sidebarOpen;
+    private List<BreadcrumbItem> _breadcrumbs = [];
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += OnLocationChanged;
+        UpdateBreadcrumbs();
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _sidebarOpen = false;
+        UpdateBreadcrumbs();
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private void UpdateBreadcrumbs()
+    {
+        var segments = new Uri(Navigation.Uri).AbsolutePath.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries);
+        _breadcrumbs = [new BreadcrumbItem("Design system", "/")];
+        if (segments.Length == 0) return;
+        var labels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["foundations"] = "Foundations", ["typography"] = "Typography", ["colors"] = "Colors", ["spacing"] = "Spacing", ["sizing"] = "Sizing", ["borders"] = "Borders", ["elevation"] = "Elevation", ["icons"] = "Icons", ["motion"] = "Motion", ["components"] = "Components", ["patterns"] = "Patterns", ["playground"] = "Playground"
+        };
+        var path = string.Empty;
+        foreach (var segment in segments.Where(s => !s.Equals("design-system", StringComparison.OrdinalIgnoreCase)))
+        {
+            path += "/" + segment;
+            _breadcrumbs.Add(new BreadcrumbItem(labels.GetValueOrDefault(segment, segment), "/design-system" + path));
+        }
+    }
+
+    private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
+    private void CloseSidebar() => _sidebarOpen = false;
+    public void Dispose() => Navigation.LocationChanged -= OnLocationChanged;
+    private sealed record BreadcrumbItem(string Label, string Url);
+}

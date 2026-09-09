@@ -1,19 +1,19 @@
 {
-  "id": "harbor",
-  "name": "Harbor",
+  "id": "slack",
+  "name": "Slack-inspired",
   "version": "2.0.0",
-  "description": "A cool, trustworthy palette shaped by water, sky, and weathered coastal neutrals.",
-  "personality": "Calm, confident, balanced and quietly expressive.",
+  "description": "A collaborative purple palette with a crisp cyan counterpoint, inspired by modern team communication products.",
+  "personality": "Expressive, inclusive, collaborative and clear.",
   "intendedFor": [
-    "Business applications, productivity tools and customer-facing interfaces."
+    "Business applications",
+    "Customer-facing platforms",
+    "Productivity tools"
   ],
   "keywords": [
-    "trust",
-    "calm",
-    "stable",
-    "clean",
-    "coastal",
-    "reliable"
+    "collaboration",
+    "creative",
+    "purple",
+    "communication"
   ],
   "colorModel": {
     "space": "HEX",
@@ -28,44 +28,44 @@
     "brand": {
       "primary": {
         "id": "brand-primary",
-        "name": "Harbor Primary",
+        "name": "Slack-inspired Primary",
         "description": "Principal brand color for identity, emphasis and interaction.",
         "scale": {
-          "50": "#F1F3F4",
-          "100": "#DFE2E6",
-          "200": "#B9C2CA",
-          "300": "#8B98A6",
-          "400": "#4F6378",
-          "500": "#17324D",
-          "600": "#132A41",
-          "700": "#102235",
-          "800": "#0C1B2A",
-          "900": "#09141E",
-          "950": "#060C13"
+          "50": "#F6F2F6",
+          "100": "#E9E0EA",
+          "200": "#D0BCD2",
+          "300": "#B08FB4",
+          "400": "#87558D",
+          "500": "#611F69",
+          "600": "#511A58",
+          "700": "#431548",
+          "800": "#341139",
+          "900": "#260C29",
+          "950": "#18081A"
         }
       },
       "secondary": {
         "id": "brand-secondary",
-        "name": "Harbor Secondary",
+        "name": "Slack-inspired Secondary",
         "description": "Supporting brand accent for secondary actions and expressive moments.",
         "scale": {
-          "50": "#F2F5F7",
-          "100": "#E1E8EC",
-          "200": "#BECDD6",
-          "300": "#94ACBA",
-          "400": "#5C8096",
-          "500": "#285875",
-          "600": "#224A62",
-          "700": "#1C3D51",
-          "800": "#16303F",
-          "900": "#10222E",
-          "950": "#0A161D"
+          "50": "#F3FCFE",
+          "100": "#E3F7FD",
+          "200": "#C3EEFA",
+          "300": "#9AE2F8",
+          "400": "#66D3F4",
+          "500": "#36C5F0",
+          "600": "#2DA5CA",
+          "700": "#2588A6",
+          "800": "#1D6A82",
+          "900": "#154D5E",
+          "950": "#0E313C"
         }
       }
     },
     "neutral": {
       "id": "neutral",
-      "name": "Harbor Neutral",
+      "name": "Slack-inspired Neutral",
       "description": "Balanced blue-slate neutrals for hierarchy and readable interfaces.",
       "scale": {
         "0": "#FFFFFF",
@@ -206,7 +206,7 @@
       "primary": {
         "name": "Primary Text",
         "description": "Highest-emphasis readable content.",
-        "light": "neutral.950",
+        "light": "neutral.50",
         "dark": "neutral.50"
       },
       "secondary": {

@@ -1,19 +1,36 @@
 ﻿@page "/"
+@using Lattice.Shared.DesignSystem.Colors
+@using Lattice.Shared.DesignSystem.Typography
+@inject ITypographyService TypographyService
+@inject ITypographyCssGenerator TypographyCssGenerator
+@inject IColorPaletteService ColorPaletteService
+@inject IColorPaletteCssGenerator ColorPaletteCssGenerator
 
 <PageTitle>Design System – Lattice</PageTitle>
+@{
+// Generate CSS from the current typography
+    var css = TypographyCssGenerator.Generate(TypographyService.Current);
+    //css += ColorPaletteCssGenerator.Generate(ColorPaletteService.Current);
+}
+<head>
+    <style>
+        @css
+    </style>
+    <title></title>
+</head>
 
-<div class="design-system-home">
+<div class="design-system-home px-md-5 py-md-5">
 
     <header class="design-system-header">
         <p class="eyebrow">Lattice</p>
-        <h1>Design System</h1>
-        <p>Foundations, components, patterns, and guidelines that define the Lattice interface.</p>
+        <h1 class="text-display">Design System</h1>
+        <p class="text-body">Foundations, components, patterns, and guidelines that define the Lattice interface.</p>
     </header>
 
     <section class="design-system-section">
         <div class="section-header">
-            <h2>Foundations</h2>
-            <p>The foundational rules and visual language used throughout the system.</p>
+            <h2 class="text-heading-2">Foundations</h2>
+            <p class="text-body">The foundational rules and visual language used throughout the system.</p>
         </div>
 
         <div class="foundation-grid">
@@ -21,64 +38,64 @@
             <a href="/design-system/foundations/typography" class="foundation-card">
                 <span class="foundation-card-index">01</span>
                 <div>
-                    <h3>Typography</h3>
-                    <p>Typefaces, type scales, weights, sizes, and responsive typography.</p>
+                    <h3 class="text-heading-3">Typography</h3>
+                    <p class="text-body">Typefaces, type scales, weights, sizes, and responsive typography.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/colors" class="foundation-card">
                 <span class="foundation-card-index">02</span>
                 <div>
-                    <h3>Colors</h3>
-                    <p>Color roles, palettes, semantic colors, and contrast.</p>
+                    <h3 class="text-heading-3">Colors</h3>
+                    <p class="text-body">Color roles, palettes, semantic colors, and contrast.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/spacing" class="foundation-card">
                 <span class="foundation-card-index">03</span>
                 <div>
-                    <h3>Spacing</h3>
-                    <p>The spatial scale used to construct consistent layouts.</p>
+                    <h3 class="text-heading-3">Spacing</h3>
+                    <p class="text-body">The spatial scale used to construct consistent layouts.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/sizing" class="foundation-card">
                 <span class="foundation-card-index">04</span>
-                <div>
-                    <h3>Sizing</h3>
-                    <p>Dimensions and sizing rules for interface elements.</p>
+                <div class="text-heading-3">
+                    <h3 class="text-heading-3">Sizing</h3>
+                    <p class="text-body">Dimensions and sizing rules for interface elements.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/borders" class="foundation-card">
                 <span class="foundation-card-index">05</span>
                 <div>
-                    <h3>Borders</h3>
-                    <p>Border widths, radii, and related surface definitions.</p>
+                    <h3 class="text-heading-3">Borders</h3>
+                    <p class="text-body">Border widths, radii, and related surface definitions.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/elevation" class="foundation-card">
                 <span class="foundation-card-index">06</span>
                 <div>
-                    <h3>Elevation</h3>
-                    <p>Shadows and depth relationships between surfaces.</p>
+                    <h3 class="text-heading-3">Elevation</h3>
+                    <p class="text-body">Shadows and depth relationships between surfaces.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/icons" class="foundation-card">
                 <span class="foundation-card-index">07</span>
                 <div>
-                    <h3>Icons</h3>
-                    <p>Iconography, sizing, alignment, and usage rules.</p>
+                    <h3 class="text-heading-3">Icons</h3>
+                    <p class="text-body">Iconography, sizing, alignment, and usage rules.</p>
                 </div>
             </a>
 
             <a href="/design-system/foundations/motion" class="foundation-card">
                 <span class="foundation-card-index">08</span>
                 <div>
-                    <h3>Motion</h3>
-                    <p>Animation, transitions, timing, and interaction movement.</p>
+                    <h3 class="text-heading-3">Motion</h3>
+                    <p class="text-body">Animation, transitions, timing, and interaction movement.</p>
                 </div>
             </a>
 
@@ -87,25 +104,25 @@
 
     <section class="design-system-section">
         <div class="section-header">
-            <h2>Components</h2>
-            <p>Reusable interface elements built from the foundation system.</p>
+            <h2 class="text-heading-2">Components</h2>
+            <p class="text-body">Reusable interface elements built from the foundation system.</p>
         </div>
 
         <a href="/design-system/components" class="system-link-card">
-            <h3>Component Library</h3>
-            <p>Browse buttons, inputs, navigation, feedback, overlays, and other components.</p>
+            <h3 class="text-heading-3">Component Library</h3>
+            <p class="text-body">Browse buttons, inputs, navigation, feedback, overlays, and other components.</p>
         </a>
     </section>
 
     <section class="design-system-section">
         <div class="section-header">
-            <h2>Patterns</h2>
-            <p>Common interface compositions built from the component system.</p>
+            <h2 class="text-heading-2">Patterns</h2>
+            <p class="text-body">Common interface compositions built from the component system.</p>
         </div>
 
         <a href="/design-system/patterns" class="system-link-card">
-            <h3>Pattern Library</h3>
-            <p>Explore reusable interface patterns and workflows.</p>
+            <h3 class="text-heading-3">Pattern Library</h3>
+            <p class="text-body">Explore reusable interface patterns and workflows.</p>
         </a>
     </section>
 

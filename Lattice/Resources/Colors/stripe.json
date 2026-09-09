@@ -1,19 +1,19 @@
 {
-  "id": "harbor",
-  "name": "Harbor",
+  "id": "stripe",
+  "name": "Stripe-inspired",
   "version": "2.0.0",
-  "description": "A cool, trustworthy palette shaped by water, sky, and weathered coastal neutrals.",
-  "personality": "Calm, confident, balanced and quietly expressive.",
+  "description": "A high-clarity indigo and ink palette inspired by modern financial-product interfaces.",
+  "personality": "Precise, optimistic, technical and premium.",
   "intendedFor": [
-    "Business applications, productivity tools and customer-facing interfaces."
+    "Business applications",
+    "Customer-facing platforms",
+    "Productivity tools"
   ],
   "keywords": [
-    "trust",
-    "calm",
-    "stable",
-    "clean",
-    "coastal",
-    "reliable"
+    "payments",
+    "developer",
+    "premium",
+    "indigo"
   ],
   "colorModel": {
     "space": "HEX",
@@ -28,44 +28,44 @@
     "brand": {
       "primary": {
         "id": "brand-primary",
-        "name": "Harbor Primary",
+        "name": "Stripe-inspired Primary",
         "description": "Principal brand color for identity, emphasis and interaction.",
         "scale": {
-          "50": "#F1F3F4",
-          "100": "#DFE2E6",
-          "200": "#B9C2CA",
-          "300": "#8B98A6",
-          "400": "#4F6378",
-          "500": "#17324D",
-          "600": "#132A41",
-          "700": "#102235",
-          "800": "#0C1B2A",
-          "900": "#09141E",
-          "950": "#060C13"
+          "50": "#F6F5FF",
+          "100": "#E9E8FF",
+          "200": "#D0CEFF",
+          "300": "#B1ADFF",
+          "400": "#8882FF",
+          "500": "#635BFF",
+          "600": "#534CD6",
+          "700": "#443FB0",
+          "800": "#35318A",
+          "900": "#272363",
+          "950": "#191740"
         }
       },
       "secondary": {
         "id": "brand-secondary",
-        "name": "Harbor Secondary",
+        "name": "Stripe-inspired Secondary",
         "description": "Supporting brand accent for secondary actions and expressive moments.",
         "scale": {
-          "50": "#F2F5F7",
-          "100": "#E1E8EC",
-          "200": "#BECDD6",
-          "300": "#94ACBA",
-          "400": "#5C8096",
-          "500": "#285875",
-          "600": "#224A62",
-          "700": "#1C3D51",
-          "800": "#16303F",
-          "900": "#10222E",
-          "950": "#0A161D"
+          "50": "#F0F2F4",
+          "100": "#DDE0E4",
+          "200": "#B6BEC6",
+          "300": "#8492A0",
+          "400": "#45596E",
+          "500": "#0A2540",
+          "600": "#081F36",
+          "700": "#071A2C",
+          "800": "#051423",
+          "900": "#040E19",
+          "950": "#020910"
         }
       }
     },
     "neutral": {
       "id": "neutral",
-      "name": "Harbor Neutral",
+      "name": "Stripe-inspired Neutral",
       "description": "Balanced blue-slate neutrals for hierarchy and readable interfaces.",
       "scale": {
         "0": "#FFFFFF",

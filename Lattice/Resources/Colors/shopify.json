@@ -1,19 +1,19 @@
 {
-  "id": "harbor",
-  "name": "Harbor",
+  "id": "shopify",
+  "name": "Shopify-inspired",
   "version": "2.0.0",
-  "description": "A cool, trustworthy palette shaped by water, sky, and weathered coastal neutrals.",
-  "personality": "Calm, confident, balanced and quietly expressive.",
+  "description": "A commerce-focused green palette inspired by practical, entrepreneur-friendly retail experiences.",
+  "personality": "Capable, friendly, grounded and energetic.",
   "intendedFor": [
-    "Business applications, productivity tools and customer-facing interfaces."
+    "Business applications",
+    "Customer-facing platforms",
+    "Productivity tools"
   ],
   "keywords": [
-    "trust",
-    "calm",
-    "stable",
-    "clean",
-    "coastal",
-    "reliable"
+    "commerce",
+    "growth",
+    "green",
+    "retail"
   ],
   "colorModel": {
     "space": "HEX",
@@ -28,44 +28,44 @@
     "brand": {
       "primary": {
         "id": "brand-primary",
-        "name": "Harbor Primary",
+        "name": "Shopify-inspired Primary",
         "description": "Principal brand color for identity, emphasis and interaction.",
         "scale": {
-          "50": "#F1F3F4",
-          "100": "#DFE2E6",
-          "200": "#B9C2CA",
-          "300": "#8B98A6",
-          "400": "#4F6378",
-          "500": "#17324D",
-          "600": "#132A41",
-          "700": "#102235",
-          "800": "#0C1B2A",
-          "900": "#09141E",
-          "950": "#060C13"
+          "50": "#F0F7F5",
+          "100": "#DBEDE9",
+          "200": "#B2D9CF",
+          "300": "#80C0B0",
+          "400": "#3D9E86",
+          "500": "#008060",
+          "600": "#006C51",
+          "700": "#005842",
+          "800": "#004534",
+          "900": "#003225",
+          "950": "#002018"
         }
       },
       "secondary": {
         "id": "brand-secondary",
-        "name": "Harbor Secondary",
+        "name": "Shopify-inspired Secondary",
         "description": "Supporting brand accent for secondary actions and expressive moments.",
         "scale": {
-          "50": "#F2F5F7",
-          "100": "#E1E8EC",
-          "200": "#BECDD6",
-          "300": "#94ACBA",
-          "400": "#5C8096",
-          "500": "#285875",
-          "600": "#224A62",
-          "700": "#1C3D51",
-          "800": "#16303F",
-          "900": "#10222E",
-          "950": "#0A161D"
+          "50": "#F0F4F3",
+          "100": "#DBE6E4",
+          "200": "#B2C9C5",
+          "300": "#80A69F",
+          "400": "#3D776D",
+          "500": "#004C3F",
+          "600": "#004035",
+          "700": "#00342B",
+          "800": "#002922",
+          "900": "#001E19",
+          "950": "#001310"
         }
       }
     },
     "neutral": {
       "id": "neutral",
-      "name": "Harbor Neutral",
+      "name": "Shopify-inspired Neutral",
       "description": "Balanced blue-slate neutrals for hierarchy and readable interfaces.",
       "scale": {
         "0": "#FFFFFF",

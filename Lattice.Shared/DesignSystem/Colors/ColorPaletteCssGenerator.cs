@@ -1,4 +1,5 @@
-﻿using System.Text;
+using System.Text;
+using System.Text.Json;
 
 namespace Lattice.Shared.DesignSystem.Colors;
 
@@ -6,163 +7,47 @@ public sealed class ColorPaletteCssGenerator : IColorPaletteCssGenerator
 {
     public string Generate(ColorPalette palette)
     {
-        if (palette.Colors == null || palette.Colors.Count == 0)
-            return string.Empty;
-
-        var css = new StringBuilder();
-
+        var tokens = ColorTokenResolver.GetSemanticTokens(palette);
+        if (tokens.Count == 0) return string.Empty;
+        var css = new StringBuilder($"/* Palette: {palette.Name} ({palette.Id}) */{Environment.NewLine}");
         var safeName = SanitizeName(palette.Name);
-
-        css.AppendLine(
-            $"/* ========================================================= */");
-        css.AppendLine(
-            $"/* Palette: {palette.Name} ({palette.Id}) */");
-        css.AppendLine(
-            $"/* {palette.Description} */");
-        css.AppendLine(
-            $"/* ========================================================= */");
-
-        GenerateTheme(css, palette, safeName, dark: false);
-        GenerateTheme(css, palette, safeName, dark: true);
-
-        GenerateColorUtilityClasses(css, palette, safeName);
-
+        GenerateTheme(css, palette, tokens, safeName, "light");
+        GenerateTheme(css, palette, tokens, safeName, "dark");
         return css.ToString();
     }
 
-    private void GenerateTheme(
-        StringBuilder css,
-        ColorPalette palette,
-        string safeName,
-        bool dark)
+    private static void GenerateTheme(StringBuilder css, ColorPalette palette, IEnumerable<ColorToken> tokens, string safeName, string theme)
     {
-        var selector = dark
-            ? $".palette-{safeName}[data-theme=\"dark\"]"
-            : $".palette-{safeName}[data-theme=\"light\"]";
-
-        css.AppendLine();
-        css.AppendLine($"{selector} {{");
-
-        foreach (var color in palette.Colors
-                     .OrderBy(c => c.Hierarchy))
+        css.AppendLine().AppendLine($".palette-{safeName}[data-theme=\"{theme}\"] {{");
+        foreach (var token in tokens)
         {
-            var value = dark
-                ? color.DarkValue
-                : color.LightValue;
-
-            if (string.IsNullOrWhiteSpace(value))
-                continue;
-
-            var variable = GenerateSemanticVariable(color);
-
-            css.AppendLine(
-                $"    {variable}: {value};");
-
-            var onValue = dark
-                ? color.OnDarkValue
-                : color.OnLightValue;
-
-            if (!string.IsNullOrWhiteSpace(onValue))
-            {
-                css.AppendLine(
-                    $"    {GenerateOnVariable(color)}: {onValue};");
-            }
+            var value = theme == "dark" ? token.DarkValue : token.LightValue;
+            if (!string.IsNullOrWhiteSpace(value)) css.AppendLine($"  {ColorTokenResolver.ToCssVariable("color", token.Path)}: {value};");
         }
-
+        foreach (var (path, reference) in EnumerateComponentReferences(palette.Components))
+        {
+            var value = ToCssValue(palette, reference, theme);
+            if (!string.IsNullOrWhiteSpace(value)) css.AppendLine($"  {ColorTokenResolver.ToCssVariable("component", path)}: {value};");
+        }
         css.AppendLine("}");
     }
 
-    private void GenerateColorUtilityClasses(
-        StringBuilder css,
-        ColorPalette palette,
-        string safeName)
+    private static IEnumerable<(string Path, string Reference)> EnumerateComponentReferences(JsonElement node, string path = "")
     {
-        foreach (var color in palette.Colors
-                     .OrderBy(c => c.Hierarchy))
-        {
-            var variable = GenerateSemanticVariable(color);
-
-            var className = SanitizeName(color.Id);
-
-            css.AppendLine();
-            css.AppendLine(
-                $".color-{className} {{");
-            css.AppendLine(
-                $"    color: var({variable});");
-            css.AppendLine("}");
-
-            css.AppendLine(
-                $".bg-{className} {{");
-            css.AppendLine(
-                $"    background-color: var({variable});");
-            css.AppendLine("}");
-
-            css.AppendLine(
-                $".border-{className} {{");
-            css.AppendLine(
-                $"    border-color: var({variable});");
-            css.AppendLine("}");
-        }
+        if (node.ValueKind == JsonValueKind.String) { yield return (path, node.GetString() ?? string.Empty); yield break; }
+        if (node.ValueKind != JsonValueKind.Object) yield break;
+        foreach (var property in node.EnumerateObject())
+            foreach (var item in EnumerateComponentReferences(property.Value, string.IsNullOrEmpty(path) ? property.Name : $"{path}.{property.Name}")) yield return item;
     }
 
-    private string GenerateSemanticVariable(
-        ColorDefinition color)
+    private static string ToCssValue(ColorPalette palette, string reference, string theme)
     {
-        return $"--color-{ToKebabCase(color.Role.ToString())}";
+        var resolved = ColorTokenResolver.Resolve(palette, reference, theme);
+        if (!string.IsNullOrWhiteSpace(resolved)) return resolved;
+        reference = reference.Trim().Trim('{', '}');
+        return reference.Contains('.') ? $"var({ColorTokenResolver.ToCssVariable("color", reference.Replace("semantic.", "", StringComparison.OrdinalIgnoreCase))})" : reference;
     }
 
-    private string GenerateOnVariable(
-        ColorDefinition color)
-    {
-        return $"--color-on-{ToKebabCase(color.Role.ToString())}";
-    }
-
-    private static string ToKebabCase(string value)
-    {
-        var result = new StringBuilder();
-
-        for (var i = 0; i < value.Length; i++)
-        {
-            var character = value[i];
-
-            if (char.IsUpper(character) && i > 0)
-                result.Append('-');
-
-            result.Append(char.ToLowerInvariant(character));
-        }
-
-        return result.ToString();
-    }
-
-    private static string SanitizeName(string value)
-    {
-        return value
-            .Trim()
-            .ToLowerInvariant()
-            .Replace(" ", "-")
-            .Replace("_", "-")
-            .Replace("'", "")
-            .Replace("\"", "");
-    }
-
-    public string GenerateAll(
-        IEnumerable<ColorPalette> palettes)
-    {
-        var css = new StringBuilder();
-
-        css.AppendLine(
-            "/* ========================================================= */");
-        css.AppendLine(
-            "/* Lattice Design System - Color Palettes */");
-        css.AppendLine(
-            "/* ========================================================= */");
-
-        foreach (var palette in palettes.OrderBy(p => p.Name))
-        {
-            css.AppendLine();
-            css.Append(Generate(palette));
-        }
-
-        return css.ToString();
-    }
+    private static string SanitizeName(string value) => string.Concat(value.Trim().ToLowerInvariant().Select(c => char.IsLetterOrDigit(c) ? c : '-')).Trim('-');
+    public string GenerateAll(IEnumerable<ColorPalette> palettes) => string.Concat(palettes.OrderBy(p => p.Name).Select(Generate));
 }

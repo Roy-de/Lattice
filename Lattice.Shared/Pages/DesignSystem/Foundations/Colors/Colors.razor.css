@@ -166,6 +166,13 @@
     font-size: 0.72rem;
 }
 
+.palette-card-header code + .palette-version {
+    display: block;
+    margin-top: 0.35rem;
+    color: #64748b;
+    font-size: 0.65rem;
+}
+
 .active-indicator {
     flex-shrink: 0;
 

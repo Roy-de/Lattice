@@ -1,146 +1,55 @@
-﻿@page "/design-system/foundations/colors"
+@page "/design-system/foundations/colors"
 @using Lattice.Shared.DesignSystem.Colors
 @inject IColorPaletteService ColorPaletteService
-@inject NavigationManager NavigationManager
 
 <PageTitle>Colors · Lattice</PageTitle>
 
-<div class="colors-page">
-
-    <header class="page-header">
-
-        <div class="eyebrow">
-            Design System / Foundations
-        </div>
-
-        <h1>Colors</h1>
-
-        <p>
-            Color palettes available to Lattice. Each palette provides
-            a curated set of tokens for consistent visual design.
-        </p>
-
-        @if (ColorPaletteService.Current is { } current)
-        {
-            <div class="current-palette">
-                <span class="current-palette-label">
-                    Current palette
-                </span>
-
-                <strong>
-                    @current.Name
-                </strong>
-
-                <code>
-                    @current.Id
-                </code>
-            </div>
-        }
-
-    </header>
-
-
+<div class="ds-page color-index">
+    <header class="ds-page-header"><span class="ds-eyebrow">Lattice UI / foundations</span><h1>Color palettes</h1><p>Start with the primitive brand scales, then compare each palette as a real interface in light and dark contexts.</p></header>
     @if (ColorPaletteService.Palettes.Any())
     {
-        <section class="palette-list">
-
+        <section class="palette-grid" aria-label="Available color palettes">
             @foreach (var palette in ColorPaletteService.GetPalettesSorted())
             {
-                var isActive =
-                    ColorPaletteService.Current?.Id == palette.Id;
-
-                <button
-                    type="button"
-                    class="palette-card @(isActive ? "is-active" : "")"
-                    @onclick="() => SelectPalette(palette.Id)">
-
-                    <div class="palette-card-header">
-
-                        <div>
-                            <h2>@palette.Name</h2>
-
-                            <code>@palette.Id</code>
-                        </div>
-
-                        @if (isActive)
-                        {
-                            <span class="active-indicator">
-                                Active
-                            </span>
-                        }
-
+                var semantic = ColorTokenResolver.GetSemanticTokens(palette);
+                var primitives = ColorTokenResolver.GetPrimitiveTokens(palette);
+                var brand = primitives.Where(t => t.Path.StartsWith("brand.", StringComparison.OrdinalIgnoreCase)).ToList();
+                var swatches = (brand.Count > 0 ? brand : primitives).Take(10).ToList();
+                var light = Preview(semantic, "light");
+                var dark = Preview(semantic, "dark");
+                <a class="palette-card-new" href="@($"/design-system/foundations/colors/{palette.Id}")">
+                    <div class="palette-card-top"><div><span class="ds-badge">@palette.ColorModel?.Architecture</span><h2>@palette.Name</h2></div><span class="inspect-link">Inspect →</span></div>
+                    <p>@palette.Description</p>
+                    <div class="primitive-row" aria-label="@($"{palette.Name} primitive brand colours")">
+                        @foreach (var swatch in swatches) { <span title="@swatch.Path" style="background:@swatch.LightValue"></span> }
                     </div>
-
-
-                    <div class="palette-swatches">
-
-                        @foreach (var color in palette.Colors?
-                            .OrderBy(c => c.Hierarchy)
-                            ?? Enumerable.Empty<ColorDefinition>())
-                        {
-                            <div
-                                class="palette-swatch"
-                                style="background-color: @color.LightValue"
-                                title="@($"{color.Name}: {color.LightValue}")">
-
-                                <span>
-                                    @color.Hierarchy
-                                </span>
-
-                            </div>
-                        }
-
+                    <div class="primitive-caption">@(brand.Count > 0 ? "Brand primitives" : "Primitive palette") · @primitives.Count values</div>
+                    <div class="theme-comparison" aria-label="@($"{palette.Name} light and dark comparison")">
+                        <div class="theme-preview" style="background:@light.Background;color:@light.Text"><small>Light</small><div class="preview-surface" style="background:@light.Surface"><strong>Workspace</strong><span style="background:@light.Primary;color:@light.OnPrimary">Continue</span></div></div>
+                        <div class="theme-preview" style="background:@dark.Background;color:@dark.Text"><small>Dark</small><div class="preview-surface" style="background:@dark.Surface"><strong>Workspace</strong><span style="background:@dark.Primary;color:@dark.OnPrimary">Continue</span></div></div>
                     </div>
-
-
-                    <div class="palette-card-footer">
-
-                        <span>
-                            @(palette.Colors?.Count ?? 0) colors
-                        </span>
-
-                        <span class="view-palette">
-                            View palette →
-                        </span>
-
-                    </div>
-
-                </button>
+                </a>
             }
-
         </section>
     }
-    else
-    {
-        <div class="empty-state">
-            <h2>No color palettes</h2>
-            <p>No color palettes have been loaded.</p>
-        </div>
-    }
-
+    else { <div class="ds-empty">No palettes have been loaded.</div> }
 </div>
 
-
-
 @code {
+    private static PalettePreview Preview(IReadOnlyList<ColorToken> tokens, string theme) => new(
+        Value(tokens, "background.default", theme, theme == "dark" ? "#111" : "#f8f8f8"),
+        Value(tokens, "surface.default", theme, theme == "dark" ? "#1d1d1d" : "#fff"),
+        Value(tokens, "text.primary", theme, theme == "dark" ? "#fff" : "#1f1f1f"),
+        Value(tokens, "interactive.primary.default", theme, "#345e51"),
+        Value(tokens, "text.inverse", theme, "#fff"));
 
-    private async Task SelectPalette(string paletteId)
-    {
-        if (string.IsNullOrWhiteSpace(paletteId))
-            return;
+    private static string Value(IEnumerable<ColorToken> tokens, string path, string theme, string fallback) =>
+        tokens.FirstOrDefault(t => t.Path.Equals(path, StringComparison.OrdinalIgnoreCase)) is { } token
+            ? (theme == "dark" ? token.DarkValue : token.LightValue) : fallback;
 
-        if (ColorPaletteService.IsLoaded(paletteId))
-        {
-            ColorPaletteService.SwitchToPalette(paletteId);
-        }
-        else
-        {
-            await ColorPaletteService.LoadAsync(paletteId);
-        }
-
-        NavigationManager.NavigateTo(
-            $"/design-system/foundations/colors/{Uri.EscapeDataString(paletteId)}"
-        );
-    }
-
+    private sealed record PalettePreview(string Background, string Surface, string Text, string Primary, string OnPrimary);
 }
+
+<style>
+    .palette-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:16px; }.palette-card-new { display:block; padding:22px; border:1px solid #e1e3dd; border-radius:13px; color:#20211f; background:#fff; text-decoration:none; transition:.18s ease; }.palette-card-new:hover { border-color:#adbcaf; box-shadow:0 12px 25px #22352712; transform:translateY(-2px); }.palette-card-top { display:flex; justify-content:space-between; gap:12px; align-items:start; }.palette-card-top h2 { margin:10px 0 0; font-size:18px; letter-spacing:-.035em; }.palette-card-new>p { min-height:40px; margin:11px 0 18px; color:#747770; font-size:12px; line-height:1.55; }.inspect-link { color:#477060; font-size:12px; font-weight:700; white-space:nowrap; }.primitive-row { display:flex; height:10px; overflow:hidden; border-radius:99px; background:#edf0eb; }.primitive-row span { flex:1; min-width:10px; }.primitive-caption { margin:7px 0 18px; color:#898c85; font-size:10px; font-weight:650; letter-spacing:.04em; text-transform:uppercase; }.theme-comparison { display:grid; grid-template-columns:1fr 1fr; gap:8px; }.theme-preview { min-height:88px; padding:10px; border:1px solid #0000000d; border-radius:8px; }.theme-preview>small { display:block; margin-bottom:8px; opacity:.65; font-size:10px; font-weight:700; }.preview-surface { display:flex; align-items:center; justify-content:space-between; gap:5px; padding:9px; border-radius:5px; box-shadow:0 1px 2px #0000000d; font-size:10px; }.preview-surface strong { font-size:10px; }.preview-surface span { padding:5px 7px; border-radius:4px; font-size:9px; font-weight:700; }
+</style>

@@ -1,9 +1,12 @@
 {
   "id": "cedar",
   "name": "Cedar",
+  "version": "2.0.0",
   "description": "A natural palette grounded in wood, foliage, stone and warm daylight.",
   "personality": "Organic, grounded, approachable and warm.",
-  "intendedFor": "Lifestyle products, wellness tools and brands that want an earthy tone.",
+  "intendedFor": [
+    "Lifestyle products, wellness tools and brands that want an earthy tone."
+  ],
   "keywords": [
     "natural",
     "grounded",
@@ -12,284 +15,543 @@
     "fresh",
     "friendly"
   ],
-  "colors": [
-    {
-      "id": "cedar-primary",
-      "name": "Cedar Green",
-      "hierarchy": 0,
-      "role": "Primary",
-      "category": "Brand",
-      "description": "Primary interactive and brand color.",
-      "usage": "Primary buttons, active navigation, selected states, links and key interactive elements.",
-      "lightValue": "#29483F",
-      "darkValue": "#657B75",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#FFFFFF",
-      "interactive": true,
-      "semantic": false,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": false
+  "colorModel": {
+    "space": "HEX",
+    "architecture": "primitive-semantic-component",
+    "supportsThemes": true,
+    "themes": [
+      "light",
+      "dark"
+    ]
+  },
+  "primitives": {
+    "brand": {
+      "primary": {
+        "id": "brand-primary",
+        "name": "Cedar Primary",
+        "description": "Principal brand color for identity, emphasis and interaction.",
+        "scale": {
+          "50": "#F2F4F3",
+          "100": "#E1E5E4",
+          "200": "#BFC8C5",
+          "300": "#94A49F",
+          "400": "#5C746D",
+          "500": "#29483F",
+          "600": "#223C35",
+          "700": "#1C322B",
+          "800": "#162722",
+          "900": "#101C19",
+          "950": "#0A1210"
+        }
+      },
+      "secondary": {
+        "id": "brand-secondary",
+        "name": "Cedar Secondary",
+        "description": "Supporting brand accent for secondary actions and expressive moments.",
+        "scale": {
+          "50": "#F2F3F3",
+          "100": "#E0E3E2",
+          "200": "#BCC4C2",
+          "300": "#909C99",
+          "400": "#566964",
+          "500": "#203A33",
+          "600": "#1B312B",
+          "700": "#162823",
+          "800": "#111F1C",
+          "900": "#0C1714",
+          "950": "#080E0D"
+        }
+      }
     },
-    {
-      "id": "cedar-secondary",
-      "name": "Forest",
-      "hierarchy": 1,
-      "role": "Secondary",
-      "category": "Brand",
-      "description": "Secondary brand accent.",
-      "usage": "Secondary actions, illustrations, accents and selected promotional content.",
-      "lightValue": "#203A33",
-      "darkValue": "#5E716C",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#FFFFFF",
-      "interactive": true,
-      "semantic": false,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": false
+    "neutral": {
+      "id": "neutral",
+      "name": "Cedar Neutral",
+      "description": "Balanced blue-slate neutrals for hierarchy and readable interfaces.",
+      "scale": {
+        "0": "#FFFFFF",
+        "50": "#F8FAFC",
+        "100": "#F1F5F9",
+        "200": "#E2E8F0",
+        "300": "#CBD5E1",
+        "400": "#94A3B8",
+        "500": "#64748B",
+        "600": "#475569",
+        "700": "#334155",
+        "800": "#1E293B",
+        "900": "#0F172A",
+        "950": "#020617"
+      }
     },
-    {
-      "id": "cedar-background",
-      "name": "Parchment",
-      "hierarchy": 2,
-      "role": "Background",
-      "category": "Surface",
-      "description": "Application background.",
-      "usage": "Application background, page canvas and large content areas.",
-      "lightValue": "#F8F5ED",
-      "darkValue": "#CBC9C2",
-      "onLightValue": "#17212B",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": false,
-      "textColor": false,
-      "surfaceColor": true,
-      "borderColor": false
+    "success": {
+      "id": "success",
+      "name": "Emerald",
+      "description": "Accessible green for successful, complete and positive states.",
+      "scale": {
+        "50": "#ECFDF5",
+        "100": "#D1FAE5",
+        "200": "#A7F3D0",
+        "300": "#6EE7B7",
+        "400": "#34D399",
+        "500": "#059669",
+        "600": "#047857",
+        "700": "#065F46",
+        "800": "#064E3B",
+        "900": "#022C22",
+        "950": "#021C14"
+      }
     },
-    {
-      "id": "cedar-surface",
-      "name": "Bone",
-      "hierarchy": 3,
-      "role": "Surface",
-      "category": "Surface",
-      "description": "Contained content surfaces.",
-      "usage": "Cards, panels, input surfaces and secondary content containers.",
-      "lightValue": "#F1EEE5",
-      "darkValue": "#C6C3BC",
-      "onLightValue": "#17212B",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": false,
-      "textColor": false,
-      "surfaceColor": true,
-      "borderColor": false
+    "warning": {
+      "id": "warning",
+      "name": "Amber",
+      "description": "Accessible amber for caution, pending activity and attention.",
+      "scale": {
+        "50": "#FFFBEB",
+        "100": "#FEF3C7",
+        "200": "#FDE68A",
+        "300": "#FCD34D",
+        "400": "#FBBF24",
+        "500": "#D97706",
+        "600": "#B45309",
+        "700": "#92400E",
+        "800": "#78350F",
+        "900": "#451A03",
+        "950": "#271003"
+      }
     },
-    {
-      "id": "cedar-text-primary",
-      "name": "Charcoal",
-      "hierarchy": 4,
-      "role": "TextPrimary",
-      "category": "Typography",
-      "description": "Primary typography.",
-      "usage": "Headings, body text and important labels.",
-      "lightValue": "#202A26",
-      "darkValue": "#5E6663",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#FFFFFF",
-      "interactive": false,
-      "semantic": false,
-      "textColor": true,
-      "surfaceColor": false,
-      "borderColor": false
+    "error": {
+      "id": "error",
+      "name": "Rose",
+      "description": "Accessible red for destructive, invalid and failed states.",
+      "scale": {
+        "50": "#FFF1F2",
+        "100": "#FFE4E6",
+        "200": "#FECDD3",
+        "300": "#FDA4AF",
+        "400": "#FB7185",
+        "500": "#E11D48",
+        "600": "#BE123C",
+        "700": "#9F1239",
+        "800": "#881337",
+        "900": "#4C0519",
+        "950": "#2A0310"
+      }
     },
-    {
-      "id": "cedar-text-secondary",
-      "name": "Olive",
-      "hierarchy": 5,
-      "role": "TextSecondary",
-      "category": "Typography",
-      "description": "Secondary typography.",
-      "usage": "Descriptions, metadata, captions and secondary labels.",
-      "lightValue": "#707A61",
-      "darkValue": "#989F8D",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": false,
-      "textColor": true,
-      "surfaceColor": false,
-      "borderColor": false
-    },
-    {
-      "id": "cedar-border",
-      "name": "Sage",
-      "hierarchy": 6,
-      "role": "Border",
-      "category": "Border",
-      "description": "Default component boundaries.",
-      "usage": "Cards, inputs, dividers and component boundaries.",
-      "lightValue": "#91A18F",
-      "darkValue": "#B0BBAE",
-      "onLightValue": "#17212B",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": false,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": true
-    },
-    {
-      "id": "cedar-success",
-      "name": "Moss",
-      "hierarchy": 7,
-      "role": "Success",
-      "category": "Semantic",
-      "description": "Successful states.",
-      "usage": "Successful transactions, completed operations and positive status.",
-      "lightValue": "#667D69",
-      "darkValue": "#91A193",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": true,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": false
-    },
-    {
-      "id": "cedar-warning",
-      "name": "Burnt Clay",
-      "hierarchy": 8,
-      "role": "Warning",
-      "category": "Semantic",
-      "description": "Warning states.",
-      "usage": "Warnings, pending operations and attention-required states.",
-      "lightValue": "#A45C3B",
-      "darkValue": "#BD8A72",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": true,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": false
-    },
-    {
-      "id": "cedar-error",
-      "name": "Earth",
-      "hierarchy": 9,
-      "role": "Error",
-      "category": "Semantic",
-      "description": "Error states.",
-      "usage": "Validation errors, failed operations and destructive actions.",
-      "lightValue": "#7D4732",
-      "darkValue": "#A17B6B",
-      "onLightValue": "#FFFFFF",
-      "onDarkValue": "#FFFFFF",
-      "interactive": false,
-      "semantic": true,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": false
-    },
-    {
-      "id": "cedar-info",
-      "name": "Limestone",
-      "hierarchy": 10,
-      "role": "Info",
-      "category": "Semantic",
-      "description": "Informational states.",
-      "usage": "Information banners, tips, notices and contextual guidance.",
-      "lightValue": "#D8D4C8",
-      "darkValue": "#B1AEA4",
-      "onLightValue": "#17212B",
-      "onDarkValue": "#17212B",
-      "interactive": false,
-      "semantic": true,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": false
-    },
-    {
-      "id": "cedar-focus",
-      "name": "Stone",
-      "hierarchy": 11,
-      "role": "Focus",
-      "category": "Interactive",
-      "description": "Keyboard focus.",
-      "usage": "Focus rings and keyboard navigation states.",
-      "lightValue": "#A7A89F",
-      "darkValue": "#898A82",
-      "onLightValue": "#17212B",
-      "onDarkValue": "#FFFFFF",
-      "interactive": true,
-      "semantic": false,
-      "textColor": false,
-      "surfaceColor": false,
-      "borderColor": true
+    "info": {
+      "id": "info",
+      "name": "Sky",
+      "description": "Accessible blue for neutral informational communication.",
+      "scale": {
+        "50": "#F0F9FF",
+        "100": "#E0F2FE",
+        "200": "#BAE6FD",
+        "300": "#7DD3FC",
+        "400": "#38BDF8",
+        "500": "#0284C7",
+        "600": "#0369A1",
+        "700": "#075985",
+        "800": "#0C4A6E",
+        "900": "#082F49",
+        "950": "#061C2D"
+      }
     }
-  ],
-  "roles": [
-    {
-      "role": "Primary",
-      "colorId": "cedar-primary",
-      "description": "Primary interactive and brand color."
+  },
+  "semantic": {
+    "background": {
+      "default": {
+        "name": "Application Background",
+        "description": "Primary application canvas.",
+        "light": "neutral.50",
+        "dark": "neutral.950"
+      },
+      "subtle": {
+        "name": "Subtle Background",
+        "description": "Secondary application region.",
+        "light": "neutral.100",
+        "dark": "neutral.900"
+      }
     },
-    {
-      "role": "Secondary",
-      "colorId": "cedar-secondary",
-      "description": "Secondary brand accent."
+    "surface": {
+      "default": {
+        "name": "Surface",
+        "description": "Default contained content surface.",
+        "light": "neutral.0",
+        "dark": "neutral.900"
+      },
+      "subtle": {
+        "name": "Subtle Surface",
+        "description": "Low-emphasis surface for secondary content.",
+        "light": "neutral.50",
+        "dark": "neutral.800"
+      },
+      "elevated": {
+        "name": "Elevated Surface",
+        "description": "Surface visually separated from its parent.",
+        "light": "neutral.0",
+        "dark": "neutral.800"
+      },
+      "sunken": {
+        "name": "Sunken Surface",
+        "description": "Recessed surface for fields and inset content.",
+        "light": "neutral.100",
+        "dark": "neutral.950"
+      },
+      "overlay": {
+        "name": "Overlay",
+        "description": "Modal and overlay surface.",
+        "light": "neutral.0",
+        "dark": "neutral.900"
+      }
     },
-    {
-      "role": "Background",
-      "colorId": "cedar-background",
-      "description": "Application background."
+    "text": {
+      "primary": {
+        "name": "Primary Text",
+        "description": "Highest-emphasis readable content.",
+        "light": "neutral.950",
+        "dark": "neutral.50"
+      },
+      "secondary": {
+        "name": "Secondary Text",
+        "description": "Supporting content.",
+        "light": "neutral.700",
+        "dark": "neutral.300"
+      },
+      "tertiary": {
+        "name": "Tertiary Text",
+        "description": "Metadata and supplementary information.",
+        "light": "neutral.600",
+        "dark": "neutral.400"
+      },
+      "disabled": {
+        "name": "Disabled Text",
+        "description": "Content belonging to unavailable controls.",
+        "light": "neutral.400",
+        "dark": "neutral.600"
+      },
+      "placeholder": {
+        "name": "Placeholder Text",
+        "description": "Temporary guidance in empty fields.",
+        "light": "neutral.500",
+        "dark": "neutral.500"
+      },
+      "inverse": {
+        "name": "Inverse Text",
+        "description": "Text on strong surfaces.",
+        "light": "neutral.0",
+        "dark": "neutral.0"
+      },
+      "link": {
+        "name": "Link Text",
+        "description": "Interactive navigation and contextual actions.",
+        "light": "brand.primary.700",
+        "dark": "brand.primary.300"
+      }
     },
-    {
-      "role": "Surface",
-      "colorId": "cedar-surface",
-      "description": "Contained content surfaces."
+    "border": {
+      "subtle": {
+        "name": "Subtle Border",
+        "description": "Low-contrast related-content boundary.",
+        "light": "neutral.200",
+        "dark": "neutral.800"
+      },
+      "default": {
+        "name": "Default Border",
+        "description": "Standard component boundary.",
+        "light": "neutral.300",
+        "dark": "neutral.700"
+      },
+      "strong": {
+        "name": "Strong Border",
+        "description": "High-emphasis component boundary.",
+        "light": "neutral.400",
+        "dark": "neutral.600"
+      },
+      "focus": {
+        "name": "Focus Border",
+        "description": "Visible keyboard focus boundary.",
+        "light": "brand.primary.500",
+        "dark": "brand.primary.400"
+      }
     },
-    {
-      "role": "TextPrimary",
-      "colorId": "cedar-text-primary",
-      "description": "Primary typography."
+    "interactive": {
+      "primary": {
+        "default": {
+          "light": "brand.primary.600",
+          "dark": "brand.primary.400"
+        },
+        "hover": {
+          "light": "brand.primary.700",
+          "dark": "brand.primary.300"
+        },
+        "pressed": {
+          "light": "brand.primary.800",
+          "dark": "brand.primary.200"
+        },
+        "disabled": {
+          "light": "neutral.300",
+          "dark": "neutral.700"
+        }
+      },
+      "secondary": {
+        "default": {
+          "light": "brand.secondary.600",
+          "dark": "brand.secondary.400"
+        },
+        "hover": {
+          "light": "brand.secondary.700",
+          "dark": "brand.secondary.300"
+        },
+        "pressed": {
+          "light": "brand.secondary.800",
+          "dark": "brand.secondary.200"
+        },
+        "disabled": {
+          "light": "neutral.300",
+          "dark": "neutral.700"
+        }
+      },
+      "neutral": {
+        "default": {
+          "light": "neutral.100",
+          "dark": "neutral.800"
+        },
+        "hover": {
+          "light": "neutral.200",
+          "dark": "neutral.700"
+        },
+        "pressed": {
+          "light": "neutral.300",
+          "dark": "neutral.600"
+        }
+      }
     },
-    {
-      "role": "TextSecondary",
-      "colorId": "cedar-text-secondary",
-      "description": "Secondary typography."
+    "status": {
+      "success": {
+        "default": {
+          "light": "success.500",
+          "dark": "success.400"
+        },
+        "background": {
+          "light": "success.50",
+          "dark": "success.900"
+        },
+        "border": {
+          "light": "success.200",
+          "dark": "success.700"
+        },
+        "text": {
+          "light": "success.700",
+          "dark": "success.200"
+        }
+      },
+      "warning": {
+        "default": {
+          "light": "warning.500",
+          "dark": "warning.400"
+        },
+        "background": {
+          "light": "warning.50",
+          "dark": "warning.900"
+        },
+        "border": {
+          "light": "warning.200",
+          "dark": "warning.700"
+        },
+        "text": {
+          "light": "warning.700",
+          "dark": "warning.200"
+        }
+      },
+      "error": {
+        "default": {
+          "light": "error.500",
+          "dark": "error.400"
+        },
+        "background": {
+          "light": "error.50",
+          "dark": "error.900"
+        },
+        "border": {
+          "light": "error.200",
+          "dark": "error.700"
+        },
+        "text": {
+          "light": "error.700",
+          "dark": "error.200"
+        }
+      },
+      "info": {
+        "default": {
+          "light": "info.500",
+          "dark": "info.400"
+        },
+        "background": {
+          "light": "info.50",
+          "dark": "info.900"
+        },
+        "border": {
+          "light": "info.200",
+          "dark": "info.700"
+        },
+        "text": {
+          "light": "info.700",
+          "dark": "info.200"
+        }
+      }
     },
-    {
-      "role": "Border",
-      "colorId": "cedar-border",
-      "description": "Default component boundaries."
+    "focus": {
+      "default": {
+        "light": "brand.primary.500",
+        "dark": "brand.primary.400"
+      },
+      "offset": {
+        "light": "neutral.0",
+        "dark": "neutral.950"
+      }
     },
-    {
-      "role": "Success",
-      "colorId": "cedar-success",
-      "description": "Successful states."
-    },
-    {
-      "role": "Warning",
-      "colorId": "cedar-warning",
-      "description": "Warning states."
-    },
-    {
-      "role": "Error",
-      "colorId": "cedar-error",
-      "description": "Error states."
-    },
-    {
-      "role": "Info",
-      "colorId": "cedar-info",
-      "description": "Informational states."
-    },
-    {
-      "role": "Focus",
-      "colorId": "cedar-focus",
-      "description": "Keyboard focus."
+    "selection": {
+      "background": {
+        "light": "brand.primary.100",
+        "dark": "brand.primary.800"
+      },
+      "text": {
+        "light": "brand.primary.800",
+        "dark": "brand.primary.100"
+      }
     }
-  ]
+  },
+  "components": {
+    "button": {
+      "primary": {
+        "background": "interactive.primary.default",
+        "backgroundHover": "interactive.primary.hover",
+        "backgroundPressed": "interactive.primary.pressed",
+        "backgroundDisabled": "interactive.primary.disabled",
+        "text": "text.inverse",
+        "textDisabled": "text.disabled",
+        "focusRing": "focus.default",
+        "focusOffset": "focus.offset"
+      },
+      "secondary": {
+        "background": "interactive.secondary.default",
+        "backgroundHover": "interactive.secondary.hover",
+        "backgroundPressed": "interactive.secondary.pressed",
+        "backgroundDisabled": "interactive.secondary.disabled",
+        "text": "text.inverse",
+        "textDisabled": "text.disabled",
+        "focusRing": "focus.default",
+        "focusOffset": "focus.offset"
+      },
+      "ghost": {
+        "background": "transparent",
+        "backgroundHover": "interactive.neutral.hover",
+        "backgroundPressed": "interactive.neutral.pressed",
+        "text": "text.primary",
+        "focusRing": "focus.default"
+      }
+    },
+    "input": {
+      "background": "surface.default",
+      "backgroundDisabled": "surface.sunken",
+      "text": "text.primary",
+      "placeholder": "text.placeholder",
+      "textDisabled": "text.disabled",
+      "border": "border.default",
+      "borderHover": "border.strong",
+      "borderFocus": "border.focus",
+      "focusRing": "focus.default",
+      "errorBorder": "status.error.border",
+      "errorText": "status.error.text",
+      "successBorder": "status.success.border",
+      "successText": "status.success.text"
+    },
+    "card": {
+      "background": "surface.default",
+      "backgroundSubtle": "surface.subtle",
+      "border": "border.subtle",
+      "borderInteractive": "border.default",
+      "title": "text.primary",
+      "description": "text.secondary"
+    },
+    "link": {
+      "text": "text.link",
+      "textHover": "interactive.primary.hover",
+      "textPressed": "interactive.primary.pressed",
+      "focusRing": "focus.default"
+    },
+    "badge": {
+      "success": {
+        "background": "status.success.background",
+        "text": "status.success.text",
+        "border": "status.success.border"
+      },
+      "warning": {
+        "background": "status.warning.background",
+        "text": "status.warning.text",
+        "border": "status.warning.border"
+      },
+      "error": {
+        "background": "status.error.background",
+        "text": "status.error.text",
+        "border": "status.error.border"
+      },
+      "info": {
+        "background": "status.info.background",
+        "text": "status.info.text",
+        "border": "status.info.border"
+      }
+    }
+  },
+  "accessibility": {
+    "contrastStandard": "WCAG-2.2",
+    "minimumContrast": {
+      "normalTextAA": 4.5,
+      "largeTextAA": 3.0,
+      "normalTextAAA": 7.0,
+      "largeTextAAA": 4.5,
+      "nonTextUI": 3.0
+    },
+    "focus": {
+      "required": true,
+      "minimumContrast": 3.0,
+      "mustNotRelyOnColorAlone": true
+    },
+    "colorIndependence": {
+      "required": true,
+      "description": "Color must not be the sole mechanism for communicating status, errors, selection or interaction."
+    },
+    "recommendedStatusPairing": {
+      "success": [
+        "icon",
+        "text"
+      ],
+      "warning": [
+        "icon",
+        "text"
+      ],
+      "error": [
+        "icon",
+        "text"
+      ],
+      "info": [
+        "icon",
+        "text"
+      ]
+    }
+  },
+  "metadata": {
+    "createdBy": "Lattice Design System",
+    "usageGuidelines": [
+      "Prefer semantic tokens over direct primitive references.",
+      "Use brand colors primarily for identity and interaction.",
+      "Use neutral colors for structure, hierarchy and content.",
+      "Use semantic status colors consistently across components.",
+      "Do not use color as the sole indicator of state.",
+      "Do not introduce arbitrary color values inside components."
+    ],
+    "tokenResolution": {
+      "primitive": "Actual color value.",
+      "semantic": "Meaningful UI role referencing a primitive.",
+      "component": "Component-specific role referencing a semantic token."
+    }
+  }
 }

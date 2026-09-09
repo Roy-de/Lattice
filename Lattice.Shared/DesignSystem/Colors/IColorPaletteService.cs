@@ -17,12 +17,6 @@ public interface IColorPaletteService
     // Get all palettes sorted by name or custom order
     IReadOnlyList<ColorPalette> GetPalettesSorted();
     
-    // Get colors from all palettes (useful for color pickers)
-    IEnumerable<ColorDefinition> GetAllColors();
-    
-    // Get colors from a specific palette
-    IEnumerable<ColorDefinition> GetPaletteColors(string paletteId);
-    
     // Switch active/current palette
     void SwitchToPalette(string paletteId);
     

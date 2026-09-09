@@ -1,0 +1,31 @@
+@page "/design-system/foundations/spacing"
+@page "/design-system/foundations/sizing"
+@page "/design-system/foundations/borders"
+@page "/design-system/foundations/elevation"
+@page "/design-system/foundations/motion"
+@inject NavigationManager Navigation
+
+<PageTitle>@Title · Lattice</PageTitle>
+
+<div class="ds-page">
+    <header class="ds-page-header">
+        <span class="ds-eyebrow">Lattice UI / foundations</span>
+        <h1>@Title</h1>
+        <p>@Description</p>
+    </header>
+    <div class="ds-empty">This foundation is ready for token definitions and component examples. It already inherits the shared Lattice DesignSystem shell and page styles.</div>
+</div>
+
+@code {
+    private string Key => new Uri(Navigation.Uri).AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "foundations";
+    private string Title => char.ToUpperInvariant(Key[0]) + Key[1..];
+    private string Description => Key switch
+    {
+        "spacing" => "Define the rhythm and whitespace rules that make layouts easy to scan.",
+        "sizing" => "Establish predictable dimensions for controls, icons and responsive layouts.",
+        "borders" => "Document border widths, radii and divider treatments for every surface.",
+        "elevation" => "Use surface depth with intention to communicate hierarchy and focus.",
+        "motion" => "Create motion rules that make state changes feel deliberate and calm.",
+        _ => "Document the foundations that make Lattice feel consistent."
+    };
+}

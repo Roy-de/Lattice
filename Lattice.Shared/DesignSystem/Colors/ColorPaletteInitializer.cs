@@ -48,10 +48,10 @@ public sealed class ColorPaletteInitializer(IColorPaletteService colorPaletteSer
             if (colorPaletteService.Current != null)
             {
                 logger?.LogInformation(
-                    "Current palette: {PaletteName} (ID: {PaletteId}) with {ColorCount} colors",
+                    "Current palette: {PaletteName} (ID: {PaletteId}) with {ColorCount} themes",
                     colorPaletteService.Current.Name,
                     colorPaletteService.Current.Id,
-                    colorPaletteService.Current.Colors?.Count ?? 0);
+                    colorPaletteService.Current.ColorModel?.Themes.Count ?? 0);
             }
             else if (colorPaletteService.Palettes.Count > 0)
             {
