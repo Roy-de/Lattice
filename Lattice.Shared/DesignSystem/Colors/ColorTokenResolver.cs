@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 
 namespace Lattice.Shared.DesignSystem.Colors;
@@ -35,8 +36,47 @@ public static class ColorTokenResolver
             : string.Empty;
     }
 
-    public static string ToCssVariable(string prefix, string path) => $"--{prefix}-{path.Replace('.', '-').ToLowerInvariant()}";
+    public static string ToCssVariable(string prefix, string path)
+    {
+        return $"--{prefix}-{ToKebabCase(path)}";
+    }
 
+    private static string ToKebabCase(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
+
+        var builder = new StringBuilder();
+
+        for (var i = 0; i < value.Length; i++)
+        {
+            var character = value[i];
+
+            if (character == '.')
+            {
+                if (builder.Length > 0 && builder[^1] != '-')
+                    builder.Append('-');
+
+                continue;
+            }
+
+            if (char.IsUpper(character))
+            {
+                if (builder.Length > 0 && builder[^1] != '-')
+                    builder.Append('-');
+
+                builder.Append(
+                    char.ToLowerInvariant(character));
+
+                continue;
+            }
+
+            builder.Append(
+                char.ToLowerInvariant(character));
+        }
+
+        return builder.ToString();
+    }
     private static void Visit(ColorPalette palette, JsonElement node, string path, ICollection<ColorToken> tokens)
     {
         if (node.ValueKind != JsonValueKind.Object) return;

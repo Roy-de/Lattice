@@ -11,12 +11,17 @@ public sealed class ColorPaletteService : IColorPaletteService
     private readonly Dictionary<string, ColorPalette> _palettes = new(StringComparer.OrdinalIgnoreCase);
     private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true };
     private string? _allPalettesCss;
-    private readonly Dictionary<string, string> _paletteCssCache = new(StringComparer.OrdinalIgnoreCase);
 
-    public ColorPaletteService(IResourceLoader resources, ILogger<ColorPaletteService> logger) => (_resources, _logger) = (resources, logger);
+    private IColorPaletteCssGenerator _cssGenerator;
+    public ColorPaletteService(IResourceLoader resources, ILogger<ColorPaletteService> logger, IColorPaletteCssGenerator cssGenerator)
+    {
+        _cssGenerator = cssGenerator;
+        (_resources, _logger) = (resources, logger);
+    }
+
     public ColorPalette? Current { get; private set; }
     public IReadOnlyList<ColorPalette> Palettes => _palettes.Values.ToList().AsReadOnly();
-
+    private Dictionary<string, string> _paletteWithCss = new();
     public async Task<ColorPalette> LoadAsync(string paletteId)
     {
         var path = $"Colors/{paletteId}.json";
@@ -24,17 +29,19 @@ public sealed class ColorPaletteService : IColorPaletteService
         {
             await using var stream = await _resources.OpenAsync("Colors", path);
             using var reader = new StreamReader(stream, leaveOpen: true);
+            
             var json = await reader.ReadToEndAsync();
-            var palette = JsonSerializer.Deserialize<ColorPalette>(json, _options)
-                ?? throw new InvalidOperationException($"Failed to deserialize color palette '{paletteId}'.");
+            
+            var palette = JsonSerializer.Deserialize<ColorPalette>(json, _options) 
+                          ?? throw new InvalidOperationException($"Failed to deserialize color palette '{paletteId}'.");
             palette.Id = string.IsNullOrWhiteSpace(palette.Id) ? paletteId : palette.Id;
             if (palette.Semantic.ValueKind != JsonValueKind.Object)
                 throw new InvalidOperationException($"Palette '{palette.Id}' must contain a semantic token object.");
 
             _palettes[palette.Id] = palette;
             Current ??= palette;
+            _paletteWithCss.Add(palette.Id, _cssGenerator.Generate(palette));
             _allPalettesCss = null;
-            _paletteCssCache.Clear();
             _logger.LogInformation("Loaded palette {Name} ({Id}) with {TokenCount} semantic tokens", palette.Name, palette.Id, ColorTokenResolver.GetSemanticTokens(palette).Count);
             return palette;
         }
@@ -64,11 +71,14 @@ public sealed class ColorPaletteService : IColorPaletteService
         if (!_palettes.Remove(paletteId)) return false;
         if (Current?.Id.Equals(paletteId, StringComparison.OrdinalIgnoreCase) == true) Current = _palettes.Values.FirstOrDefault();
         _allPalettesCss = null;
-        _paletteCssCache.Remove(paletteId);
         return true;
     }
 
-    public void ClearAll() { _palettes.Clear(); Current = null; _allPalettesCss = null; _paletteCssCache.Clear(); }
+    public string? GetPaletteCss(string paletteId)
+    {
+        return _paletteWithCss.GetValueOrDefault(paletteId);
+    }
+
+    public void ClearAll() { _palettes.Clear(); Current = null; _allPalettesCss = null; }
     public string GetAllPalettesCss(IColorPaletteCssGenerator generator) => _allPalettesCss ??= generator.GenerateAll(_palettes.Values);
-    public string GetPaletteCss(string paletteId, IColorPaletteCssGenerator generator) => _paletteCssCache.TryGetValue(paletteId, out var css) ? css : _paletteCssCache[paletteId] = generator.Generate(GetPalette(paletteId) ?? throw new KeyNotFoundException($"Palette '{paletteId}' not found."));
 }

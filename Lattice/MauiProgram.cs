@@ -3,6 +3,7 @@ using Lattice.Shared.Services;
 using Lattice.Services;
 using Lattice.Services.IconService;
 using Lattice.Shared.DesignSystem.Colors;
+using Lattice.Shared.DesignSystem.Motion;
 using Lattice.Shared.DesignSystem.Typography;
 using Lattice.Shared.Resource;
 
@@ -24,7 +25,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<ColorPaletteInitializer>();
         builder.Services.AddSingleton<IColorPaletteService, ColorPaletteService>();
         builder.Services.AddSingleton<IColorPaletteCssGenerator, ColorPaletteCssGenerator>();
-
+        builder.Services.AddSingleton<MotionInitializer>();
+        builder.Services.AddSingleton<IMotionService, MotionService>();
+        builder.Services.AddSingleton<IMotionCssGenerator, MotionCssGenerator>();
         builder.Services.AddMauiBlazorWebView();
         
 
@@ -65,6 +68,9 @@ public static class MauiProgram
             
             var colors =  services.GetRequiredService<ColorPaletteInitializer>();
             await colors.InitializeAsync();
+            
+            var motion = services.GetRequiredService<MotionInitializer>();
+            await motion.InitializeAsync();
         }
         catch (Exception ex)
         {

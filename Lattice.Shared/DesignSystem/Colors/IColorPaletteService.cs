@@ -36,5 +36,5 @@ public interface IColorPaletteService
     string GetAllPalettesCss(IColorPaletteCssGenerator generator);
     
     // Generate CSS for a specific palette
-    string GetPaletteCss(string paletteId, IColorPaletteCssGenerator generator);
+    string? GetPaletteCss(string paletteId);
 }

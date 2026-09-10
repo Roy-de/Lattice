@@ -1,0 +1,193 @@
+﻿{
+  "id": "lattice-motion",
+  "name": "Lattice Motion",
+  "version": "1.0.0",
+
+  "description": "A restrained motion system designed to make interfaces feel responsive, precise, calm and human.",
+
+  "personality": [
+    "responsive",
+    "steady",
+    "precise",
+    "human",
+    "comfortable",
+    "quiet"
+  ],
+
+  "principles": [
+    {
+      "id": "purposeful",
+      "description": "Motion communicates a meaningful state change or relationship."
+    },
+    {
+      "id": "responsive",
+      "description": "Interaction feedback should feel directly connected to the user's action."
+    },
+    {
+      "id": "restrained",
+      "description": "Movement should support comprehension rather than compete for attention."
+    },
+    {
+      "id": "consistent",
+      "description": "Similar interactions use consistent timing, distance and easing."
+    },
+    {
+      "id": "accessible",
+      "description": "Motion provides an appropriate reduced-motion alternative."
+    }
+  ],
+
+  "durations": {
+    "instant": "0ms",
+    "micro": "100ms",
+    "fast": "150ms",
+    "normal": "200ms",
+    "moderate": "300ms",
+    "slow": "450ms",
+    "deliberate": "600ms"
+  },
+
+  "easings": {
+    "linear": "linear",
+    "standard": "cubic-bezier(0.2, 0, 0, 1)",
+    "enter": "cubic-bezier(0, 0, 0.2, 1)",
+    "exit": "cubic-bezier(0.4, 0, 1, 1)"
+  },
+
+  "distances": {
+    "none": "0px",
+    "micro": "2px",
+    "subtle": "4px",
+    "small": "8px",
+    "medium": "16px",
+    "large": "24px",
+    "dramatic": "40px"
+  },
+
+  "scale": {
+    "none": 1,
+    "subtleDown": 0.99,
+    "smallDown": 0.98,
+    "subtleUp": 1.01,
+    "smallUp": 1.02
+  },
+
+  "opacity": {
+    "hidden": 0,
+    "subtle": 0.4,
+    "visible": 1
+  },
+
+  "stagger": {
+    "subtle": "30ms",
+    "normal": "50ms",
+    "slow": "80ms"
+  },
+
+  "semantic": {
+
+    "interaction": {
+      "hover": {
+        "duration": "{durations.fast}",
+        "easing": "{easings.standard}"
+      },
+
+      "press": {
+        "duration": "{durations.micro}",
+        "easing": "{easings.standard}",
+        "scale": "{scale.smallDown}"
+      },
+
+      "focus": {
+        "duration": "{durations.fast}",
+        "easing": "{easings.standard}"
+      }
+    },
+
+    "surface": {
+      "popoverEnter": {
+        "duration": "{durations.normal}",
+        "easing": "{easings.enter}",
+        "distance": "{distances.small}",
+        "opacity": {
+          "from": 0,
+          "to": 1
+        }
+      },
+
+      "popoverExit": {
+        "duration": "{durations.fast}",
+        "easing": "{easings.exit}",
+        "distance": "{distances.subtle}",
+        "opacity": {
+          "from": 1,
+          "to": 0
+        }
+      },
+
+      "dialogEnter": {
+        "duration": "{durations.moderate}",
+        "easing": "{easings.enter}",
+        "distance": "{distances.medium}",
+        "opacity": {
+          "from": 0,
+          "to": 1
+        }
+      },
+
+      "dialogExit": {
+        "duration": "{durations.fast}",
+        "easing": "{easings.exit}",
+        "distance": "{distances.small}",
+        "opacity": {
+          "from": 1,
+          "to": 0
+        }
+      }
+    },
+
+    "content": {
+      "fadeIn": {
+        "duration": "{durations.normal}",
+        "easing": "{easings.enter}"
+      },
+
+      "fadeUp": {
+        "duration": "{durations.moderate}",
+        "easing": "{easings.enter}",
+        "distance": "{distances.medium}"
+      },
+
+      "scaleIn": {
+        "duration": "{durations.normal}",
+        "easing": "{easings.enter}",
+        "scale": "{scale.subtleDown}"
+      }
+    },
+
+    "feedback": {
+      "notificationEnter": {
+        "duration": "{durations.moderate}",
+        "easing": "{easings.enter}",
+        "distance": "{distances.medium}"
+      },
+
+      "notificationExit": {
+        "duration": "{durations.fast}",
+        "easing": "{easings.exit}",
+        "distance": "{distances.small}"
+      }
+    }
+  },
+
+  "accessibility": {
+    "reducedMotion": {
+      "enabled": true,
+      "strategy": "minimize",
+      "maxDuration": "100ms",
+      "allowOpacity": true,
+      "allowTransform": false,
+      "allowScale": false
+    }
+  }
+}
