@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AspNetCore.SassCompiler" Version="1.106.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0"/>
         <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.20" />
     </ItemGroup>
@@ -99,6 +100,10 @@
     <ItemGroup>
       <Folder Include="DesignSystem\Components\Buttons\" />
       <Folder Include="DesignSystem\Components\Input\" />
+      <Folder Include="DesignSystem\Layout\" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="DesignSystem\Layout\" />
     </ItemGroup>
 
