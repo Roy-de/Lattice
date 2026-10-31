@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +21,6 @@ public sealed class ColorPaletteCssGenerator : IColorPaletteCssGenerator
         var safeName = SanitizeName(palette.Name);
         GenerateTheme(css, palette, tokens, safeName, "light");
         GenerateTheme(css, palette, tokens, safeName, "dark");
-        _logger.LogInformation("Generated CSS for palette {PaletteId}: {Css}", palette.Id, css.ToString());
 
         return css.ToString();
     }

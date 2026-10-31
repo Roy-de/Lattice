@@ -1,0 +1,30 @@
+﻿<div class="motion-token">
+
+    <strong>
+        @Name
+    </strong>
+
+    <code>
+        @Value
+    </code>
+
+    <div>
+        <div
+            class="motion-token-preview"
+            style="@($"--preview-duration:{Duration}")">
+        </div>
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Value { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Duration { get; set; } = "200ms";
+}

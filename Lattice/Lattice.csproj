@@ -117,6 +117,8 @@
 
         <!--Colors -->
         <EmbeddedResource Include="Resources\Colors\**\*.json" LogicalName="Colors/%(RecursiveDir)%(Filename)%(Extension)" />
+	
+	<EmbeddedResource Include="Resources\Motion\**\*.json" LogicalName="Motion/%(RecursiveDir)%(Filename)%(Extension)" />
 
         <!-- Installed application Fonts -->
         <EmbeddedResource Include="Resources\Fonts\**\*.tff" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
@@ -131,6 +133,8 @@
 
         <!--Custom colors-->
         <MauiAsset Include="Resources\Colors\**\*.json" LogicalName="Colors/%(RecursiveDir)%(Filename)%(Extension)" />
+
+	<MauiAsset Include="Resources\Motion\**\*.json" LogicalName="Motion/%(RecursiveDir)%(Filename)%(Extension)" />
 
         <!-- Custom Fonts -->
         <MauiAsset Include="Resources\Fonts\**\*.ttf" LogicalName="Fonts/%(RecursiveDir)%(Filename)%(Extension)" />

@@ -66,10 +66,10 @@
 
   "scale": {
     "none": 1,
-    "subtleDown": 0.99,
-    "smallDown": 0.98,
-    "subtleUp": 1.01,
-    "smallUp": 1.02
+    "subtleDown": 0.80,
+    "smallDown": 0.75,
+    "subtleUp": 1.75,
+    "smallUp": 2
   },
 
   "opacity": {

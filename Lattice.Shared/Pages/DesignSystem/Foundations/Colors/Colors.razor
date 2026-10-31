@@ -18,10 +18,11 @@
                 var light = Preview(semantic, "light");
                 var dark = Preview(semantic, "dark");
                 <a class="palette-card-new" href="@($"/design-system/foundations/colors/{palette.Id}")">
-                    <div class="palette-card-top"><div><span class="ds-badge">@palette.ColorModel?.Architecture</span><h2>@palette.Name</h2></div><span class="inspect-link">Inspect →</span></div>
+                    <div class="palette-card-top"><div><h2>@palette.Name</h2></div><span class="inspect-link">Inspect →</span></div>
                     <p>@palette.Description</p>
                     <div class="primitive-row" aria-label="@($"{palette.Name} primitive brand colours")">
                         @foreach (var swatch in swatches) { <span title="@swatch.Path" style="background:@swatch.LightValue"></span> }
+                        @foreach (var swatch in swatches) { <span title="@swatch.Path" style="background:@swatch.DarkValue"></span> }
                     </div>
                     <div class="primitive-caption">@(brand.Count > 0 ? "Brand primitives" : "Primitive palette") · @primitives.Count values</div>
                     <div class="theme-comparison" aria-label="@($"{palette.Name} light and dark comparison")">

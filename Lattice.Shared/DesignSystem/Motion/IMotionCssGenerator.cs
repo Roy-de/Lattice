@@ -1,6 +1,9 @@
-﻿namespace Lattice.Shared.DesignSystem.Motion;
+using Lattice.Shared.DesignSystem.Motion.Models;
 
-public class IMotionCssGenerator
+namespace Lattice.Shared.DesignSystem.Motion;
+
+public interface IMotionCssGenerator
 {
-    
+    string Generate(MotionSystem motion);
+    string GenerateAll(IEnumerable<MotionSystem> motions);
 }

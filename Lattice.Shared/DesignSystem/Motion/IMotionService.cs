@@ -12,7 +12,7 @@ public interface IMotionService
 
     MotionSystem? GetMotionSystem(string motionId);
     
-    IReadOnlyList<MotionSystem> getMotionSystemsSorted();
+    IReadOnlyList<MotionSystem> GetMotionSystemsSorted();
 
     void SwitchMotionSystem(string motionId);
 

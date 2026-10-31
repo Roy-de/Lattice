@@ -5,53 +5,187 @@ using Microsoft.Extensions.Logging;
 
 namespace Lattice.Shared.DesignSystem.Motion;
 
-public sealed class MotionService: IMotionService
+public sealed class MotionService : IMotionService
 {
     private readonly IResourceLoader _resources;
     private readonly ILogger<MotionService> _logger;
-    private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true };
+    private readonly IMotionCssGenerator _motionCssGenerator;
 
-    public MotionService(IResourceLoader resources, ILogger<MotionService> logger)
+    private readonly Dictionary<string, MotionSystem> _motionSystems =
+        new(StringComparer.OrdinalIgnoreCase);
+
+    private readonly JsonSerializerOptions _options = new()
     {
-        _resources = resources;
-        _logger = logger;
+        PropertyNameCaseInsensitive = true
+    };
+
+    private IReadOnlyCollection<MotionSystem> _motionSystemsSnapshot =
+        Array.Empty<MotionSystem>();
+
+    public MotionService(
+        IResourceLoader resources,
+        ILogger<MotionService> logger,
+        IMotionCssGenerator motionCssGenerator)
+    {
+        _resources = resources
+                     ?? throw new ArgumentNullException(nameof(resources));
+
+        _logger = logger
+                  ?? throw new ArgumentNullException(nameof(logger));
+
+        _motionCssGenerator = motionCssGenerator
+                              ?? throw new ArgumentNullException(nameof(motionCssGenerator));
     }
+
+    public IReadOnlyCollection<MotionSystem> MotionSystems =>
+        _motionSystemsSnapshot;
+
+    public MotionSystem? Current { get; private set; }
+
+    public string MotionCss { get; private set; } = string.Empty;
 
     public async Task<MotionSystem> LoadAsync(string motionId)
     {
-        var path = $"Motion/{motionId}.json";
+        if (string.IsNullOrWhiteSpace(motionId))
+        {
+            throw new ArgumentException(
+                "Motion ID cannot be null or empty.",
+                nameof(motionId));
+        }
+
+        var normalizedId = motionId.Trim();
+
+        var path = $"{normalizedId}.json";
+
         try
         {
-            await using var stream = await _resources.OpenAsync("Colors", path);
-            using var reader = new StreamReader(stream, leaveOpen: true);
-            
+            await using var stream =
+                await _resources.OpenAsync("Motion", path);
+
+            using var reader =
+                new StreamReader(stream, leaveOpen: true);
+
             var json = await reader.ReadToEndAsync();
-            
-            var motion = JsonSerializer.Deserialize<MotionSystem>(json, _options)
-                ?? throw new InvalidOperationException($"Cannot deserialize motion 'motionId'");
+
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                throw new InvalidOperationException(
+                    $"Motion resource '{path}' is empty.");
+            }
+
+            var motion =
+                JsonSerializer.Deserialize<MotionSystem>(
+                    json,
+                    _options);
+
+            if (motion is null)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot deserialize motion '{normalizedId}'.");
+            }
+
+            motion.Id = normalizedId;
+
+            _motionSystems[normalizedId] = motion;
+
+            if (Current is null)
+            {
+                Current = motion;
+            }
+
+            MotionCss = _motionCssGenerator.Generate(motion);
+
+            RefreshSnapshot();
+
+            _logger.LogInformation(
+                "Loaded motion {MotionId}",
+                motion.Id);
+
+            return motion;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "Error loading motion {MotionId}",
+                normalizedId);
+
+            throw;
         }
     }
 
-    public Task<IEnumerable<MotionSystem>> LoadMultipleAsync(IEnumerable<string> motionIds)
+    public async Task<IEnumerable<MotionSystem>> LoadMultipleAsync(
+        IEnumerable<string> motionIds)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(motionIds);
+
+        var motions = new List<MotionSystem>();
+
+        foreach (var motionId in motionIds)
+        {
+            if (string.IsNullOrWhiteSpace(motionId))
+            {
+                continue;
+            }
+
+            try
+            {
+                var motion = await LoadAsync(motionId);
+                motions.Add(motion);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error loading motion {MotionId}",
+                    motionId);
+            }
+        }
+
+        return motions;
     }
 
-    public IReadOnlyCollection<MotionSystem> MotionSystems { get; }
     public MotionSystem? GetMotionSystem(string motionId)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(motionId))
+        {
+            return null;
+        }
+
+        return _motionSystems.GetValueOrDefault(motionId.Trim());
     }
 
-    public IReadOnlyList<MotionSystem> getMotionSystemsSorted()
+    public IReadOnlyList<MotionSystem> GetMotionSystemsSorted()
     {
-        throw new NotImplementedException();
+        return _motionSystems.Values
+            .OrderBy(m => m.Name, StringComparer.OrdinalIgnoreCase)
+            .ToList();
     }
 
     public void SwitchMotionSystem(string motionId)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(motionId))
+        {
+            throw new ArgumentException(
+                "Motion ID cannot be null or empty.",
+                nameof(motionId));
+        }
+
+        var motion = GetMotionSystem(motionId);
+
+        if (motion is null)
+        {
+            throw new KeyNotFoundException(
+                $"Motion not found for id '{motionId}'.");
+        }
+
+        Current = motion;
+
+        MotionCss = _motionCssGenerator.Generate(motion);
     }
 
-    public MotionSystem? Current { get; }
+    private void RefreshSnapshot()
+    {
+        _motionSystemsSnapshot = _motionSystems.Values.ToList();
+    }
 }

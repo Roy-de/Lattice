@@ -91,4 +91,15 @@
       <_ContentIncludedByDefault Remove="Fonts\saas.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Pages\DesignSystem\Foundations\Principles\DesignTokens\DesignTokens.razor" />
+      <UpToDateCheckInput Remove="Pages\DesignSystem\Inputs\Inputs.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DesignSystem\Components\Buttons\" />
+      <Folder Include="DesignSystem\Components\Input\" />
+      <Folder Include="DesignSystem\Layout\" />
+    </ItemGroup>
+
 </Project>
