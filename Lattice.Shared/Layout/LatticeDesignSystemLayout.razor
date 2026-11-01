@@ -1,13 +1,24 @@
 ﻿@inherits LayoutComponentBase
+@using Lattice.Shared.Resource
+@using Microsoft.Extensions.Logging
 @implements IDisposable
 @inject NavigationManager Navigation
-
+@inject SharedUiResourceLoader SharedUiResourceLoader
+@inject ILogger<Routes> Logger
 
 <div class="lattice-design-system-shell">
     Hello world
 </div>
 
 @code {
+    
+    /*protected override async Task OnInitializedAsync()
+    {
+        Logger.LogInformation("Initializing Routes and loading resources");
+        SharedUiResourceLoader.OpenAsync("");
+    }*/
+    
+
     public void Dispose()
     {
         throw new NotImplementedException();
