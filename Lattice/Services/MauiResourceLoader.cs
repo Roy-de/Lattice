@@ -64,6 +64,11 @@ public class MauiResourceLoader : IResourceLoader
         }
     }
 
+    public Task<Stream> OpenAsync(string relativePath, CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<IEnumerable<string>> ListAsync(string directory)
     {
         try

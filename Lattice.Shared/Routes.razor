@@ -1,6 +1,19 @@
-﻿<Router AppAssembly="typeof(Layout.DesignSystemLayout).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+﻿@using Lattice.Shared.Resource
+@using Microsoft.Extensions.Logging
+@inject SharedUiResourceLoader SharedUiResourceLoader
+@inject ILogger<Routes> Logger
+<Router AppAssembly="typeof(Layout.DesignSystemLayout).Assembly" NotFoundPage="typeof(Pages.NotFound)">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.LatticeDesignSystemLayout)"/>
         <FocusOnNavigate RouteData="routeData" Selector="h1"/>
     </Found>
 </Router>
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        Logger.LogInformation("Initializing Routes and loading resources");
+        SharedUiResourceLoader.OpenAsync("");
+    }
+}
