@@ -1,27 +1,69 @@
-﻿@inherits LayoutComponentBase
-@using Lattice.Shared.Resource
-@using Microsoft.Extensions.Logging
-@implements IDisposable
-@inject NavigationManager Navigation
-@inject SharedUiResourceLoader SharedUiResourceLoader
-@inject ILogger<Routes> Logger
+﻿@using Lattice.Shared.DesignSystem.Components.Icons
+@inherits LayoutComponentBase
 
 <div class="lattice-design-system-shell">
-    Hello world
+
+    <!-- ============ HERO / SYSTEM TITLE ============ -->
+    <h1 class="display">Lattice</h1>
+    <h2 class="h1">Design with intention</h2>
+    <p class="body1">Make complexity feel simple.</p>
+
+    <hr class="lattice-rule" />
+
+    <!-- ============ TEXT STYLES SPECIMEN ============ -->
+    <section class="lattice-section">
+        <h3 class="h5">Text Styles Specimen</h3>
+
+        <p class="display">display — Garamond/Vadodara 700 · 56/63</p>
+        <p class="h1">h1 — Geist 600 · 96/104</p>
+        <p class="h2">h2 — Geist 600 · 64/72</p>
+        <p class="h3">h3 — Geist 500 · 48/56</p>
+        <p class="h4">h4 — Geist 400 · 40/48</p>
+        <p class="h5">h5 — Geist 500 · 32/40</p>
+        <p class="h6">h6 — Geist 500 · 24/32</p>
+        <p class="h7">h7 — Geist 600 · 20/28</p>
+
+        <p class="body1">body1 — Vadodara 400 · 20/28 · +0.04em</p>
+        <p class="body2">body2 — Vadodara 400 · 16/22</p>
+        <p class="body3">body3 — Vadodara 400 · 14/19</p>
+
+        <p><button class="button1">Button 1</button></p>
+        <p><button class="button2">Button 2</button></p>
+        <p><button class="button3">Button 3</button></p>
+
+        <p class="caption1">caption1 — Vadodara 500 · 13/28 · +0.04em</p>
+        <p class="caption2">caption2 — Vadodara 400 · 10/16 · +0.04em</p>
+
+        <p class="number-sm">number-sm — Manrope 500 · 16/19 · 1,234.56</p>
+        <p class="number-md">number-md — Manrope 600 · 20/33 · 1,234.56</p>
+        <p class="number-lg">number-lg — Manrope 700 · 32/55 · 1,234.56</p>
+    </section>
+
+    
+    <Icon Name="house" />
+
+    <Icon Name="settings" Size="20" />
+
+    <Icon Name="search"
+                 Size="24"
+                 Stroke="#808267"
+                 StrokeWidth="1.5" />
+
+    <Icon Name="heart"
+          Size="32"
+          Stroke="#BB541A"
+          StrokeWidth="2.5" />
+    
+    <Icon
+        Name="activity"
+        Size="32"
+        Stroke="#BB541A"
+        StrokeWidth="1.5"
+        vector-effect="non-scaling-stroke"
+        opacity="0.85"
+        class="dashboard-icon" />
 </div>
 
 @code {
-    
-    /*protected override async Task OnInitializedAsync()
-    {
-        Logger.LogInformation("Initializing Routes and loading resources");
-        SharedUiResourceLoader.OpenAsync("");
-    }*/
-    
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
 
 }

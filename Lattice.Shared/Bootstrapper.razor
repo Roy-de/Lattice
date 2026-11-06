@@ -1,0 +1,137 @@
+﻿
+@using Lattice.Shared.DesignSystem.Colors
+@using Lattice.Shared.DesignSystem.Semantics
+@using Lattice.Shared.DesignSystem.Typography
+@using Lattice.Shared.DesignSystem.Typography.Model
+@using Microsoft.Extensions.Logging
+
+@inject ColorInitializer ColorInitializer
+@inject FontInitializer FontInitializer
+@inject TokenInitializer TokenInitializer
+@inject TypographyCssRegistry TypographyCssRegistry
+@inject TokenCssGenerator TokenCssGenerator
+@inject FontRegistry FontRegistry
+@inject ILogger<Bootstrapper> Logger
+
+@if (_initialized)
+{
+    @ChildContent
+}
+else
+{
+    <div>Initializing Lattice...</div>
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    // Track the two initialization stages independently.
+    private bool _resourcesInitialized;
+    private bool _fontsActivated;
+    private bool _semanticTokensActivated;
+    private bool _initialized;
+
+    // Initially use Ledger. This should eventually come from
+    // your typography theme selection service.
+    [Parameter]
+    public string ActiveTypographyTheme { get; set; } = "Lattice";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ColorInitializer.InitializeAsync();
+            await FontInitializer.InitializeAsync();
+            await TokenInitializer.InitializeAsync();
+            _resourcesInitialized = true;
+
+            Logger.LogInformation(
+                "Lattice resource initialization completed");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(
+                ex,
+                "Failed to initialize Lattice resources");
+
+            throw;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || !_resourcesInitialized || _fontsActivated || _semanticTokensActivated)
+            return;
+
+        try
+        {
+            // Stage 2: Activate browser-dependent resources.
+            if (!FontInitializer.Themes.TryGetValue(ActiveTypographyTheme, out var theme))
+            {
+                throw new InvalidOperationException($"Typography theme '{ActiveTypographyTheme}' was not found.");
+            }
+
+            foreach (var (family, definition) in theme.Fonts)
+            {
+                await RegisterVariantAsync(
+                    family,
+                    definition.Normal,
+                    "normal");
+
+                await RegisterVariantAsync(
+                    family,
+                    definition.Italic,
+                    "italic");
+            }
+
+            // Generate CSS and inject it directly into the WebView.
+            await TypographyCssRegistry.ApplyAsync(theme);
+            
+            _fontsActivated = true;
+            _initialized = true;
+
+            Logger.LogInformation("Lattice initialized using typography theme '{Theme}'", ActiveTypographyTheme);
+
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to activate Lattice typography");
+            throw;
+        }
+        
+    }
+
+    private async Task RegisterVariantAsync(string family, FontVariantDefinition? variant, string style)
+    {
+        if (variant is null)
+            return;
+
+        if (variant.Variable is not null)
+        {
+            var variable = variant.Variable;
+
+            var weight = variable.Weight.Length == 2
+                ? $"{variable.Weight[0]} {variable.Weight[1]}"
+                : variable.Weight.FirstOrDefault().ToString();
+
+            await FontRegistry.RegisterAsync(
+                family,
+                variable.Path,
+                weight,
+                style);
+
+            return;
+        }
+
+        foreach (var (weight, path) in variant.Static)
+        {
+            await FontRegistry.RegisterAsync(
+                family,
+                path,
+                weight,
+                style);
+        }
+    }
+}

@@ -1,0 +1,222 @@
+﻿{
+  "name": "Lattice",
+  "description": "Vadodara display paired with Geist for interface and body typography. Modular scale (1.2→1.333), 16px root, fluid via clamp() between 360px and 1440px viewports.",
+
+  "fonts": {
+    "Vadodara": {
+      "normal": {
+        "static": {
+          "400": "Hind_Vadodara/HindVadodara-Regular.ttf",
+          "500": "Hind_Vadodara/HindVadodara-Medium.ttf",
+          "600": "Hind_Vadodara/HindVadodara-SemiBold.ttf",
+          "700": "Hind_Vadodara/HindVadodara-Bold.ttf"
+        }
+      }
+    },
+
+    "Geist": {
+      "normal": {
+        "variable": {
+          "path": "Geist/Geist-VariableFont_wght.ttf",
+          "weight": [100, 900]
+        },
+        "static": {
+          "100": "Geist/static/Geist-Thin.ttf",
+          "200": "Geist/static/Geist-ExtraLight.ttf",
+          "300": "Geist/static/Geist-Light.ttf",
+          "400": "Geist/static/Geist-Regular.ttf",
+          "500": "Geist/static/Geist-Medium.ttf",
+          "600": "Geist/static/Geist-SemiBold.ttf",
+          "700": "Geist/static/Geist-Bold.ttf",
+          "800": "Geist/static/Geist-ExtraBold.ttf",
+          "900": "Geist/static/Geist-Black.ttf"
+        }
+      },
+
+      "italic": {
+        "variable": {
+          "path": "Geist/Geist-Italic-VariableFont_wght.ttf",
+          "weight": [100, 900]
+        },
+        "static": {
+          "100": "Geist/static/Geist-ThinItalic.ttf",
+          "200": "Geist/static/Geist-ExtraLightItalic.ttf",
+          "300": "Geist/static/Geist-LightItalic.ttf",
+          "400": "Geist/static/Geist-Italic.ttf",
+          "500": "Geist/static/Geist-MediumItalic.ttf",
+          "600": "Geist/static/Geist-SemiBoldItalic.ttf",
+          "700": "Geist/static/Geist-BoldItalic.ttf",
+          "800": "Geist/static/Geist-ExtraBoldItalic.ttf",
+          "900": "Geist/static/Geist-BlackItalic.ttf"
+        }
+      }
+    },
+
+    "Manrope": {
+      "normal": {
+        "variable": {
+          "path": "Manrope/Manrope-VariableFont_wght.ttf",
+          "weight": [200, 800]
+        },
+        "static": {
+          "200": "Manrope/static/Manrope-ExtraLight.ttf",
+          "300": "Manrope/static/Manrope-Light.ttf",
+          "400": "Manrope/static/Manrope-Regular.ttf",
+          "500": "Manrope/static/Manrope-Medium.ttf",
+          "600": "Manrope/static/Manrope-SemiBold.ttf",
+          "700": "Manrope/static/Manrope-Bold.ttf",
+          "800": "Manrope/static/Manrope-ExtraBold.ttf"
+        }
+      }
+    }
+  },
+
+  "textStyles": {
+    "display-xl": {
+      "family": "Vadodara",
+      "weight": 700,
+      "desktop": { "size": "72px", "lineHeight": "76px", "letterSpacing": "-0.03em" },
+      "mobile":  { "size": "40px", "lineHeight": "44px", "letterSpacing": "-0.02em" }
+    },
+
+    "display": {
+      "family": "Vadodara",
+      "weight": 700,
+      "desktop": { "size": "56px", "lineHeight": "60px", "letterSpacing": "-0.02em" },
+      "mobile":  { "size": "32px", "lineHeight": "38px", "letterSpacing": "-0.01em" }
+    },
+
+    "h1": {
+      "family": "Geist",
+      "weight": 600,
+      "desktop": { "size": "48px", "lineHeight": "56px", "letterSpacing": "-0.02em" },
+      "mobile":  { "size": "32px", "lineHeight": "40px", "letterSpacing": "-0.01em" }
+    },
+
+    "h2": {
+      "family": "Geist",
+      "weight": 600,
+      "desktop": { "size": "40px", "lineHeight": "48px", "letterSpacing": "-0.02em" },
+      "mobile":  { "size": "28px", "lineHeight": "36px", "letterSpacing": "-0.01em" }
+    },
+
+    "h3": {
+      "family": "Geist",
+      "weight": 600,
+      "desktop": { "size": "32px", "lineHeight": "40px", "letterSpacing": "-0.01em" },
+      "mobile":  { "size": "24px", "lineHeight": "32px", "letterSpacing": "0em" }
+    },
+
+    "h4": {
+      "family": "Geist",
+      "weight": 600,
+      "desktop": { "size": "24px", "lineHeight": "32px", "letterSpacing": "-0.01em" },
+      "mobile":  { "size": "20px", "lineHeight": "28px", "letterSpacing": "0em" }
+    },
+
+    "h5": {
+      "family": "Geist",
+      "weight": 600,
+      "desktop": { "size": "20px", "lineHeight": "28px", "letterSpacing": "0em" },
+      "mobile":  { "size": "18px", "lineHeight": "26px", "letterSpacing": "0em" }
+    },
+
+    "h6": {
+      "family": "Geist",
+      "weight": 600,
+      "desktop": { "size": "18px", "lineHeight": "26px", "letterSpacing": "0em" },
+      "mobile":  { "size": "16px", "lineHeight": "24px", "letterSpacing": "0em" }
+    },
+
+    "body1": {
+      "family": "Vadodara",
+      "weight": 400,
+      "desktop": { "size": "18px", "lineHeight": "28px", "letterSpacing": "0em" },
+      "mobile":  { "size": "16px", "lineHeight": "26px", "letterSpacing": "0em" }
+    },
+
+    "body2": {
+      "family": "Vadodara",
+      "weight": 400,
+      "desktop": { "size": "16px", "lineHeight": "24px", "letterSpacing": "0em" },
+      "mobile":  { "size": "15px", "lineHeight": "23px", "letterSpacing": "0em" }
+    },
+
+    "body3": {
+      "family": "Vadodara",
+      "weight": 400,
+      "desktop": { "size": "14px", "lineHeight": "22px", "letterSpacing": "0em" },
+      "mobile":  { "size": "14px", "lineHeight": "22px", "letterSpacing": "0em" }
+    },
+
+    "label": {
+      "family": "Vadodara",
+      "weight": 500,
+      "desktop": { "size": "14px", "lineHeight": "20px", "letterSpacing": "0.01em" },
+      "mobile":  { "size": "14px", "lineHeight": "20px", "letterSpacing": "0.01em" }
+    },
+
+    "overline": {
+      "family": "Vadodara",
+      "weight": 600,
+      "desktop": { "size": "12px", "lineHeight": "16px", "letterSpacing": "0.08em" },
+      "mobile":  { "size": "12px", "lineHeight": "16px", "letterSpacing": "0.08em" }
+    },
+
+    "button1": {
+      "family": "Vadodara",
+      "weight": 600,
+      "desktop": { "size": "16px", "lineHeight": "20px", "letterSpacing": "0.01em" },
+      "mobile":  { "size": "16px", "lineHeight": "20px", "letterSpacing": "0.01em" }
+    },
+
+    "button2": {
+      "family": "Vadodara",
+      "weight": 600,
+      "desktop": { "size": "14px", "lineHeight": "20px", "letterSpacing": "0.01em" },
+      "mobile":  { "size": "14px", "lineHeight": "20px", "letterSpacing": "0.01em" }
+    },
+
+    "button3": {
+      "family": "Vadodara",
+      "weight": 600,
+      "desktop": { "size": "14px", "lineHeight": "20px", "letterSpacing": "0.02em" },
+      "mobile":  { "size": "14px", "lineHeight": "20px", "letterSpacing": "0.02em" }
+    },
+
+    "caption1": {
+      "family": "Vadodara",
+      "weight": 400,
+      "desktop": { "size": "13px", "lineHeight": "20px", "letterSpacing": "0em" },
+      "mobile":  { "size": "13px", "lineHeight": "20px", "letterSpacing": "0em" }
+    },
+
+    "caption2": {
+      "family": "Vadodara",
+      "weight": 400,
+      "desktop": { "size": "12px", "lineHeight": "18px", "letterSpacing": "0em" },
+      "mobile":  { "size": "12px", "lineHeight": "18px", "letterSpacing": "0em" }
+    },
+
+    "number-sm": {
+      "family": "Manrope",
+      "weight": 500,
+      "desktop": { "size": "14px", "lineHeight": "20px", "letterSpacing": "0em" },
+      "mobile":  { "size": "14px", "lineHeight": "20px", "letterSpacing": "0em" }
+    },
+
+    "number-md": {
+      "family": "Manrope",
+      "weight": 600,
+      "desktop": { "size": "20px", "lineHeight": "26px", "letterSpacing": "-0.01em" },
+      "mobile":  { "size": "18px", "lineHeight": "24px", "letterSpacing": "0em" }
+    },
+
+    "number-lg": {
+      "family": "Manrope",
+      "weight": 700,
+      "desktop": { "size": "32px", "lineHeight": "36px", "letterSpacing": "-0.02em" },
+      "mobile":  { "size": "24px", "lineHeight": "28px", "letterSpacing": "-0.01em" }
+    }
+  }
+}

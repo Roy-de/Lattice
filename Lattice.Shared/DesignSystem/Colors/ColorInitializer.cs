@@ -4,54 +4,79 @@ using Microsoft.Extensions.Logging;
 
 namespace Lattice.Shared.DesignSystem.Colors;
 
-public class ColorInitializer(IResourceLoader resources, ILogger<ColorInitializer>? logger = null)
+public class ColorInitializer(
+    IResourceLoader resources,
+    ILogger<ColorInitializer>? logger = null)
 {
-    private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true };
-    public async Task initializeAsync()
+    private readonly JsonSerializerOptions _options = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    public async Task InitializeAsync()
     {
         try
         {
             var files = await resources.ListAsync("Colors/");
-            var colorTokens = files
-                .Where(f => f.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-                .Select(f => Path.GetFileNameWithoutExtension(f))
-                .ToList();
-            
-            logger?.LogInformation("Found {Count} color token files", colorTokens.Count);
 
-            if (colorTokens.Count == 0)
+            var colorFiles = files
+                .Where(f => f.EndsWith(
+                    ".json",
+                    StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            logger?.LogInformation(
+                "Found {Count} color token files",
+                colorFiles.Count);
+
+            if (colorFiles.Count == 0)
             {
                 logger?.LogWarning("No color token JSON file found");
                 return;
             }
 
-            foreach (var token in colorTokens)
+            foreach (var file in colorFiles)
             {
                 try
                 {
-                    var path = $"Colors/{token}.json";
-                    await using var stream = await resources.OpenAsync("Colors", path);
-                    logger?.LogDebug("Successfully loaded color token '{token}'", token);
+                    await using var stream = await resources.OpenAsync(file);
 
-                    using var reader = new StreamReader(stream, leaveOpen: true);
+                    var loadedToken =
+                        await JsonSerializer.DeserializeAsync<ColorThemeCollection>(
+                            stream,
+                            _options);
 
-                    var json = await reader.ReadToEndAsync();
+                    if (loadedToken is null)
+                    {
+                        throw new InvalidOperationException(
+                            $"Failed to deserialize color token '{file}'.");
+                    }
 
-                    var loadedToken = JsonSerializer.Deserialize<ColorThemeCollection>(json, _options)
-                                      ?? throw new InvalidOperationException(
-                                          $"Failed to deserialize color token '{token}'.");
-                    return;
+                    var tokenName = Path.GetFileNameWithoutExtension(file);
+
+                    logger?.LogInformation(
+                        "Successfully loaded color token '{Token}'",
+                        tokenName);
+
+                    // Register/store loadedToken in your color registry here.
                 }
                 catch (Exception ex)
                 {
-                    logger?.LogError(ex, "Failed to load color token '{token}'", token);
+                    logger?.LogError(
+                        ex,
+                        "Failed to load color token '{File}'",
+                        file);
+
                     throw;
                 }
             }
         }
         catch (Exception ex)
         {
-            logger?.LogError(ex, "Failed to initialize color palette system");
+            logger?.LogError(
+                ex,
+                "Failed to initialize color palette system");
+
             throw;
         }
     }

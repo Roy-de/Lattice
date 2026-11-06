@@ -1,0 +1,3868 @@
+﻿{
+  "$schema": "TBD",
+  "metadata": {
+    "name": "Lattice Semantic Tokens",
+    "id": "lattice.semantic-tokens",
+    "schemaVersion": "1.0.0",
+    "tokenVersion": "1.0.0",
+    "status": "draft",
+    "defaultTheme": "light",
+    "supportedThemes": [
+      "light",
+      "dark"
+    ],
+    "description": "Authoritative semantic design-token contract for Lattice.",
+    "primitiveReferenceFormat": "family.tone",
+    "notes": [
+      "Primitive HEX values and generated tonal palettes are owned by the color resource and runtime color generator.",
+      "Color theme mappings reference primitive family and generated tone identifiers, never HEX values.",
+      "Token definitions are the contract; theme mappings provide values for that contract.",
+      "Application and user overrides belong in a separate customization resource.",
+      "Component bindings describe intended token consumption and do not replace component implementation."
+    ]
+  },
+  "policies": {
+    "fixed": {
+      "description": "Controlled by Lattice; neither themes nor users may override.",
+      "themeOverridable": false,
+      "userOverridable": false
+    },
+    "theme-configurable": {
+      "description": "Each theme may provide a value; user overrides are not permitted by default.",
+      "themeOverridable": true,
+      "userOverridable": false
+    },
+    "user-overridable": {
+      "description": "Themes provide defaults and permitted application or user overrides may replace them, subject to validation.",
+      "themeOverridable": true,
+      "userOverridable": true
+    }
+  },
+  "categories": [
+    {
+      "id": "surface",
+      "name": "Surface",
+      "description": "Background roles and visual layers.",
+      "order": 1
+    },
+    {
+      "id": "content",
+      "name": "Content",
+      "description": "Readable foreground content.",
+      "order": 2
+    },
+    {
+      "id": "icon",
+      "name": "Icon",
+      "description": "Interface iconography.",
+      "order": 3
+    },
+    {
+      "id": "border",
+      "name": "Border",
+      "description": "Boundaries, dividers and outlines.",
+      "order": 4
+    },
+    {
+      "id": "action",
+      "name": "Action",
+      "description": "Interactive actions and their states.",
+      "order": 5
+    },
+    {
+      "id": "feedback",
+      "name": "Feedback",
+      "description": "Informational, success, warning and error communication.",
+      "order": 6
+    },
+    {
+      "id": "focus",
+      "name": "Focus",
+      "description": "Keyboard and programmatic focus indicators.",
+      "order": 7
+    },
+    {
+      "id": "selection",
+      "name": "Selection",
+      "description": "Selected text and selected interface items.",
+      "order": 8
+    },
+    {
+      "id": "overlay",
+      "name": "Overlay",
+      "description": "Scrims, backdrops and floating surfaces.",
+      "order": 9
+    },
+    {
+      "id": "elevation",
+      "name": "Elevation",
+      "description": "Shadow and elevation roles.",
+      "order": 10
+    },
+    {
+      "id": "typography",
+      "name": "Typography",
+      "description": "Semantic text styles referencing typography foundations.",
+      "order": 11
+    },
+    {
+      "id": "shape",
+      "name": "Shape",
+      "description": "Semantic corner-radius roles.",
+      "order": 12
+    },
+    {
+      "id": "spacing",
+      "name": "Spacing",
+      "description": "Semantic layout and component spacing.",
+      "order": 13
+    },
+    {
+      "id": "motion",
+      "name": "Motion",
+      "description": "Transition durations and easing curves.",
+      "order": 14
+    }
+  ],
+  "tokens": [
+    {
+      "id": "surface.canvas",
+      "category": "surface",
+      "name": "Canvas",
+      "description": "Primary application background",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "surface.primary",
+      "category": "surface",
+      "name": "Primary",
+      "description": "Default content surface",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.100"
+      }
+    },
+    {
+      "id": "surface.secondary",
+      "category": "surface",
+      "name": "Secondary",
+      "description": "Secondary content surface",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.50",
+        "dark": "neutral-1.200"
+      }
+    },
+    {
+      "id": "surface.tertiary",
+      "category": "surface",
+      "name": "Tertiary",
+      "description": "Additional nested surface",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.100",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "surface.raised",
+      "category": "surface",
+      "name": "Raised",
+      "description": "Elevated menus, popovers and floating panels",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.200"
+      }
+    },
+    {
+      "id": "surface.sunken",
+      "category": "surface",
+      "name": "Sunken",
+      "description": "Recessed areas such as input wells",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.100",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "surface.inverse",
+      "category": "surface",
+      "name": "Inverse",
+      "description": "Surface for inverse foreground roles",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.900",
+        "dark": "neutral-1.900"
+      }
+    },
+    {
+      "id": "surface.brand",
+      "category": "surface",
+      "name": "Brand",
+      "description": "Brand-emphasized surface",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "primary.700",
+        "dark": "primary.700"
+      }
+    },
+    {
+      "id": "surface.brand-subtle",
+      "category": "surface",
+      "name": "Subtle brand",
+      "description": "Low-emphasis brand-tinted surface",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "primary.50",
+        "dark": "primary.100"
+      }
+    },
+    {
+      "id": "content.primary",
+      "category": "content",
+      "name": "Primary",
+      "description": "Main readable content",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.900",
+        "dark": "neutral-1.900"
+      }
+    },
+    {
+      "id": "content.secondary",
+      "category": "content",
+      "name": "Secondary",
+      "description": "Supporting readable content",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.700",
+        "dark": "neutral-1.700"
+      }
+    },
+    {
+      "id": "content.tertiary",
+      "category": "content",
+      "name": "Tertiary",
+      "description": "Low-emphasis readable content",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.600",
+        "dark": "neutral-1.600"
+      }
+    },
+    {
+      "id": "content.disabled",
+      "category": "content",
+      "name": "Disabled",
+      "description": "Content in disabled controls",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.400",
+        "dark": "neutral-1.400"
+      }
+    },
+    {
+      "id": "content.inverse",
+      "category": "content",
+      "name": "Inverse",
+      "description": "Content on inverse surfaces",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "content.on-brand",
+      "category": "content",
+      "name": "On brand",
+      "description": "Content on brand surfaces",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "content.placeholder",
+      "category": "content",
+      "name": "Placeholder",
+      "description": "Placeholder text in editable controls",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.500"
+      }
+    },
+    {
+      "id": "content.link",
+      "category": "content",
+      "name": "Link",
+      "description": "Default hyperlink content",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.700",
+        "dark": "tertiary.300"
+      }
+    },
+    {
+      "id": "content.link-hover",
+      "category": "content",
+      "name": "Link hover",
+      "description": "Hovered hyperlink content",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.800",
+        "dark": "tertiary.200"
+      }
+    },
+    {
+      "id": "icon.primary",
+      "category": "icon",
+      "name": "Primary",
+      "description": "Main interface icon",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.900",
+        "dark": "neutral-1.900"
+      }
+    },
+    {
+      "id": "icon.secondary",
+      "category": "icon",
+      "name": "Secondary",
+      "description": "Supporting interface icon",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.700",
+        "dark": "neutral-1.700"
+      }
+    },
+    {
+      "id": "icon.tertiary",
+      "category": "icon",
+      "name": "Tertiary",
+      "description": "Low-emphasis icon",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.600",
+        "dark": "neutral-1.600"
+      }
+    },
+    {
+      "id": "icon.disabled",
+      "category": "icon",
+      "name": "Disabled",
+      "description": "Icon in disabled control",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.400",
+        "dark": "neutral-1.400"
+      }
+    },
+    {
+      "id": "icon.inverse",
+      "category": "icon",
+      "name": "Inverse",
+      "description": "Icon on inverse surface",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "icon.on-brand",
+      "category": "icon",
+      "name": "On brand",
+      "description": "Icon on brand surface",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "icon.interactive",
+      "category": "icon",
+      "name": "Interactive",
+      "description": "Icon indicating an available action",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.700",
+        "dark": "tertiary.300"
+      }
+    },
+    {
+      "id": "icon.selected",
+      "category": "icon",
+      "name": "Selected",
+      "description": "Icon representing selected item",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.800",
+        "dark": "tertiary.200"
+      }
+    },
+    {
+      "id": "border.subtle",
+      "category": "border",
+      "name": "Subtle",
+      "description": "Low-emphasis boundary",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "border.default",
+      "category": "border",
+      "name": "Default",
+      "description": "Standard component boundary",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.300",
+        "dark": "neutral-1.400"
+      }
+    },
+    {
+      "id": "border.strong",
+      "category": "border",
+      "name": "Strong",
+      "description": "High-emphasis boundary",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.600",
+        "dark": "neutral-1.600"
+      }
+    },
+    {
+      "id": "border.disabled",
+      "category": "border",
+      "name": "Disabled",
+      "description": "Boundary of disabled control",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "border.interactive",
+      "category": "border",
+      "name": "Interactive",
+      "description": "Boundary of interactive control",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.400",
+        "dark": "neutral-1.500"
+      }
+    },
+    {
+      "id": "border.selected",
+      "category": "border",
+      "name": "Selected",
+      "description": "Boundary of selected element",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.700",
+        "dark": "tertiary.300"
+      }
+    },
+    {
+      "id": "border.inverse",
+      "category": "border",
+      "name": "Inverse",
+      "description": "Boundary on inverse surface",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.600",
+        "dark": "neutral-1.600"
+      }
+    },
+    {
+      "id": "action.primary.background.rest",
+      "category": "action",
+      "name": "Primary background rest",
+      "description": "Rest-state background for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "primary.700",
+        "dark": "primary.700"
+      }
+    },
+    {
+      "id": "action.primary.background.hover",
+      "category": "action",
+      "name": "Primary background hover",
+      "description": "Hover-state background for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "primary.800",
+        "dark": "primary.600"
+      }
+    },
+    {
+      "id": "action.primary.background.pressed",
+      "category": "action",
+      "name": "Primary background pressed",
+      "description": "Pressed-state background for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "primary.900",
+        "dark": "primary.800"
+      }
+    },
+    {
+      "id": "action.primary.background.disabled",
+      "category": "action",
+      "name": "Primary background disabled",
+      "description": "Disabled-state background for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.primary.foreground.rest",
+      "category": "action",
+      "name": "Primary foreground rest",
+      "description": "Rest-state foreground for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.primary.foreground.hover",
+      "category": "action",
+      "name": "Primary foreground hover",
+      "description": "Hover-state foreground for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.primary.foreground.pressed",
+      "category": "action",
+      "name": "Primary foreground pressed",
+      "description": "Pressed-state foreground for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.primary.foreground.disabled",
+      "category": "action",
+      "name": "Primary foreground disabled",
+      "description": "Disabled-state foreground for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.500"
+      }
+    },
+    {
+      "id": "action.primary.border.rest",
+      "category": "action",
+      "name": "Primary border rest",
+      "description": "Rest-state border for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "primary.700",
+        "dark": "primary.700"
+      }
+    },
+    {
+      "id": "action.primary.border.hover",
+      "category": "action",
+      "name": "Primary border hover",
+      "description": "Hover-state border for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "primary.700",
+        "dark": "primary.700"
+      }
+    },
+    {
+      "id": "action.primary.border.pressed",
+      "category": "action",
+      "name": "Primary border pressed",
+      "description": "Pressed-state border for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "primary.700",
+        "dark": "primary.700"
+      }
+    },
+    {
+      "id": "action.primary.border.disabled",
+      "category": "action",
+      "name": "Primary border disabled",
+      "description": "Disabled-state border for primary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.secondary.background.rest",
+      "category": "action",
+      "name": "Secondary background rest",
+      "description": "Rest-state background for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.secondary.background.hover",
+      "category": "action",
+      "name": "Secondary background hover",
+      "description": "Hover-state background for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.100",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.secondary.background.pressed",
+      "category": "action",
+      "name": "Secondary background pressed",
+      "description": "Pressed-state background for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.400"
+      }
+    },
+    {
+      "id": "action.secondary.background.disabled",
+      "category": "action",
+      "name": "Secondary background disabled",
+      "description": "Disabled-state background for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.secondary.foreground.rest",
+      "category": "action",
+      "name": "Secondary foreground rest",
+      "description": "Rest-state foreground for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "tertiary.800",
+        "dark": "tertiary.800"
+      }
+    },
+    {
+      "id": "action.secondary.foreground.hover",
+      "category": "action",
+      "name": "Secondary foreground hover",
+      "description": "Hover-state foreground for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "tertiary.800"
+      }
+    },
+    {
+      "id": "action.secondary.foreground.pressed",
+      "category": "action",
+      "name": "Secondary foreground pressed",
+      "description": "Pressed-state foreground for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "tertiary.800"
+      }
+    },
+    {
+      "id": "action.secondary.foreground.disabled",
+      "category": "action",
+      "name": "Secondary foreground disabled",
+      "description": "Disabled-state foreground for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.500"
+      }
+    },
+    {
+      "id": "action.secondary.border.rest",
+      "category": "action",
+      "name": "Secondary border rest",
+      "description": "Rest-state border for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.400",
+        "dark": "neutral-2.400"
+      }
+    },
+    {
+      "id": "action.secondary.border.hover",
+      "category": "action",
+      "name": "Secondary border hover",
+      "description": "Hover-state border for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.400",
+        "dark": "neutral-2.400"
+      }
+    },
+    {
+      "id": "action.secondary.border.pressed",
+      "category": "action",
+      "name": "Secondary border pressed",
+      "description": "Pressed-state border for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.400",
+        "dark": "neutral-2.400"
+      }
+    },
+    {
+      "id": "action.secondary.border.disabled",
+      "category": "action",
+      "name": "Secondary border disabled",
+      "description": "Disabled-state border for secondary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.tertiary.background.rest",
+      "category": "action",
+      "name": "Tertiary background rest",
+      "description": "Rest-state background for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.tertiary.background.hover",
+      "category": "action",
+      "name": "Tertiary background hover",
+      "description": "Hover-state background for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.100",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.tertiary.background.pressed",
+      "category": "action",
+      "name": "Tertiary background pressed",
+      "description": "Pressed-state background for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.400"
+      }
+    },
+    {
+      "id": "action.tertiary.background.disabled",
+      "category": "action",
+      "name": "Tertiary background disabled",
+      "description": "Disabled-state background for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.tertiary.foreground.rest",
+      "category": "action",
+      "name": "Tertiary foreground rest",
+      "description": "Rest-state foreground for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "tertiary.700",
+        "dark": "tertiary.700"
+      }
+    },
+    {
+      "id": "action.tertiary.foreground.hover",
+      "category": "action",
+      "name": "Tertiary foreground hover",
+      "description": "Hover-state foreground for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "tertiary.700"
+      }
+    },
+    {
+      "id": "action.tertiary.foreground.pressed",
+      "category": "action",
+      "name": "Tertiary foreground pressed",
+      "description": "Pressed-state foreground for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "tertiary.700"
+      }
+    },
+    {
+      "id": "action.tertiary.foreground.disabled",
+      "category": "action",
+      "name": "Tertiary foreground disabled",
+      "description": "Disabled-state foreground for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.500"
+      }
+    },
+    {
+      "id": "action.tertiary.border.rest",
+      "category": "action",
+      "name": "Tertiary border rest",
+      "description": "Rest-state border for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.tertiary.border.hover",
+      "category": "action",
+      "name": "Tertiary border hover",
+      "description": "Hover-state border for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.tertiary.border.pressed",
+      "category": "action",
+      "name": "Tertiary border pressed",
+      "description": "Pressed-state border for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.tertiary.border.disabled",
+      "category": "action",
+      "name": "Tertiary border disabled",
+      "description": "Disabled-state border for tertiary actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.destructive.background.rest",
+      "category": "action",
+      "name": "Destructive background rest",
+      "description": "Rest-state background for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "error.700",
+        "dark": "error.700"
+      }
+    },
+    {
+      "id": "action.destructive.background.hover",
+      "category": "action",
+      "name": "Destructive background hover",
+      "description": "Hover-state background for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "error.800",
+        "dark": "error.600"
+      }
+    },
+    {
+      "id": "action.destructive.background.pressed",
+      "category": "action",
+      "name": "Destructive background pressed",
+      "description": "Pressed-state background for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "error.900",
+        "dark": "error.800"
+      }
+    },
+    {
+      "id": "action.destructive.background.disabled",
+      "category": "action",
+      "name": "Destructive background disabled",
+      "description": "Disabled-state background for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "background",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "action.destructive.foreground.rest",
+      "category": "action",
+      "name": "Destructive foreground rest",
+      "description": "Rest-state foreground for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.destructive.foreground.hover",
+      "category": "action",
+      "name": "Destructive foreground hover",
+      "description": "Hover-state foreground for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.destructive.foreground.pressed",
+      "category": "action",
+      "name": "Destructive foreground pressed",
+      "description": "Pressed-state foreground for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "action.destructive.foreground.disabled",
+      "category": "action",
+      "name": "Destructive foreground disabled",
+      "description": "Disabled-state foreground for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "neutral-2.500",
+        "dark": "neutral-1.500"
+      }
+    },
+    {
+      "id": "action.destructive.border.rest",
+      "category": "action",
+      "name": "Destructive border rest",
+      "description": "Rest-state border for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "error.700",
+        "dark": "error.700"
+      }
+    },
+    {
+      "id": "action.destructive.border.hover",
+      "category": "action",
+      "name": "Destructive border hover",
+      "description": "Hover-state border for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "error.700",
+        "dark": "error.700"
+      }
+    },
+    {
+      "id": "action.destructive.border.pressed",
+      "category": "action",
+      "name": "Destructive border pressed",
+      "description": "Pressed-state border for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "error.700",
+        "dark": "error.700"
+      }
+    },
+    {
+      "id": "action.destructive.border.disabled",
+      "category": "action",
+      "name": "Destructive border disabled",
+      "description": "Disabled-state border for destructive actions.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "neutral-2.200",
+        "dark": "neutral-1.300"
+      }
+    },
+    {
+      "id": "feedback.success.background",
+      "category": "feedback",
+      "name": "Success background",
+      "description": "Background role for success feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "background",
+      "default": {
+        "light": "success.50",
+        "dark": "success.950"
+      }
+    },
+    {
+      "id": "feedback.success.foreground",
+      "category": "feedback",
+      "name": "Success foreground",
+      "description": "Foreground role for success feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "success.800",
+        "dark": "success.200"
+      }
+    },
+    {
+      "id": "feedback.success.border",
+      "category": "feedback",
+      "name": "Success border",
+      "description": "Border role for success feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "success.300",
+        "dark": "success.700"
+      }
+    },
+    {
+      "id": "feedback.success.icon",
+      "category": "feedback",
+      "name": "Success icon",
+      "description": "Icon role for success feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "icon",
+      "default": {
+        "light": "success.700",
+        "dark": "success.300"
+      }
+    },
+    {
+      "id": "feedback.warning.background",
+      "category": "feedback",
+      "name": "Warning background",
+      "description": "Background role for warning feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "background",
+      "default": {
+        "light": "warning.50",
+        "dark": "warning.950"
+      }
+    },
+    {
+      "id": "feedback.warning.foreground",
+      "category": "feedback",
+      "name": "Warning foreground",
+      "description": "Foreground role for warning feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "warning.800",
+        "dark": "warning.200"
+      }
+    },
+    {
+      "id": "feedback.warning.border",
+      "category": "feedback",
+      "name": "Warning border",
+      "description": "Border role for warning feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "warning.300",
+        "dark": "warning.700"
+      }
+    },
+    {
+      "id": "feedback.warning.icon",
+      "category": "feedback",
+      "name": "Warning icon",
+      "description": "Icon role for warning feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "icon",
+      "default": {
+        "light": "warning.700",
+        "dark": "warning.300"
+      }
+    },
+    {
+      "id": "feedback.error.background",
+      "category": "feedback",
+      "name": "Error background",
+      "description": "Background role for error feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "background",
+      "default": {
+        "light": "error.50",
+        "dark": "error.950"
+      }
+    },
+    {
+      "id": "feedback.error.foreground",
+      "category": "feedback",
+      "name": "Error foreground",
+      "description": "Foreground role for error feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "error.800",
+        "dark": "error.200"
+      }
+    },
+    {
+      "id": "feedback.error.border",
+      "category": "feedback",
+      "name": "Error border",
+      "description": "Border role for error feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "error.300",
+        "dark": "error.700"
+      }
+    },
+    {
+      "id": "feedback.error.icon",
+      "category": "feedback",
+      "name": "Error icon",
+      "description": "Icon role for error feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "icon",
+      "default": {
+        "light": "error.700",
+        "dark": "error.300"
+      }
+    },
+    {
+      "id": "feedback.info.background",
+      "category": "feedback",
+      "name": "Info background",
+      "description": "Background role for info feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "background",
+      "default": {
+        "light": "info.50",
+        "dark": "info.950"
+      }
+    },
+    {
+      "id": "feedback.info.foreground",
+      "category": "feedback",
+      "name": "Info foreground",
+      "description": "Foreground role for info feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "foreground",
+      "default": {
+        "light": "info.800",
+        "dark": "info.200"
+      }
+    },
+    {
+      "id": "feedback.info.border",
+      "category": "feedback",
+      "name": "Info border",
+      "description": "Border role for info feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "border",
+      "default": {
+        "light": "info.300",
+        "dark": "info.700"
+      }
+    },
+    {
+      "id": "feedback.info.icon",
+      "category": "feedback",
+      "name": "Info icon",
+      "description": "Icon role for info feedback.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "icon",
+      "default": {
+        "light": "info.700",
+        "dark": "info.300"
+      }
+    },
+    {
+      "id": "focus.ring",
+      "category": "focus",
+      "name": "Focus ring",
+      "description": "Visible keyboard focus indicator.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": true,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.600",
+        "dark": "tertiary.300"
+      }
+    },
+    {
+      "id": "focus.border",
+      "category": "focus",
+      "name": "Focus border",
+      "description": "Boundary color for focused controls.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.700",
+        "dark": "tertiary.300"
+      }
+    },
+    {
+      "id": "focus.inset",
+      "category": "focus",
+      "name": "Inset focus indicator",
+      "description": "Inner focus indicator where an outer ring is unsuitable.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": true
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.700",
+        "dark": "tertiary.300"
+      }
+    },
+    {
+      "id": "selection.background",
+      "category": "selection",
+      "name": "Text selection background",
+      "description": "Background behind selected text.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.200",
+        "dark": "tertiary.800"
+      }
+    },
+    {
+      "id": "selection.foreground",
+      "category": "selection",
+      "name": "Text selection foreground",
+      "description": "Foreground of selected text.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.900",
+        "dark": "neutral-1.50"
+      }
+    },
+    {
+      "id": "selection.item-background",
+      "category": "selection",
+      "name": "Selected item background",
+      "description": "Background for selected list and navigation items.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.100",
+        "dark": "tertiary.900"
+      }
+    },
+    {
+      "id": "selection.item-foreground",
+      "category": "selection",
+      "name": "Selected item foreground",
+      "description": "Foreground for selected list and navigation items.",
+      "type": "color",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "tertiary.800",
+        "dark": "tertiary.200"
+      }
+    },
+    {
+      "id": "overlay.backdrop",
+      "category": "overlay",
+      "name": "Backdrop",
+      "description": "Backdrop behind modal content.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": true,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.900",
+        "dark": "neutral-1.950"
+      }
+    },
+    {
+      "id": "overlay.scrim",
+      "category": "overlay",
+      "name": "Scrim",
+      "description": "Scrim separating temporary content from its surroundings.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": true,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.900",
+        "dark": "neutral-1.950"
+      }
+    },
+    {
+      "id": "overlay.surface",
+      "category": "overlay",
+      "name": "Overlay surface",
+      "description": "Surface for floating overlay content.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-1.50",
+        "dark": "neutral-1.200"
+      }
+    },
+    {
+      "id": "overlay.border",
+      "category": "overlay",
+      "name": "Overlay border",
+      "description": "Boundary around floating overlay content.",
+      "type": "color",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "allowAlpha": false,
+        "requiresContrastValidation": false
+      },
+      "role": "color",
+      "default": {
+        "light": "neutral-2.300",
+        "dark": "neutral-1.400"
+      }
+    },
+    {
+      "id": "elevation.none",
+      "category": "elevation",
+      "name": "None",
+      "description": "No shadow.",
+      "type": "shadow",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-shadow"
+      },
+      "role": "shadow",
+      "default": {
+        "light": "none",
+        "dark": "none"
+      }
+    },
+    {
+      "id": "elevation.level-1",
+      "category": "elevation",
+      "name": "Level 1",
+      "description": "Subtle elevation for cards and low-level surfaces.",
+      "type": "shadow",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-shadow"
+      },
+      "role": "shadow",
+      "default": {
+        "light": "0 1px 2px rgba(0,0,0,0.08)",
+        "dark": "0 1px 2px rgba(0,0,0,0.28)"
+      }
+    },
+    {
+      "id": "elevation.level-2",
+      "category": "elevation",
+      "name": "Level 2",
+      "description": "Moderate elevation for menus and popovers.",
+      "type": "shadow",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-shadow"
+      },
+      "role": "shadow",
+      "default": {
+        "light": "0 4px 12px rgba(0,0,0,0.12)",
+        "dark": "0 4px 12px rgba(0,0,0,0.36)"
+      }
+    },
+    {
+      "id": "elevation.level-3",
+      "category": "elevation",
+      "name": "Level 3",
+      "description": "High elevation for dialogs and prominent floating surfaces.",
+      "type": "shadow",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-shadow"
+      },
+      "role": "shadow",
+      "default": {
+        "light": "0 12px 32px rgba(0,0,0,0.16)",
+        "dark": "0 12px 32px rgba(0,0,0,0.48)"
+      }
+    },
+    {
+      "id": "typography.display",
+      "category": "typography",
+      "name": "Display",
+      "description": "Large expressive display text.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "display"
+      }
+    },
+    {
+      "id": "typography.heading-1",
+      "category": "typography",
+      "name": "Heading 1",
+      "description": "Primary page heading.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "heading-1"
+      }
+    },
+    {
+      "id": "typography.heading-2",
+      "category": "typography",
+      "name": "Heading 2",
+      "description": "Section heading.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "heading-2"
+      }
+    },
+    {
+      "id": "typography.heading-3",
+      "category": "typography",
+      "name": "Heading 3",
+      "description": "Subsection heading.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "heading-3"
+      }
+    },
+    {
+      "id": "typography.body",
+      "category": "typography",
+      "name": "Body",
+      "description": "Default body text.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "body"
+      }
+    },
+    {
+      "id": "typography.body-strong",
+      "category": "typography",
+      "name": "Body strong",
+      "description": "Emphasized body text.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "body-strong"
+      }
+    },
+    {
+      "id": "typography.label",
+      "category": "typography",
+      "name": "Label",
+      "description": "Form and component labels.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "label"
+      }
+    },
+    {
+      "id": "typography.caption",
+      "category": "typography",
+      "name": "Caption",
+      "description": "Supporting and metadata text.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "caption"
+      }
+    },
+    {
+      "id": "typography.overline",
+      "category": "typography",
+      "name": "Overline",
+      "description": "Small uppercase section label.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "overline"
+      }
+    },
+    {
+      "id": "typography.code",
+      "category": "typography",
+      "name": "Code",
+      "description": "Inline and block code text.",
+      "type": "typography-style",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "referenceNamespace": "typography"
+      },
+      "role": "text-style",
+      "default": {
+        "reference": "code"
+      }
+    },
+    {
+      "id": "shape.radius.none",
+      "category": "shape",
+      "name": "None",
+      "description": "No corner rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "0"
+      }
+    },
+    {
+      "id": "shape.radius.xs",
+      "category": "shape",
+      "name": "Extra small",
+      "description": "Tight corner rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "2px"
+      }
+    },
+    {
+      "id": "shape.radius.sm",
+      "category": "shape",
+      "name": "Small",
+      "description": "Small component rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "4px"
+      }
+    },
+    {
+      "id": "shape.radius.md",
+      "category": "shape",
+      "name": "Medium",
+      "description": "Default component rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "8px"
+      }
+    },
+    {
+      "id": "shape.radius.lg",
+      "category": "shape",
+      "name": "Large",
+      "description": "Large component rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "user-overridable",
+        "userOverridable": true
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "12px"
+      }
+    },
+    {
+      "id": "shape.radius.xl",
+      "category": "shape",
+      "name": "Extra large",
+      "description": "Prominent surface rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "16px"
+      }
+    },
+    {
+      "id": "shape.radius.2xl",
+      "category": "shape",
+      "name": "2X large",
+      "description": "Large dialog and container rounding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "24px"
+      }
+    },
+    {
+      "id": "shape.radius.pill",
+      "category": "shape",
+      "name": "Pill",
+      "description": "Fully rounded pill shape.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "9999px"
+      }
+    },
+    {
+      "id": "shape.radius.circle",
+      "category": "shape",
+      "name": "Circle",
+      "description": "Circular shape.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length-or-percent"
+      },
+      "role": "border-radius",
+      "default": {
+        "value": "50%"
+      }
+    },
+    {
+      "id": "spacing.inline-xs",
+      "category": "spacing",
+      "name": "Inline extra small",
+      "description": "Tight inline spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "4px"
+      }
+    },
+    {
+      "id": "spacing.inline-sm",
+      "category": "spacing",
+      "name": "Inline small",
+      "description": "Small inline spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "8px"
+      }
+    },
+    {
+      "id": "spacing.inline-md",
+      "category": "spacing",
+      "name": "Inline medium",
+      "description": "Default inline spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "12px"
+      }
+    },
+    {
+      "id": "spacing.inline-lg",
+      "category": "spacing",
+      "name": "Inline large",
+      "description": "Large inline spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "16px"
+      }
+    },
+    {
+      "id": "spacing.stack-xs",
+      "category": "spacing",
+      "name": "Stack extra small",
+      "description": "Tight vertical stack spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "4px"
+      }
+    },
+    {
+      "id": "spacing.stack-sm",
+      "category": "spacing",
+      "name": "Stack small",
+      "description": "Small vertical stack spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "8px"
+      }
+    },
+    {
+      "id": "spacing.stack-md",
+      "category": "spacing",
+      "name": "Stack medium",
+      "description": "Default vertical stack spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "16px"
+      }
+    },
+    {
+      "id": "spacing.stack-lg",
+      "category": "spacing",
+      "name": "Stack large",
+      "description": "Large vertical stack spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "24px"
+      }
+    },
+    {
+      "id": "spacing.stack-xl",
+      "category": "spacing",
+      "name": "Stack extra large",
+      "description": "Extra large vertical stack spacing.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "32px"
+      }
+    },
+    {
+      "id": "spacing.inset-xs",
+      "category": "spacing",
+      "name": "Inset extra small",
+      "description": "Tight internal padding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "4px"
+      }
+    },
+    {
+      "id": "spacing.inset-sm",
+      "category": "spacing",
+      "name": "Inset small",
+      "description": "Small internal padding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "8px"
+      }
+    },
+    {
+      "id": "spacing.inset-md",
+      "category": "spacing",
+      "name": "Inset medium",
+      "description": "Default internal padding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "16px"
+      }
+    },
+    {
+      "id": "spacing.inset-lg",
+      "category": "spacing",
+      "name": "Inset large",
+      "description": "Large internal padding.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "24px"
+      }
+    },
+    {
+      "id": "spacing.page-inline",
+      "category": "spacing",
+      "name": "Page inline",
+      "description": "Default page horizontal inset.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "24px"
+      }
+    },
+    {
+      "id": "spacing.page-block",
+      "category": "spacing",
+      "name": "Page block",
+      "description": "Default page vertical inset.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "spacing",
+      "default": {
+        "value": "24px"
+      }
+    },
+    {
+      "id": "motion.duration.instant",
+      "category": "motion",
+      "name": "Instant",
+      "description": "Immediate state change.",
+      "type": "duration",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "milliseconds",
+        "reducedMotionFallback": "0ms"
+      },
+      "role": "duration",
+      "default": {
+        "value": "0ms"
+      }
+    },
+    {
+      "id": "motion.duration.fast",
+      "category": "motion",
+      "name": "Fast",
+      "description": "Short interaction transition.",
+      "type": "duration",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "milliseconds",
+        "reducedMotionFallback": "0ms"
+      },
+      "role": "duration",
+      "default": {
+        "value": "120ms"
+      }
+    },
+    {
+      "id": "motion.duration.normal",
+      "category": "motion",
+      "name": "Normal",
+      "description": "Default interface transition.",
+      "type": "duration",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "milliseconds",
+        "reducedMotionFallback": "0ms"
+      },
+      "role": "duration",
+      "default": {
+        "value": "200ms"
+      }
+    },
+    {
+      "id": "motion.duration.slow",
+      "category": "motion",
+      "name": "Slow",
+      "description": "Longer transition for larger visual changes.",
+      "type": "duration",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "milliseconds",
+        "reducedMotionFallback": "0ms"
+      },
+      "role": "duration",
+      "default": {
+        "value": "320ms"
+      }
+    },
+    {
+      "id": "motion.easing.standard",
+      "category": "motion",
+      "name": "Standard",
+      "description": "General-purpose easing curve.",
+      "type": "easing",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-easing"
+      },
+      "role": "timing-function",
+      "default": {
+        "value": "cubic-bezier(0.2, 0, 0, 1)"
+      }
+    },
+    {
+      "id": "motion.easing.decelerate",
+      "category": "motion",
+      "name": "Decelerate",
+      "description": "Elements entering the viewport.",
+      "type": "easing",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-easing"
+      },
+      "role": "timing-function",
+      "default": {
+        "value": "cubic-bezier(0, 0, 0, 1)"
+      }
+    },
+    {
+      "id": "motion.easing.accelerate",
+      "category": "motion",
+      "name": "Accelerate",
+      "description": "Elements leaving the viewport.",
+      "type": "easing",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-easing"
+      },
+      "role": "timing-function",
+      "default": {
+        "value": "cubic-bezier(0.3, 0, 1, 1)"
+      }
+    },
+    {
+      "id": "motion.easing.linear",
+      "category": "motion",
+      "name": "Linear",
+      "description": "Constant-rate transitions.",
+      "type": "easing",
+      "customization": {
+        "policy": "fixed",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "format": "css-easing"
+      },
+      "role": "timing-function",
+      "default": {
+        "value": "linear"
+      }
+    },
+    {
+      "id": "component.text-field.height",
+      "category": "shape",
+      "name": "Text field height",
+      "description": "Default minimum height for a single-line text field.",
+      "type": "dimension",
+      "customization": {
+        "policy": "theme-configurable",
+        "userOverridable": false
+      },
+      "constraints": {
+        "required": true,
+        "unit": "css-length"
+      },
+      "role": "height",
+      "default": {
+        "value": "40px"
+      }
+    }
+  ],
+  "themes": {
+    "light": {
+      "name": "Light",
+      "mode": "light",
+      "description": "Default light appearance.",
+      "mappings": {
+        "surface.canvas": "neutral-1.50",
+        "surface.primary": "neutral-1.50",
+        "surface.secondary": "neutral-2.50",
+        "surface.tertiary": "neutral-2.100",
+        "surface.raised": "neutral-1.50",
+        "surface.sunken": "neutral-2.100",
+        "surface.inverse": "neutral-1.900",
+        "surface.brand": "primary.700",
+        "surface.brand-subtle": "primary.50",
+        "content.primary": "neutral-1.900",
+        "content.secondary": "neutral-2.700",
+        "content.tertiary": "neutral-2.600",
+        "content.disabled": "neutral-2.400",
+        "content.inverse": "neutral-1.50",
+        "content.on-brand": "neutral-1.50",
+        "content.placeholder": "neutral-2.500",
+        "content.link": "tertiary.700",
+        "content.link-hover": "tertiary.800",
+        "icon.primary": "neutral-1.900",
+        "icon.secondary": "neutral-2.700",
+        "icon.tertiary": "neutral-2.600",
+        "icon.disabled": "neutral-2.400",
+        "icon.inverse": "neutral-1.50",
+        "icon.on-brand": "neutral-1.50",
+        "icon.interactive": "tertiary.700",
+        "icon.selected": "tertiary.800",
+        "border.subtle": "neutral-2.200",
+        "border.default": "neutral-2.300",
+        "border.strong": "neutral-2.600",
+        "border.disabled": "neutral-2.200",
+        "border.interactive": "neutral-2.400",
+        "border.selected": "tertiary.700",
+        "border.inverse": "neutral-1.600",
+        "action.primary.background.rest": "primary.700",
+        "action.primary.background.hover": "primary.800",
+        "action.primary.background.pressed": "primary.900",
+        "action.primary.background.disabled": "neutral-2.200",
+        "action.primary.foreground.rest": "neutral-1.50",
+        "action.primary.foreground.hover": "neutral-2.500",
+        "action.primary.foreground.pressed": "neutral-2.500",
+        "action.primary.foreground.disabled": "neutral-2.500",
+        "action.primary.border.rest": "primary.700",
+        "action.primary.border.hover": "primary.700",
+        "action.primary.border.pressed": "primary.700",
+        "action.primary.border.disabled": "neutral-2.200",
+        "action.secondary.background.rest": "neutral-1.50",
+        "action.secondary.background.hover": "neutral-2.100",
+        "action.secondary.background.pressed": "neutral-2.200",
+        "action.secondary.background.disabled": "neutral-2.200",
+        "action.secondary.foreground.rest": "tertiary.800",
+        "action.secondary.foreground.hover": "neutral-2.500",
+        "action.secondary.foreground.pressed": "neutral-2.500",
+        "action.secondary.foreground.disabled": "neutral-2.500",
+        "action.secondary.border.rest": "neutral-2.400",
+        "action.secondary.border.hover": "neutral-2.400",
+        "action.secondary.border.pressed": "neutral-2.400",
+        "action.secondary.border.disabled": "neutral-2.200",
+        "action.tertiary.background.rest": "neutral-1.50",
+        "action.tertiary.background.hover": "neutral-2.100",
+        "action.tertiary.background.pressed": "neutral-2.200",
+        "action.tertiary.background.disabled": "neutral-2.200",
+        "action.tertiary.foreground.rest": "tertiary.700",
+        "action.tertiary.foreground.hover": "neutral-2.500",
+        "action.tertiary.foreground.pressed": "neutral-2.500",
+        "action.tertiary.foreground.disabled": "neutral-2.500",
+        "action.tertiary.border.rest": "neutral-1.50",
+        "action.tertiary.border.hover": "neutral-1.50",
+        "action.tertiary.border.pressed": "neutral-1.50",
+        "action.tertiary.border.disabled": "neutral-2.200",
+        "action.destructive.background.rest": "error.700",
+        "action.destructive.background.hover": "error.800",
+        "action.destructive.background.pressed": "error.900",
+        "action.destructive.background.disabled": "neutral-2.200",
+        "action.destructive.foreground.rest": "neutral-1.50",
+        "action.destructive.foreground.hover": "neutral-2.500",
+        "action.destructive.foreground.pressed": "neutral-2.500",
+        "action.destructive.foreground.disabled": "neutral-2.500",
+        "action.destructive.border.rest": "error.700",
+        "action.destructive.border.hover": "error.700",
+        "action.destructive.border.pressed": "error.700",
+        "action.destructive.border.disabled": "neutral-2.200",
+        "feedback.success.background": "success.50",
+        "feedback.success.foreground": "success.800",
+        "feedback.success.border": "success.300",
+        "feedback.success.icon": "success.700",
+        "feedback.warning.background": "warning.50",
+        "feedback.warning.foreground": "warning.800",
+        "feedback.warning.border": "warning.300",
+        "feedback.warning.icon": "warning.700",
+        "feedback.error.background": "error.50",
+        "feedback.error.foreground": "error.800",
+        "feedback.error.border": "error.300",
+        "feedback.error.icon": "error.700",
+        "feedback.info.background": "info.50",
+        "feedback.info.foreground": "info.800",
+        "feedback.info.border": "info.300",
+        "feedback.info.icon": "info.700",
+        "focus.ring": "tertiary.600",
+        "focus.border": "tertiary.700",
+        "focus.inset": "tertiary.700",
+        "selection.background": "tertiary.200",
+        "selection.foreground": "neutral-1.900",
+        "selection.item-background": "tertiary.100",
+        "selection.item-foreground": "tertiary.800",
+        "overlay.backdrop": "neutral-1.900",
+        "overlay.scrim": "neutral-1.900",
+        "overlay.surface": "neutral-1.50",
+        "overlay.border": "neutral-2.300",
+        "elevation.none": "none",
+        "elevation.level-1": "0 1px 2px rgba(0,0,0,0.08)",
+        "elevation.level-2": "0 4px 12px rgba(0,0,0,0.12)",
+        "elevation.level-3": "0 12px 32px rgba(0,0,0,0.16)",
+        "shape.radius.none": "0",
+        "shape.radius.xs": "2px",
+        "shape.radius.sm": "4px",
+        "shape.radius.md": "8px",
+        "shape.radius.lg": "12px",
+        "shape.radius.xl": "16px",
+        "shape.radius.2xl": "24px",
+        "shape.radius.pill": "9999px",
+        "shape.radius.circle": "50%",
+        "spacing.inline-xs": "4px",
+        "spacing.inline-sm": "8px",
+        "spacing.inline-md": "12px",
+        "spacing.inline-lg": "16px",
+        "spacing.stack-xs": "4px",
+        "spacing.stack-sm": "8px",
+        "spacing.stack-md": "16px",
+        "spacing.stack-lg": "24px",
+        "spacing.stack-xl": "32px",
+        "spacing.inset-xs": "4px",
+        "spacing.inset-sm": "8px",
+        "spacing.inset-md": "16px",
+        "spacing.inset-lg": "24px",
+        "spacing.page-inline": "24px",
+        "spacing.page-block": "24px",
+        "motion.duration.instant": "0ms",
+        "motion.duration.fast": "120ms",
+        "motion.duration.normal": "200ms",
+        "motion.duration.slow": "320ms",
+        "motion.easing.standard": "cubic-bezier(0.2, 0, 0, 1)",
+        "motion.easing.decelerate": "cubic-bezier(0, 0, 0, 1)",
+        "motion.easing.accelerate": "cubic-bezier(0.3, 0, 1, 1)",
+        "motion.easing.linear": "linear",
+        "component.text-field.height": "40px"
+      }
+    },
+    "dark": {
+      "name": "Dark",
+      "mode": "dark",
+      "description": "Default dark appearance.",
+      "mappings": {
+        "surface.canvas": "neutral-1.50",
+        "surface.primary": "neutral-1.100",
+        "surface.secondary": "neutral-1.200",
+        "surface.tertiary": "neutral-1.300",
+        "surface.raised": "neutral-1.200",
+        "surface.sunken": "neutral-1.50",
+        "surface.inverse": "neutral-1.900",
+        "surface.brand": "primary.700",
+        "surface.brand-subtle": "primary.100",
+        "content.primary": "neutral-1.900",
+        "content.secondary": "neutral-1.700",
+        "content.tertiary": "neutral-1.600",
+        "content.disabled": "neutral-1.400",
+        "content.inverse": "neutral-1.50",
+        "content.on-brand": "neutral-1.50",
+        "content.placeholder": "neutral-1.500",
+        "content.link": "tertiary.300",
+        "content.link-hover": "tertiary.200",
+        "icon.primary": "neutral-1.900",
+        "icon.secondary": "neutral-1.700",
+        "icon.tertiary": "neutral-1.600",
+        "icon.disabled": "neutral-1.400",
+        "icon.inverse": "neutral-1.50",
+        "icon.on-brand": "neutral-1.50",
+        "icon.interactive": "tertiary.300",
+        "icon.selected": "tertiary.200",
+        "border.subtle": "neutral-1.300",
+        "border.default": "neutral-1.400",
+        "border.strong": "neutral-1.600",
+        "border.disabled": "neutral-1.300",
+        "border.interactive": "neutral-1.500",
+        "border.selected": "tertiary.300",
+        "border.inverse": "neutral-1.600",
+        "action.primary.background.rest": "primary.700",
+        "action.primary.background.hover": "primary.600",
+        "action.primary.background.pressed": "primary.800",
+        "action.primary.background.disabled": "neutral-1.300",
+        "action.primary.foreground.rest": "neutral-1.50",
+        "action.primary.foreground.hover": "neutral-1.50",
+        "action.primary.foreground.pressed": "neutral-1.50",
+        "action.primary.foreground.disabled": "neutral-1.500",
+        "action.primary.border.rest": "primary.700",
+        "action.primary.border.hover": "primary.700",
+        "action.primary.border.pressed": "primary.700",
+        "action.primary.border.disabled": "neutral-1.300",
+        "action.secondary.background.rest": "neutral-1.50",
+        "action.secondary.background.hover": "neutral-1.300",
+        "action.secondary.background.pressed": "neutral-1.400",
+        "action.secondary.background.disabled": "neutral-1.300",
+        "action.secondary.foreground.rest": "tertiary.800",
+        "action.secondary.foreground.hover": "tertiary.800",
+        "action.secondary.foreground.pressed": "tertiary.800",
+        "action.secondary.foreground.disabled": "neutral-1.500",
+        "action.secondary.border.rest": "neutral-2.400",
+        "action.secondary.border.hover": "neutral-2.400",
+        "action.secondary.border.pressed": "neutral-2.400",
+        "action.secondary.border.disabled": "neutral-1.300",
+        "action.tertiary.background.rest": "neutral-1.50",
+        "action.tertiary.background.hover": "neutral-1.300",
+        "action.tertiary.background.pressed": "neutral-1.400",
+        "action.tertiary.background.disabled": "neutral-1.300",
+        "action.tertiary.foreground.rest": "tertiary.700",
+        "action.tertiary.foreground.hover": "tertiary.700",
+        "action.tertiary.foreground.pressed": "tertiary.700",
+        "action.tertiary.foreground.disabled": "neutral-1.500",
+        "action.tertiary.border.rest": "neutral-1.50",
+        "action.tertiary.border.hover": "neutral-1.50",
+        "action.tertiary.border.pressed": "neutral-1.50",
+        "action.tertiary.border.disabled": "neutral-1.300",
+        "action.destructive.background.rest": "error.700",
+        "action.destructive.background.hover": "error.600",
+        "action.destructive.background.pressed": "error.800",
+        "action.destructive.background.disabled": "neutral-1.300",
+        "action.destructive.foreground.rest": "neutral-1.50",
+        "action.destructive.foreground.hover": "neutral-1.50",
+        "action.destructive.foreground.pressed": "neutral-1.50",
+        "action.destructive.foreground.disabled": "neutral-1.500",
+        "action.destructive.border.rest": "error.700",
+        "action.destructive.border.hover": "error.700",
+        "action.destructive.border.pressed": "error.700",
+        "action.destructive.border.disabled": "neutral-1.300",
+        "feedback.success.background": "success.950",
+        "feedback.success.foreground": "success.200",
+        "feedback.success.border": "success.700",
+        "feedback.success.icon": "success.300",
+        "feedback.warning.background": "warning.950",
+        "feedback.warning.foreground": "warning.200",
+        "feedback.warning.border": "warning.700",
+        "feedback.warning.icon": "warning.300",
+        "feedback.error.background": "error.950",
+        "feedback.error.foreground": "error.200",
+        "feedback.error.border": "error.700",
+        "feedback.error.icon": "error.300",
+        "feedback.info.background": "info.950",
+        "feedback.info.foreground": "info.200",
+        "feedback.info.border": "info.700",
+        "feedback.info.icon": "info.300",
+        "focus.ring": "tertiary.300",
+        "focus.border": "tertiary.300",
+        "focus.inset": "tertiary.300",
+        "selection.background": "tertiary.800",
+        "selection.foreground": "neutral-1.50",
+        "selection.item-background": "tertiary.900",
+        "selection.item-foreground": "tertiary.200",
+        "overlay.backdrop": "neutral-1.950",
+        "overlay.scrim": "neutral-1.950",
+        "overlay.surface": "neutral-1.200",
+        "overlay.border": "neutral-1.400",
+        "elevation.none": "none",
+        "elevation.level-1": "0 1px 2px rgba(0,0,0,0.28)",
+        "elevation.level-2": "0 4px 12px rgba(0,0,0,0.36)",
+        "elevation.level-3": "0 12px 32px rgba(0,0,0,0.48)",
+        "shape.radius.none": "0",
+        "shape.radius.xs": "2px",
+        "shape.radius.sm": "4px",
+        "shape.radius.md": "8px",
+        "shape.radius.lg": "12px",
+        "shape.radius.xl": "16px",
+        "shape.radius.2xl": "24px",
+        "shape.radius.pill": "9999px",
+        "shape.radius.circle": "50%",
+        "spacing.inline-xs": "4px",
+        "spacing.inline-sm": "8px",
+        "spacing.inline-md": "12px",
+        "spacing.inline-lg": "16px",
+        "spacing.stack-xs": "4px",
+        "spacing.stack-sm": "8px",
+        "spacing.stack-md": "16px",
+        "spacing.stack-lg": "24px",
+        "spacing.stack-xl": "32px",
+        "spacing.inset-xs": "4px",
+        "spacing.inset-sm": "8px",
+        "spacing.inset-md": "16px",
+        "spacing.inset-lg": "24px",
+        "spacing.page-inline": "24px",
+        "spacing.page-block": "24px",
+        "motion.duration.instant": "0ms",
+        "motion.duration.fast": "120ms",
+        "motion.duration.normal": "200ms",
+        "motion.duration.slow": "320ms",
+        "motion.easing.standard": "cubic-bezier(0.2, 0, 0, 1)",
+        "motion.easing.decelerate": "cubic-bezier(0, 0, 0, 1)",
+        "motion.easing.accelerate": "cubic-bezier(0.3, 0, 1, 1)",
+        "motion.easing.linear": "linear",
+        "component.text-field.height": "40px"
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "description": "A control that initiates an action.",
+      "variants": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "destructive"
+      ],
+      "states": [
+        "rest",
+        "hover",
+        "pressed",
+        "focused",
+        "disabled"
+      ],
+      "tokenBindings": {
+        "background": "action.{variant}.background.{state}",
+        "foreground": "action.{variant}.foreground.{state}",
+        "border": "action.{variant}.border.{state}",
+        "focusRing": "focus.ring",
+        "radius": "shape.radius.md",
+        "horizontalPadding": "spacing.inset-md",
+        "verticalPadding": "spacing.inset-sm",
+        "labelTypography": "typography.label"
+      }
+    },
+    {
+      "id": "card",
+      "name": "Card",
+      "description": "A container grouping related content.",
+      "variants": [
+        "default",
+        "interactive",
+        "outlined",
+        "raised"
+      ],
+      "states": [
+        "rest",
+        "hover",
+        "pressed",
+        "focused"
+      ],
+      "tokenBindings": {
+        "background": "surface.primary",
+        "foreground": "content.primary",
+        "border": "border.subtle",
+        "radius": "shape.radius.lg",
+        "shadow": "elevation.level-1",
+        "padding": "spacing.inset-md"
+      }
+    },
+    {
+      "id": "text-field",
+      "name": "Text field",
+      "description": "A control for entering or editing text.",
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "rest",
+        "hover",
+        "focused",
+        "filled",
+        "invalid",
+        "disabled"
+      ],
+      "tokenBindings": {
+        "background": "surface.primary",
+        "foreground": "content.primary",
+        "placeholder": "content.placeholder",
+        "border": "border.interactive",
+        "focusRing": "focus.ring",
+        "radius": "shape.radius.md",
+        "height": "component.text-field.height",
+        "labelTypography": "typography.label"
+      }
+    },
+    {
+      "id": "badge",
+      "name": "Badge",
+      "description": "A compact status, category or count indicator.",
+      "variants": [
+        "neutral",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "states": [
+        "rest"
+      ],
+      "tokenBindings": {
+        "radius": "shape.radius.pill",
+        "padding": "spacing.inline-sm",
+        "typography": "typography.caption"
+      }
+    },
+    {
+      "id": "navigation-item",
+      "name": "Navigation item",
+      "description": "A selectable destination within application navigation.",
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "rest",
+        "hover",
+        "selected",
+        "focused",
+        "disabled"
+      ],
+      "tokenBindings": {
+        "background": "selection.item-background",
+        "foreground": "selection.item-foreground",
+        "icon": "icon.selected",
+        "radius": "shape.radius.md",
+        "padding": "spacing.inset-sm",
+        "focusRing": "focus.ring"
+      }
+    },
+    {
+      "id": "dialog",
+      "name": "Dialog",
+      "description": "A modal surface requiring focused attention.",
+      "variants": [
+        "default",
+        "alert"
+      ],
+      "states": [
+        "open"
+      ],
+      "tokenBindings": {
+        "background": "overlay.surface",
+        "foreground": "content.primary",
+        "border": "overlay.border",
+        "radius": "shape.radius.xl",
+        "shadow": "elevation.level-3",
+        "backdrop": "overlay.backdrop",
+        "padding": "spacing.inset-lg"
+      }
+    },
+    {
+      "id": "popover",
+      "name": "Popover",
+      "description": "A contextual floating surface anchored to another element.",
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "open"
+      ],
+      "tokenBindings": {
+        "background": "surface.raised",
+        "foreground": "content.primary",
+        "border": "border.subtle",
+        "radius": "shape.radius.lg",
+        "shadow": "elevation.level-2",
+        "padding": "spacing.inset-md"
+      }
+    },
+    {
+      "id": "alert",
+      "name": "Alert",
+      "description": "A message communicating system feedback.",
+      "variants": [
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "states": [
+        "rest"
+      ],
+      "tokenBindings": {
+        "radius": "shape.radius.md",
+        "padding": "spacing.inset-md",
+        "titleTypography": "typography.body-strong",
+        "bodyTypography": "typography.body"
+      }
+    },
+    {
+      "id": "divider",
+      "name": "Divider",
+      "description": "A visual separator between related content.",
+      "variants": [
+        "horizontal",
+        "vertical"
+      ],
+      "states": [
+        "rest"
+      ],
+      "tokenBindings": {
+        "color": "border.subtle"
+      }
+    },
+    {
+      "id": "tooltip",
+      "name": "Tooltip",
+      "description": "A brief contextual explanation associated with an element.",
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "open"
+      ],
+      "tokenBindings": {
+        "background": "surface.inverse",
+        "foreground": "content.inverse",
+        "radius": "shape.radius.sm",
+        "padding": "spacing.inset-sm",
+        "typography": "typography.caption"
+      }
+    }
+  ],
+  "validation": {
+    "unknownTokenPolicy": "error",
+    "missingRequiredTokenPolicy": "error",
+    "invalidReferencePolicy": "error",
+    "resolutionOrder": [
+      "user-overrides",
+      "theme-mappings",
+      "token-defaults"
+    ],
+    "checks": [
+      {
+        "id": "primitive-reference-exists",
+        "description": "Every primitive color reference resolves to a known family and generated tone."
+      },
+      {
+        "id": "semantic-reference-exists",
+        "description": "Every semantic and component token reference resolves to a declared token."
+      },
+      {
+        "id": "type-compatibility",
+        "description": "Referenced values are compatible with the declared token type."
+      },
+      {
+        "id": "override-permission",
+        "description": "Overrides are rejected when the token policy does not permit them."
+      },
+      {
+        "id": "required-token-completeness",
+        "description": "Every required token resolves for the active theme."
+      },
+      {
+        "id": "contrast",
+        "description": "Resolved foreground/background pairs are checked after alpha compositing."
+      },
+      {
+        "id": "reduced-motion",
+        "description": "Motion durations use the reduced-motion fallback when requested."
+      }
+    ],
+    "accessibility": {
+      "standard": "WCAG 2.2",
+      "normalTextContrastMinimum": 4.5,
+      "largeTextContrastMinimum": 3.0,
+      "nonTextContrastMinimum": 3.0,
+      "note": "Evaluate resolved colors and compositing, not token names alone."
+    }
+  }
+}

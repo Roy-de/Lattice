@@ -2,13 +2,17 @@
 
 public interface IResourceLoader
 {
-    Task<Stream> OpenAsync(string basePath, string path);
-    
     /// <summary>
-    /// Opens a JSON resource by relative path, e.g. "Colors/lattice.json".
-    /// Implementations must try remote first (if configured) and fall back
-    /// to the RCL default.
+    /// Opens a resource using its logical path.
+    /// Example: Resources/Colors/lattice.json
     /// </summary>
     Task<Stream> OpenAsync(string relativePath, CancellationToken ct = default);
-    Task<IEnumerable<string>> ListAsync(string directory);
+
+    /// <summary>
+    /// Lists resources under a directory.
+    /// Example: Resources/Icons
+    /// </summary>
+    Task<IReadOnlyList<string>> ListAsync(string directory, CancellationToken ct = default);
+
+    Task<bool> ExistsAsync(string relativePath, CancellationToken ct = default);
 }
